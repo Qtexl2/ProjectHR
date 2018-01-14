@@ -1,0 +1,37 @@
+var inputJob = document.getElementById('q');
+var inputWhere = document.getElementById('q2');
+var clearIconJob = document.querySelector('.clear-icon-job');
+var clearIconWhere = document.querySelector('.clear-icon-where');
+// заменить на одну функцию
+function switchStatusJob() {
+    var a = inputJob.value.length-1;
+    if(a < 1){
+        clearIconJob.className = "clear-icon-job clearSwitchOff icon";
+    }
+    else{
+        clearIconJob.className = "clear-icon-job clearSwitchOn icon";
+    }
+}
+function switchStatusWhere() {
+    var a = inputWhere.value.length-1;
+    if(a < 1){
+        clearIconWhere.className = "clear-icon-where clearSwitchOff icon";
+    }
+    else{
+        clearIconWhere.className = "clear-icon-where clearSwitchOn icon";
+    }
+}
+
+inputJob.addEventListener("keydown", switchStatusJob);
+inputWhere.addEventListener("keydown", switchStatusWhere);
+
+function clearInputFirst() {
+    inputJob.value = "";
+    switchStatusJob();
+}
+
+function clearInputSecond() {
+    inputWhere.value = "";
+    switchStatusWhere();
+}
+

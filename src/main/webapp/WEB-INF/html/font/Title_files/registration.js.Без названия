@@ -1,0 +1,39 @@
+var inputLogin = document.querySelector('.email-input');
+var errorMessageLogin = document.getElementById('input-error-login');
+var inputPassword = document.querySelector('.pass-input');
+var errorMessagePassword = document.getElementById('input-error-pass');
+
+
+inputLogin.addEventListener("focusout", checkLogin);
+inputPassword.addEventListener("focusout", checkPassword);
+
+function checkLogin(){
+    var pattern = ".+@.+\\..+";
+    if(inputLogin.value.length ===0 ){
+
+        inputLogin.style = "border: 1px red solid";
+        errorMessageLogin.style = "color: red; opacity: 1";
+        errorMessageLogin.innerHTML = "This field is required"
+    }
+    else if(inputLogin.value.search(pattern) < 0){
+        inputLogin.style = "border: 1px red solid";
+        errorMessageLogin.style = "color: red; opacity: 1";
+        errorMessageLogin.innerHTML = "The email address you entered does not represent a valid email address."
+    }
+    else{
+        inputLogin.style = "border: 1px rgba(104, 104, 104, 0.58) solid";
+        errorMessageLogin.style = "opacity: 0";
+    }
+}
+
+function checkPassword(){
+    if(inputPassword.value.length ===0 ) {
+        inputPassword.style = "border: 1px red solid";
+        errorMessagePassword.style = "color: red; opacity: 1";
+        errorMessagePassword.innerHTML = "This field is required";
+    }
+    else{
+        inputPassword.style = "border: 1px rgba(104, 104, 104, 0.58) solid";
+        errorMessagePassword.style = "opacity: 0";
+    }
+}
