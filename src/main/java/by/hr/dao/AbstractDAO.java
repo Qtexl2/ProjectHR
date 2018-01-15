@@ -2,6 +2,7 @@ package by.hr.dao;
 
 import by.hr.connection.ConnectionPool;
 import by.hr.connection.PooledConnection;
+import by.hr.entity.Entity;
 import by.hr.exception.ConnectionPoolException;
 import by.hr.exception.DAOException;
 
@@ -9,7 +10,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public abstract class AbstractDAO{
+public abstract class AbstractDAO<K,T extends Entity>{
+    public abstract boolean insert(T item) throws DAOException;
+    public abstract boolean update(T item) throws DAOException;
+    public abstract boolean delete(K id) throws DAOException;
+    public abstract T selectByID(K id) throws DAOException;
+
     protected void closeStatement(PooledConnection connection, Statement statement) throws DAOException {
         try{
             if(statement != null){
@@ -22,7 +28,12 @@ public abstract class AbstractDAO{
         }
     }
 
-    public boolean deleteQuery(Long id, String sql) throws DAOException {
+    protected void checkInput(T item) throws DAOException {
+        if(item == null ){
+            throw new DAOException("The input object is null");
+        }
+    }
+    protected boolean deleteQuery(Long id, String sql) throws DAOException {
         boolean status = false;
         PooledConnection connection = null;
         PreparedStatement statement = null;
@@ -34,7 +45,7 @@ public abstract class AbstractDAO{
             status = true;
 
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception in method deleteByID(): ",e);
+            throw new DAOException("Exception in method deleteQuery: ",e);
         } finally {
             closeStatement(connection,statement);
         }

@@ -20,6 +20,12 @@ public class Profile extends Entity{
     private String technicalInterview;
     private Boolean statusInterview;
 
+    public Profile(String email, String password, Role role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
     public Profile() {
     }
 

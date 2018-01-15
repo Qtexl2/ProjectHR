@@ -10,6 +10,12 @@ public class Vacancy extends Entity {
     public Vacancy() {
     }
 
+    public Vacancy(String vacancyTitle, String vacancyDescription, String location) {
+        this.vacancyTitle = vacancyTitle;
+        this.vacancyDescription = vacancyDescription;
+        this.location = location;
+    }
+
     public Long getVacancyID() {
         return vacancyID;
     }

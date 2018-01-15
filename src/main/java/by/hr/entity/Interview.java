@@ -14,6 +14,15 @@ public class Interview extends Entity {
     public Interview() {
     }
 
+    public Interview(Timestamp interviewTime, String interviewDescription, InterviewType interviewType, Long technicalID, Long employerID, Long candidateID) {
+        this.interviewTime = interviewTime;
+        this.interviewDescription = interviewDescription;
+        this.interviewType = interviewType;
+        this.technicalID = technicalID;
+        this.employerID = employerID;
+        this.candidateID = candidateID;
+    }
+
     public Long getInterviewID() {
         return interviewID;
     }

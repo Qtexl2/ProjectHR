@@ -15,7 +15,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InterviewMysqlDAO extends AbstractDAO implements InterviewDAO<Long,Interview>{
+public class InterviewMysqlDAO extends AbstractDAO<Long,Interview> implements InterviewDAO{
     private static final Logger LOGGER = LogManager.getRootLogger();
 
     private static final String SQL_SELECT_ALL_INTERVIEW = "SELECT  interview.interview_id,interview.interview_time, " +
@@ -95,18 +95,19 @@ public class InterviewMysqlDAO extends AbstractDAO implements InterviewDAO<Long,
         return interview;
     }
     @Override
-    public boolean updateByID(Long id, long time, String description, InterviewType type, long technicalID) throws DAOException {
+    public boolean update(Interview item) throws DAOException {
+        checkInput(item);
         boolean status = false;
         PooledConnection connection = null;
         PreparedStatement statement = null;
         try{
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(SQL_UPDATE_INTERVIEW_BY_ID);
-            statement.setTimestamp(1,new Timestamp(time));
-            statement.setString(2,description);
-            statement.setString(3,type.name().toLowerCase());
-            statement.setLong(4,technicalID);
-            statement.setLong(5,id);
+            statement.setTimestamp(1,item.getInterviewTime());
+            statement.setString(2,item.getInterviewDescription());
+            statement.setString(3,item.getInterviewType().name().toLowerCase());
+            statement.setLong(4,item.getTechnicalID());
+            statement.setLong(5,item.getInterviewID());
             statement.executeUpdate();
             status = true;
 
@@ -119,34 +120,11 @@ public class InterviewMysqlDAO extends AbstractDAO implements InterviewDAO<Long,
     }
 
     @Override
-    public boolean insert(long time, String description, InterviewType type, long technicalID, long candidateID, long employerID) throws DAOException {
-        boolean status = false;
-        PooledConnection connection = null;
-        PreparedStatement statement = null;
-        try{
-            connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.prepareStatement(SQL_INSERT_INTERVIEW);
-            statement.setTimestamp(1,new Timestamp(time));
-            statement.setString(2,description);
-            statement.setString(3,type.name().toLowerCase());
-            statement.setLong(4,technicalID);
-            statement.setLong(5,candidateID);
-            statement.setLong(6,employerID);
-            statement.executeUpdate();
-            status = true;
-
-        } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception in method insert(): ",e);
-        } finally {
-            closeStatement(connection,statement);
-        }
-        return status;
-    }
-
-    @Override
-    public boolean deleteByID(Long id) throws DAOException {
+    public boolean delete(Long id) throws DAOException {
         return deleteQuery(id,SQL_DELETE_INTERVIEW_BY_ID);
+
     }
+
 
     private List<Interview> selectInterview(String sql) throws DAOException {
         List<Interview> interviews = new ArrayList<>();
@@ -206,21 +184,37 @@ public class InterviewMysqlDAO extends AbstractDAO implements InterviewDAO<Long,
 
     public static void main(String[] args) throws DAOException, ConnectionPoolException, SQLException {
         InterviewMysqlDAO mysqlDAO = new InterviewMysqlDAO();
-        System.out.println(mysqlDAO.selectAll());
-        System.out.println(mysqlDAO.selectActualInterview());
-        System.out.println(mysqlDAO.selectInterviewByCandidateID(1L));
-        System.out.println(mysqlDAO.selectActualInterviewByCandidateID(1L));
-        System.out.println("---------------");
-        System.out.println(mysqlDAO.selectInterviewByEmployerID(8L));
-        System.out.println(mysqlDAO.selectActualInterviewByEmployerID(8L));
-        System.out.println("++++++++++++++");
-        System.out.println(mysqlDAO.selectByID(1L));
-        System.out.println("@@@@@@@@@@@@@@@@@");
-//        System.out.println(mysqlDAO.updateByID(4,System.currentTimeMillis(),"HR не HR",InterviewType.TECHNICAL,1));
-//        mysqlDAO.insertByID(System.currentTimeMillis(),"Вставлен 2",InterviewType.TECHNICAL,1,5,9);
-//        mysqlDAO.deleteByID(8L);
+//        Interview interview = new Interview(new Timestamp(System.currentTimeMillis()),"Собес с ИВАНОМ",InterviewType.COMMON,6L,6L,7L);
+//        interview.setInterviewID(9L);
+//        mysqlDAO.update(interview);
+        mysqlDAO.delete(9L);
         ConnectionPool.getInstance().destroy();
 
     }
 
+    @Override
+    public boolean insert(Interview item) throws DAOException {
+        checkInput(item);
+        boolean status = false;
+        PooledConnection connection = null;
+        PreparedStatement statement = null;
+        try{
+            connection = ConnectionPool.getInstance().getConnection();
+            statement = connection.prepareStatement(SQL_INSERT_INTERVIEW);
+            statement.setTimestamp(1,item.getInterviewTime());
+            statement.setString(2,item.getInterviewDescription());
+            statement.setString(3,item.getInterviewType().name().toLowerCase());
+            statement.setLong(4,item.getTechnicalID());
+            statement.setLong(5,item.getCandidateID());
+            statement.setLong(6,item.getEmployerID());
+            statement.executeUpdate();
+            status = true;
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception in method insert(): ",e);
+        } finally {
+            closeStatement(connection,statement);
+        }
+        return status;
+    }
 }

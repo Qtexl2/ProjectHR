@@ -12,6 +12,12 @@ public class Message extends Entity{
     public Message(){
     }
 
+    public Message(String messageText, Long profileSenderID, Long profileReceptionID) {
+        this.messageText = messageText;
+        this.profileSenderID = profileSenderID;
+        this.profileReceptionID = profileReceptionID;
+    }
+
     public Long getMessageID() {
         return messageID;
     }

@@ -11,7 +11,6 @@ import by.hr.entity.Profile;
 import by.hr.entity.Role;
 import by.hr.exception.ConnectionPoolException;
 import by.hr.exception.DAOException;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +22,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfileMysqlDAO extends AbstractDAO implements ProfileDAO{
+public class ProfileMysqlDAO extends AbstractDAO<Long,Profile> implements ProfileDAO{
     private static final Logger LOGGER = LogManager.getRootLogger();
     private static final String SQL_SELECT_DIALOG = "SELECT  m.message_id,  p.first_name, p.last_name, " +
             "(m.profile_sender_id + mu.profile_reception_id)-? as id FROM message m " +
@@ -54,31 +53,12 @@ public class ProfileMysqlDAO extends AbstractDAO implements ProfileDAO{
 
     @Override
     public boolean delete(Long id) throws DAOException {
-        boolean status = false;
-        PooledConnection connection = null;
-        PreparedStatement statement = null;
-        try{
-            connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.prepareStatement(SQL_DELETE_PROFILE);
-            statement.setLong(1,id);
-            statement.executeUpdate();
-            status = true;
-        } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception in method delete: ",e);
-        } finally {
-            closeStatement(connection,statement);
-        }
-        return status;
+        return deleteQuery(id,SQL_DELETE_PROFILE);
     }
-
-
 
     @Override
     public boolean insert(Profile item) throws DAOException {
-        if(item == null ){
-            throw new DAOException("The input object is null");
-        }
-
+        checkInput(item);
         boolean status = false;
         PooledConnection connection = null;
         PreparedStatement statement = null;
@@ -101,9 +81,12 @@ public class ProfileMysqlDAO extends AbstractDAO implements ProfileDAO{
 
     public static void main(String[] args) throws DAOException, SQLException {
         ProfileMysqlDAO profileMysqlDAO = new ProfileMysqlDAO();
-
-        System.out.println(profileMysqlDAO.authentication("gleb@gmail.com","saasd"));
+//        Profile profile = new Profile("pds@gmail.com","fsd",Role.CANDIDATE);
+//        profileMysqlDAO.insert(profile);
+//        profileMysqlDAO.insert(profile1);
+//        System.out.println(profileMysqlDAO.checkUser("gleb@gmail.com","saasd"));
 //        System.out.println(profileMysqlDAO.selectAll());
+        profileMysqlDAO.delete(8L);
         ConnectionPool.getInstance().destroy();
     }
 
@@ -235,9 +218,7 @@ public class ProfileMysqlDAO extends AbstractDAO implements ProfileDAO{
 
     @Override
     public boolean update(Profile item) throws DAOException {
-        if(item == null ){
-            throw new DAOException("The input object is null");
-        }
+        checkInput(item);
         boolean status = false;
         PooledConnection connection = null;
         PreparedStatement statement = null;
@@ -268,8 +249,8 @@ public class ProfileMysqlDAO extends AbstractDAO implements ProfileDAO{
     }
 
     @Override
-    public Profile authentication(String email, String password) throws DAOException{
-        Profile profile = new Profile();
+    public Profile checkUser(String email, String password) throws DAOException{
+        Profile profile;
         PooledConnection connection = null;
         PreparedStatement statement = null;
         try {
@@ -281,10 +262,10 @@ public class ProfileMysqlDAO extends AbstractDAO implements ProfileDAO{
             if (resultSet.next()) {
                     profile = init(resultSet);
             } else {
-                throw new DAOException("Error in authentication: no user in db with such email ");
+                throw new DAOException("Error in checkUser: no user in db with such email ");
             }
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception in method authentication: " + e);
+            throw new DAOException("Exception in method checkUser: " + e);
         } finally {
             closeStatement(connection,statement);
         }
@@ -299,7 +280,6 @@ public class ProfileMysqlDAO extends AbstractDAO implements ProfileDAO{
         profile.setFirstName(resultSet.getString("first_name"));
         profile.setLastName(resultSet.getString("last_name"));
         profile.setPhone(resultSet.getString("phone"));
-
         String enLvl = resultSet.getString("english_level");
         String gender = resultSet.getString("gender");
         if(enLvl != null) {
@@ -315,7 +295,6 @@ public class ProfileMysqlDAO extends AbstractDAO implements ProfileDAO{
         profile.setTechnicalInterview(resultSet.getString("technical_interview"));
         profile.setStatusInterview(resultSet.getBoolean("status_interview"));
 //TODO resume and photo  Profile init
-
         return profile;
     }
 }

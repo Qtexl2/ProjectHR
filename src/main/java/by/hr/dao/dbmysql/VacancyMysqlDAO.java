@@ -15,7 +15,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VacancyMysqlDAO extends AbstractDAO implements VacancyDAO{
+public class VacancyMysqlDAO extends AbstractDAO<Long,Vacancy> implements VacancyDAO{
 
     private final static String SQL_DELETE_VACANCY_BY_ID = "DELETE FROM vacancy WHERE vacancy.vacancy_id=?";
 
@@ -114,50 +114,58 @@ public class VacancyMysqlDAO extends AbstractDAO implements VacancyDAO{
         return vacancies;
     }
     @Override
-    public boolean insert(String title, String description, String location) throws DAOException {
+    public boolean insert(Vacancy item) throws DAOException{
+        checkInput(item);
         boolean status = false;
         PooledConnection connection = null;
         PreparedStatement statement = null;
         try{
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(SQL_INSERT_VACANCY);
-            statement.setString(1,title);
-            statement.setString(2,description);
-            statement.setString(3,location);
+            statement.setString(1,item.getVacancyTitle());
+            statement.setString(2,item.getVacancyDescription());
+            statement.setString(3,item.getLocation());
             statement.executeUpdate();
             status = true;
 
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception in method insert(): ",e);
+            throw new DAOException("Exception in method insert: ",e);
         } finally {
             closeStatement(connection,statement);
         }
         return status;
-
     }
 
     @Override
-    public boolean updateByID(Long id, String title, String description, String location, Boolean statusVacancy) throws DAOException {
+    public boolean update(Vacancy item) throws DAOException {
+        checkInput(item);
         boolean status = false;
         PooledConnection connection = null;
         PreparedStatement statement = null;
         try{
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(SQL_UPDATE_VACANCY_BY_ID);
-            statement.setString(1,title);
-            statement.setString(2,description);
-            statement.setString(3,location);
-            statement.setBoolean(4,statusVacancy);
-            statement.setLong(5,id);
+            statement.setString(1,item.getVacancyTitle());
+            statement.setString(2,item.getVacancyDescription());
+            statement.setString(3,item.getLocation());
+            statement.setBoolean(4,item.getVacancyStatus());
+            statement.setLong(5,item.getVacancyID());
             statement.executeUpdate();
             status = true;
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception in method updateByID(): ",e);
+            throw new DAOException("Exception in method update: ",e);
         } finally {
             closeStatement(connection,statement);
         }
         return status;
     }
+
+    @Override
+    public boolean delete(Long id) throws DAOException {
+        return deleteQuery(id,SQL_DELETE_VACANCY_BY_ID);
+
+    }
+
 
     @Override
     public List<Vacancy> selectAll() throws DAOException {
@@ -176,10 +184,14 @@ public class VacancyMysqlDAO extends AbstractDAO implements VacancyDAO{
 
     public static void main(String[] args) throws DAOException {
         VacancyMysqlDAO vacancyMysqlDAO = new VacancyMysqlDAO();
+        vacancyMysqlDAO.delete(6L);
+//        Vacancy vacancy = new Vacancy("Java Junior", "Need developer in Epam","Minsk");
+//        vacancy.setVacancyStatus(true);
+//        vacancy.setVacancyID(6L);
 //        vacancyMysqlDAO.deleteByID(7L);
 //        vacancyMysqlDAO.deleteByID(8L);
-        vacancyMysqlDAO.updateByID(6L,"DEVkaKAKA","DEVKAKA",null,false);
-//        vacancyMysqlDAO.insert("Вкансия Java Junior", "Spring Hibernate Maven","Лида");
+//        vacancyMysqlDAO.updateByID(6L,"DEVkaKAKA","DEVKAKA",null,false);
+//        vacancyMysqlDAO.update(vacancy);
 //        System.out.println(vacancyMysqlDAO.selectAll());
 //        System.out.println(vacancyMysqlDAO.selectActualVacancy());
 //        vacancyMysqlDAO.changeStatus(7L);
@@ -188,11 +200,7 @@ public class VacancyMysqlDAO extends AbstractDAO implements VacancyDAO{
 //        System.out.println(vacancyMysqlDAO.selectByID(10L));
         ConnectionPool.getInstance().destroy();
     }
-    @Override
-    public boolean deleteByID(Long id) throws DAOException {
-        return deleteQuery(id,SQL_DELETE_VACANCY_BY_ID);
-    }
-//
+
     @Override
     public boolean changeStatus(Long id) throws DAOException {
         boolean status = false;
@@ -216,4 +224,6 @@ public class VacancyMysqlDAO extends AbstractDAO implements VacancyDAO{
     public List<Vacancy> selectActualVacancy() throws DAOException {
         return selectVacancy(SQL_SELECT_ACTUAL_VACANCY);
     }
+
+
 }
