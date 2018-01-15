@@ -2,7 +2,7 @@ package by.hr.dao;
 
 import by.hr.connection.ConnectionPool;
 import by.hr.connection.PooledConnection;
-import by.hr.entity.Entity;
+import by.hr.model.Entity;
 import by.hr.exception.ConnectionPoolException;
 import by.hr.exception.DAOException;
 

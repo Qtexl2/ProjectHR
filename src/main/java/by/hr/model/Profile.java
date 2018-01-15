@@ -1,4 +1,4 @@
-package by.hr.entity;
+package by.hr.model;
 
 
 public class Profile extends Entity{

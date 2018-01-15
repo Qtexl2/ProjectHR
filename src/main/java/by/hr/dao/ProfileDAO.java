@@ -1,6 +1,6 @@
 package by.hr.dao;
 
-import by.hr.entity.Profile;
+import by.hr.model.Profile;
 import by.hr.exception.DAOException;
 
 import java.util.List;

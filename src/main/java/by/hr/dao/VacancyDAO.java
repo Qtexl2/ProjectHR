@@ -1,6 +1,6 @@
 package by.hr.dao;
 
-import by.hr.entity.Vacancy;
+import by.hr.model.Vacancy;
 import by.hr.exception.DAOException;
 
 import java.util.List;

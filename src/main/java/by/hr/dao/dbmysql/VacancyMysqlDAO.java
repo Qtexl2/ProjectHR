@@ -4,7 +4,7 @@ import by.hr.connection.ConnectionPool;
 import by.hr.connection.PooledConnection;
 import by.hr.dao.AbstractDAO;
 import by.hr.dao.VacancyDAO;
-import by.hr.entity.Vacancy;
+import by.hr.model.Vacancy;
 import by.hr.exception.ConnectionPoolException;
 import by.hr.exception.DAOException;
 

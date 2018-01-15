@@ -1,6 +1,6 @@
 package by.hr.dao;
 
-import by.hr.entity.Interview;
+import by.hr.model.Interview;
 import by.hr.exception.DAOException;
 
 import java.util.List;

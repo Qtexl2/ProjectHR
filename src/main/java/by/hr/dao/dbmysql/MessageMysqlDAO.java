@@ -4,7 +4,7 @@ import by.hr.connection.ConnectionPool;
 import by.hr.connection.PooledConnection;
 import by.hr.dao.AbstractDAO;
 import by.hr.dao.MessageDAO;
-import by.hr.entity.Message;
+import by.hr.model.Message;
 import by.hr.exception.ConnectionPoolException;
 import by.hr.exception.DAOException;
 
