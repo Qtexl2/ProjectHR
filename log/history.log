@@ -1,0 +1,4 @@
+[INFO ] 2018-01-14 16:01:59 [main] addConnection- Create new connection Connection_1 
+[INFO ] 2018-01-14 16:01:59 [main] addConnection- Create new connection Connection_2 
+[INFO ] 2018-01-14 16:01:59 [main] addConnection- Create new connection Connection_3 
+[INFO ] 2018-01-14 16:01:59 [main] close- Connection returned to the pool 
