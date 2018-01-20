@@ -183,7 +183,6 @@ public class VacancyMysqlDAO implements VacancyDAO {
 
     public static void main(String[] args) throws DAOException {
         VacancyMysqlDAO vacancyMysqlDAO = new VacancyMysqlDAO();
-        vacancyMysqlDAO.delete(6L);
 //        Vacancy vacancy = new Vacancy("Java Junior", "Need developer in Epam","Minsk");
 //        vacancy.setVacancyStatus(true);
 //        vacancy.setVacancyID(6L);

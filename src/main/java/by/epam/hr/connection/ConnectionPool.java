@@ -34,6 +34,7 @@ public class ConnectionPool{
     private static Lock lockInstance = new ReentrantLock();
     private static AtomicInteger counterFreeConnection;
     private static AtomicInteger counterAllConnection;
+    private static AtomicBoolean poolCreated = new AtomicBoolean(false);
     private static AtomicLong incrementConnection;
     private static int timeOutForceClose;
     private static int minSizePool;
@@ -78,7 +79,7 @@ public class ConnectionPool{
             }
         }
     }
-
+//TODO PooolDestoy
     public void destroy() {
         if(poolShuttingDown.get())
         {
@@ -87,11 +88,15 @@ public class ConnectionPool{
         PooledConnection tempCon;
         poolShuttingDown.set(true);
         while (!freeConnections.isEmpty()){//take for
-            tempCon = freeConnections.poll();
-            instance.closeConnection(tempCon);
+            try {
+                tempCon = freeConnections.take();
+                instance.closeConnection(tempCon);
+            } catch (InterruptedException e) {
+                LOGGER.log(Level.WARN, "Connection not closed ", e);
+            }
         }
 
-            configCP.destroy();
+        configCP.destroy();
     }
     public static void main(String[] args) throws ConnectionPoolException, InterruptedException {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
@@ -123,15 +128,14 @@ public class ConnectionPool{
     }
 
     public static ConnectionPool getInstance(){
-
-        if (instance == null){//atomic
+        if (!poolCreated.get()){
             lockInstance.lock();
                 if(instance == null){
                     try {
                         instance = new ConnectionPool();
                         Timer timer = new Timer();
                         timer.schedule(new TimerTaskCheckConnections(instance,timer),1000,msTimerPeriod);
-                        //
+                        poolCreated.set(true);
                     }
                     finally {
                         lockInstance.unlock();

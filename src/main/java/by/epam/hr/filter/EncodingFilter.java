@@ -20,6 +20,7 @@ public class EncodingFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
         request.setCharacterEncoding(code);
+        response.setCharacterEncoding(code);
         chain.doFilter(request, response);
     }
 

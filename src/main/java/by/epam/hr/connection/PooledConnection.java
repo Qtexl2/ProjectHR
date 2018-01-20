@@ -11,7 +11,7 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 public class PooledConnection implements Connection {
-    private long id_connection;//----------------
+    private long connectionId;
     private static final Logger LOGGER = LogManager.getRootLogger();
     private final Connection connection;
     private long lastUsed;
@@ -26,7 +26,7 @@ public class PooledConnection implements Connection {
     }
 
     PooledConnection(Connection connection, long id) {
-        id_connection = id;
+        connectionId = id;
         this.connection = connection;
     }
 
@@ -37,17 +37,17 @@ public class PooledConnection implements Connection {
 
         PooledConnection that = (PooledConnection) o;
 
-        return id_connection == that.id_connection;
+        return connectionId == that.connectionId;
     }
 
     @Override
     public int hashCode() {
-        return (int) (id_connection ^ (id_connection >>> 32));
+        return (int) (connectionId ^ (connectionId >>> 32));
     }
 
     @Override
     public String toString() {
-        return "Connection_" + id_connection;
+        return "Connection_" + connectionId;
     }
 
     void destroy() throws ConnectionPoolException {
