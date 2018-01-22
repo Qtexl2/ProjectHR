@@ -10,6 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class RequestHelper {
 
     public static final String SEARCH_JOB_PARAM = "searchJob";
+    public static final String VACANCY = "vacancy";
 
 
     private static AtomicBoolean requestHelperCreated = new AtomicBoolean(false);
@@ -24,6 +25,7 @@ public class RequestHelper {
     private void createCommands(){
         commands = new HashMap<>();
         commands.put(SEARCH_JOB_PARAM,new SearchJobCommand());
+        commands.put(VACANCY, new VacancyCommand());
 
     }
 
@@ -45,11 +47,8 @@ public class RequestHelper {
 
     public Command getCommand(HttpServletRequest request){
         String nameCommand = request.getParameter(REQ_PARAM);
-        System.out.println(nameCommand);
         Command command = commands.get(nameCommand);
-        System.out.println(command + " возвращен команд");
         if(command == null){
-            System.out.println("ПРИСВОИЛ БЕЗ КОМАНДЫ");
             command = new NoCommand();
         }
         return command;

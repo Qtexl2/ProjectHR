@@ -19,4 +19,13 @@ public class VacancyService {
         }
     }
 
+    public Vacancy selectVacancyById(Long id) throws ServiceException {
+        try{
+            return vacancyDAO.selectByID(id);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+
 }

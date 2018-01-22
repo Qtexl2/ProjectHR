@@ -1,9 +1,9 @@
-[INFO ] 2018-01-20 19:05:55 [main] addConnection- Create new connection Connection_1 
-[INFO ] 2018-01-20 19:05:55 [main] addConnection- Create new connection Connection_2 
-[INFO ] 2018-01-20 19:05:55 [main] addConnection- Create new connection Connection_3 
-[INFO ] 2018-01-20 19:05:55 [main] close- Connection returned to the pool 
-[INFO ] 2018-01-20 19:05:55 [main] destroy- Connection Connection_2 closed 
-[INFO ] 2018-01-20 19:05:55 [main] destroy- Connection Connection_3 closed 
-[INFO ] 2018-01-20 19:05:55 [main] destroy- Connection Connection_1 closed 
-[INFO ] 2018-01-20 19:05:55 [main] destroy- Driver deregister 
-[INFO ] 2018-01-20 19:05:56 [Timer-0] run- poolShutting is true. Timer cancel 
+[INFO ] 2018-01-22 00:56:49 [main] addConnection- Create new connection Connection_1 
+[INFO ] 2018-01-22 00:56:49 [main] addConnection- Create new connection Connection_2 
+[INFO ] 2018-01-22 00:56:49 [main] addConnection- Create new connection Connection_3 
+[INFO ] 2018-01-22 00:56:49 [main] close- Connection returned to the pool 
+[INFO ] 2018-01-22 00:56:49 [main] destroy- Connection Connection_2 closed 
+[INFO ] 2018-01-22 00:56:49 [main] destroy- Connection Connection_3 closed 
+[INFO ] 2018-01-22 00:56:49 [main] destroy- Connection Connection_1 closed 
+[INFO ] 2018-01-22 00:56:49 [main] destroy- Driver deregister 
+[INFO ] 2018-01-22 00:56:50 [Timer-0] run- poolShutting is true. Timer cancel 

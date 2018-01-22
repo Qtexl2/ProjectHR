@@ -7,13 +7,23 @@ public class Vacancy extends Entity {
     private String vacancyDescription;
     private Boolean vacancyStatus;
     private String location;
+    private String company;
     public Vacancy() {
     }
 
-    public Vacancy(String vacancyTitle, String vacancyDescription, String location) {
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public Vacancy(String vacancyTitle, String vacancyDescription, String location, String company) {
         this.vacancyTitle = vacancyTitle;
         this.vacancyDescription = vacancyDescription;
         this.location = location;
+        this.company = company;
     }
 
     public Long getVacancyID() {

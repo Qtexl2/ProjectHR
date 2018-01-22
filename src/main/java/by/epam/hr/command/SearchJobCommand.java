@@ -1,17 +1,21 @@
 package by.epam.hr.command;
 
-import by.epam.hr.dao.VacancyDAO;
-import by.epam.hr.dao.dbmysql.VacancyMysqlDAO;
 import by.epam.hr.dispatcher.PageDispatcher;
 import by.epam.hr.exception.ServiceException;
 import by.epam.hr.model.Vacancy;
 import by.epam.hr.service.VacancyService;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SearchJobCommand implements Command {
+    private static final Logger LOGGER = LogManager.getRootLogger();
     private static final String JOB = "job";
     private static final String LOCATION = "location";
     private VacancyService vacancyService;
@@ -21,23 +25,32 @@ public class SearchJobCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        request.getAttribute(RequestHelper.SEARCH_JOB_PARAM);
         String job = request.getParameter(JOB);
         String location = request.getParameter(LOCATION);
-        System.out.println(job + " \"   с Search\"");
-        System.out.println(location + "   с Search");
         job = job == null?"":job;
         location = location == null?"":location;
         try {
+
             List<Vacancy> vacancies = vacancyService.selectVacancyByLocAndTitle(job, location);
+            if(!job.equals("")) {
+                String generateRegExp = "[" + job.toLowerCase() + job.toUpperCase() + "]{" + job.length() + "}";
+                for (Vacancy vacancy : vacancies) {
+                    String title = vacancy.getVacancyTitle();
+                    Pattern pattern = Pattern.compile(generateRegExp);
+                    Matcher matcher = pattern.matcher(title);
+                    while (matcher.find()) {
+                        String nextWord = matcher.group();
+                        title = title.replace(nextWord, "<span class=\"mark-job\">" + nextWord + "</span>");
+                    }
+                    vacancy.setVacancyTitle(title);
+                }
+            }
             request.setAttribute("vacancies",vacancies);
-            System.out.println(vacancies);
 
         } catch (ServiceException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARN,"SearchJobCommand have a problem with service layer",e);
         }
-        String page = PageDispatcher.getInstance().getProperty(PageDispatcher.VACANCY_PAGE_PATH);
-        System.out.println(page + " эта стр");
+        String page = PageDispatcher.getInstance().getProperty(PageDispatcher.VACANCIES_PAGE_PATH);
         return page;
     }
 }

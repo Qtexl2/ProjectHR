@@ -185,6 +185,9 @@ header{
     -ms-transition: 0.5s;
     transition: 0.5s;
 }
+main{
+    height: 500px;
+}
 .multi:hover::after{
     -webkit-transform: scaleY(-1);
     -ms-transform: scaleY(-1);
@@ -368,7 +371,7 @@ opacity: 0;
     url(../font/Material-Design-Iconic-Font.ttf) format('truetype');
 }
 .icon-input{
-    font: 27px 'Material-Design-Iconic-Font';
+    font: 14px 'Material-Design-Iconic-Font';
     text-rendering:auto;
     display: block;
     position: absolute;
@@ -383,6 +386,10 @@ opacity: 0;
 .pass-icon:before{
     content:'\f191'
 }
+.local-icon:before{
+    content: '\f352';
+}
+
 .btn-reg{
     font: 300 14px 'Roboto',sans-serif;
     color: white;

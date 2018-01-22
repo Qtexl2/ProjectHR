@@ -1,0 +1,53 @@
+.vacancy-result{
+    padding: 0;
+}
+.vacancy-result-div{
+    border-bottom: 1px #999 solid;
+    height: 90px;
+    padding-top: 10px;
+}
+
+
+.vacancy-title{
+    color: #00aff0;
+    display: inline-block;
+    position: absolute;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+.vacancy-title:hover{
+    border-bottom: 2px #00aff0 solid;
+}
+.location-icon:before{
+    font: 14px 'Material-Design-Iconic-Font';
+    color: rgba(85, 85, 85, 0.72);
+    text-rendering:auto;
+    content:'\F1C3';
+}
+
+.vacancy-result-div > div {
+    margin-top: 37px;
+    margin-left: 10px;
+    position: absolute;
+}
+.vacancy-result-div  p {
+    font-size: 12px;
+    margin: 0 0 10px;
+}
+
+.mark-job{
+    background: yellow;
+}
+#vacancy-main{
+    background: #cccccc;
+}
+.section-vacancy{
+    padding-top: 1px;
+
+}
+.field-vacancy{
+    height: 100%;
+    width: 60%;
+    margin-left: 40px;
+    background: white;
+}

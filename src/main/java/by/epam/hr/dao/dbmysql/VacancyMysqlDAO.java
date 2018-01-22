@@ -25,22 +25,23 @@ public class VacancyMysqlDAO implements VacancyDAO {
             "vacancy.vacancy_status= not vacancy.vacancy_status  WHERE vacancy.vacancy_id=?";
 
     private static final String SQL_INSERT_VACANCY = "INSERT INTO vacancy " +
-            "(vacancy.vacancy_title, vacancy.vacancy_description, vacancy.vacancy_location) VALUES(?,?,?)";
+            "(vacancy.vacancy_title, vacancy.vacancy_description, vacancy.vacancy_location, vacancy.company) VALUES(?,?,?,?)";
 
     private static final String SQL_SELECT_ALL_VACANCY = "SELECT  vacancy.vacancy_id, vacancy.vacancy_title, " +
-            "vacancy.vacancy_description, vacancy.vacancy_location, vacancy.vacancy_status FROM vacancy ";
+            "vacancy.vacancy_description, vacancy.vacancy_location, vacancy.vacancy_status, vacancy.company FROM vacancy ";
 
     private static final String SQL_SELECT_ACTUAL_VACANCY = "SELECT  vacancy.vacancy_id, vacancy.vacancy_title, " +
-            "vacancy.vacancy_description, vacancy.vacancy_location, vacancy.vacancy_status FROM vacancy WHERE vacancy.vacancy_status=1";
+            "vacancy.vacancy_description, vacancy.vacancy_location, vacancy.vacancy_status, vacancy.company FROM vacancy WHERE vacancy.vacancy_status=1";
 
     private static final String SQL_SELECT_VACANCY_BY_ID = "SELECT  vacancy.vacancy_id, vacancy.vacancy_title, " +
-            "vacancy.vacancy_description, vacancy.vacancy_location, vacancy.vacancy_status FROM vacancy " +
+            "vacancy.vacancy_description, vacancy.vacancy_location, vacancy.vacancy_status, vacancy.company FROM vacancy " +
             "WHERE vacancy.vacancy_id=?";
-    private static final String SQL_SELECT_BY_TITLE_AND_LOCAL_AND_DESC = "SELECT * FROM hr.vacancy WHERE " +
-            "(vacancy.vacancy_title LIKE concat('%',replace(?,' ','%'),'%') " +
-            "OR vacancy.vacancy_description LIKE concat('%',replace(?,' ','%'),'%')) " +
-            "AND vacancy.vacancy_location LIKE concat('%',?,'%') " +
-            "AND vacancy.vacancy_status=true";
+    private static final String SQL_SELECT_BY_TITLE_AND_LOCAL_AND_DESC = "SELECT v.vacancy_id, v.vacancy_title, " +
+            "v.vacancy_description, v.vacancy_location, v.company, v.vacancy_status FROM hr.vacancy v WHERE " +
+            "(v.vacancy_title LIKE concat('%',replace(?,' ','%'),'%') " +
+            "OR v.vacancy_description LIKE concat('%',replace(?,' ','%'),'%')) " +
+            "AND v.vacancy_location LIKE concat('%',?,'%') " +
+            "AND v.vacancy_status=true";
 
     private List<Vacancy> selectVacancy(String sql) throws DAOException {
         List<Vacancy> vacancies = new ArrayList<>();
@@ -124,6 +125,7 @@ public class VacancyMysqlDAO implements VacancyDAO {
             statement.setString(1,item.getVacancyTitle());
             statement.setString(2,item.getVacancyDescription());
             statement.setString(3,item.getLocation());
+            statement.setString(4,item.getCompany());
             statement.executeUpdate();
             status = true;
 
@@ -177,6 +179,7 @@ public class VacancyMysqlDAO implements VacancyDAO {
         vacancy.setVacancyTitle(resultSet.getString("vacancy_title"));
         vacancy.setVacancyDescription(resultSet.getString("vacancy_description"));
         vacancy.setLocation(resultSet.getString("vacancy_location"));
+        vacancy.setCompany(resultSet.getString("company"));
         vacancy.setVacancyStatus(resultSet.getBoolean("vacancy_status"));
         return vacancy;
     }
@@ -194,7 +197,7 @@ public class VacancyMysqlDAO implements VacancyDAO {
 //        System.out.println(vacancyMysqlDAO.selectActualVacancy());
 //        vacancyMysqlDAO.changeStatus(7L);
 //        vacancyMysqlDAO.changeStatus(1L);
-//        System.out.println(vacancyMysqlDAO.selectVacancyByLocAndTitle("dev",""));
+        System.out.println(vacancyMysqlDAO.selectVacancyByLocAndTitle("js",""));
 //        System.out.println(vacancyMysqlDAO.selectByID(10L));
         ConnectionPool.getInstance().destroy();
     }

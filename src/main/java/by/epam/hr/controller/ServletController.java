@@ -32,7 +32,6 @@ public class ServletController extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("ПОПАЛ");
         Command command = RequestHelper.getInstance().getCommand(request);
         String page = command.execute(request, response);
 //        if (request.getAttribute(Command.ATTR_PAGE) == Command.REDIRECT_PAGE) {

@@ -10,6 +10,7 @@ public class PageDispatcher {
     private static PageDispatcher instance;
     private static final String BUNDLE_NAME = "dispatcher";
     public static final String MAIN_PAGE_PATH = "MAIN_PAGE_PATH";
+    public static final String VACANCIES_PAGE_PATH = "VACANCIES_PAGE_PATH";
     public static final String VACANCY_PAGE_PATH = "VACANCY_PAGE_PATH";
     private ResourceBundle resourceBundle;
     private static AtomicBoolean dispatcherCreated = new AtomicBoolean(false);
