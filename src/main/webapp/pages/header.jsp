@@ -17,8 +17,8 @@
                 <ul class="account-menu">
                     <li><a href=#><fmt:message key="account"/></a>
                         <ul class="account-submenu drop-menu">
-                            <li><a href=#><fmt:message key="login"/></a></li>
-                            <li><a href=/controller?command=reg><fmt:message key="registration"/></a></li>
+                            <li><a href=/controller?command=authPage><fmt:message key="login"/></a></li>
+                            <li><a href=/controller?command=regPage><fmt:message key="registration"/></a></li>
                         </ul>
                     </li>
                 </ul>

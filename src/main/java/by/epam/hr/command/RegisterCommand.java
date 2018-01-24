@@ -5,12 +5,15 @@ import by.epam.hr.exception.ServiceException;
 import by.epam.hr.model.Profile;
 import by.epam.hr.model.Role;
 import by.epam.hr.service.ProfileService;
+import com.google.gson.Gson;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.List;
 
 public class RegisterCommand implements Command {
     private static final Logger LOGGER = LogManager.getRootLogger();
@@ -58,12 +61,20 @@ public class RegisterCommand implements Command {
             }
 
         }
+
         request.setAttribute("status",status);
         request.setAttribute("statusReg",statusReg);
+
         System.out.println(status);
         System.out.println("ДОБАВЛЕН " + statusReg);
-        return PageDispatcher.getInstance().getProperty(PageDispatcher.REGISTRATION_PAGE_PATH);
+
+        List<String> answer = Arrays.asList(status,String.valueOf(statusReg));
+        return new Gson().toJson(answer);
+
     }
+
+
+
 
 
 }

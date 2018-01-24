@@ -12,6 +12,9 @@ public class RequestHelper {
     public static final String SEARCH_JOB_PARAM = "searchJob";
     public static final String VACANCY = "vacancy";
     public static final String REGISTRATION = "reg";
+    public static final String REGISTRATION_PAGE = "regPage";
+    public static final String AUTHORIZATION_PAGE = "authPage";
+    public static final String AUTHORIZATION = "authorization";
 
 
     private static AtomicBoolean requestHelperCreated = new AtomicBoolean(false);
@@ -28,7 +31,9 @@ public class RequestHelper {
         commands.put(SEARCH_JOB_PARAM,new SearchJobCommand());
         commands.put(VACANCY, new VacancyCommand());
         commands.put(REGISTRATION, new RegisterCommand());
-
+        commands.put(REGISTRATION_PAGE, new RedirectToRegistrationCommand());
+        commands.put(AUTHORIZATION_PAGE, new RedirectToAuthCommand());
+//        commands.put(AUTHORIZATION, new ());
     }
 
     public static RequestHelper getInstance(){

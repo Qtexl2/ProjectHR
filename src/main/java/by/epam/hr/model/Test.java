@@ -1,5 +1,10 @@
 package by.epam.hr.model;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Test {
     private static final String REGEXP_ROLE = "(candidate|employer|admin)";
     private static final String REGEXP_EMAIL = ".+@.+\\..+";
@@ -9,18 +14,15 @@ public class Test {
     public static void main(String[] args) {
         String password ="!QAZ1qaz";
         String email ="dsa@dsa.ds";
-        String role ="admin";
-        System.out.println(new Test().cript(role).equals(new Test().cript(email)));
-        System.out.println(new Test().cript(role));
+        String role = String.valueOf(true);
+        List<String> a = new ArrayList<>();
+        a.add(password);
+        a.add(email);
+        a.add(role);
+        String json = new Gson().toJson(a);
+        System.out.println(json);
+
     }
 
-    public String cript(String pass){
-        char[] array = pass.toCharArray();
-        StringBuffer out = new StringBuffer();
-        for (int i = 0; i < array.length; i++) {
-            out.append((array[i] *31) >> 5);
-        }
-        return out.toString();
-    }
 
 }

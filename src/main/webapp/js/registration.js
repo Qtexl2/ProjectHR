@@ -6,13 +6,39 @@
     var inputPassword = document.querySelector('.pass-input');
     var errorMessagePassword = document.getElementById('input-error-pass');
     var submit = document.getElementById('btn-reg-id');
-    var form = document.getElementById('form-submit');
+    var message = document.getElementById('input-error-pass');
 
 
     inputLogin.addEventListener("focusout", checkLogin);
     inputPassword.addEventListener("focusout", checkPassword);
-    form.addEventListener("submit",validSubmit);
 
+    submit.addEventListener("click",function () {
+        if(validSubmit()) {
+            var email = $('.email-input');
+            var password = $('.pass-input');
+            var role = $('.registration-radio');
+            var command = $('#command-reg');
+            $.ajax({
+                type: 'POST',
+                data: {command: command.val(), email: email.val(), password: password.val(), role: role.val()},
+                url: '/ajax',
+                success: function (data) {
+                    data = JSON.parse(data);
+                    message.innerHTML = data[0];
+                    password.val('');
+                    email.val('');
+                    if (data[1] === "true") {
+                        message.classList.add("input-span-success");
+                        message.classList.remove("input-span-alarm");
+                    }
+                    else {
+                        message.classList.remove("input-span-success");
+                        message.classList.add("input-span-alarm");
+                    }
+                }
+            })
+        }
+    });
     function checkLogin(){
         var status = true;
         var pattern = ".+@.+\\..+";
@@ -63,7 +89,8 @@
             return true;
         }
         else {
-            event.preventDefault()
+            return false;
         }
     }
+
 })();

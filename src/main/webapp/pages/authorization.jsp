@@ -19,26 +19,25 @@
     <main class="main-registration">
         <section class="registration-section">
             <div class="form-reg">
-                    <input id="command-reg" type="hidden" name="command" value="reg"/>
-                    <h1 id="art-create-acc"><fmt:message key="createAccount"/> </h1>
+                <form class="auth-form" method="post" action="/controller" >
+                    <input id="command-reg" type="hidden" name="command" value="auth"/>
+                    <h1 id="art-create-acc"><fmt:message key="signInAccount"/> </h1>
                     <div class="email reg">
                         <label class="reg-label" for="email-address-id"><fmt:message key="email"/></label>
                         <input type="text"  class="email-input reg-input" name="email"  id="email-address-id"  placeholder="<fmt:message key="email"/>" maxlength="50" required>
                         <i class="login-icon icon-input"></i>
-                        <span class="input-error" id="input-error-login"><fmt:message key="required"/></span>
-                        <span class="input-error" id="input-error-login-match"><fmt:message key="validEmail"/> </span>
                     </div>
                     <div class="pass reg">
                         <label class="reg-label" for="pass-id"><fmt:message key="password"/> </label>
                         <input type="password" class="pass-input reg-input" name="password" id="pass-id" placeholder="<fmt:message key="password"/>" maxlength="30" required>
                         <i class="pass-icon icon-input"></i>
-                        <span class="input-error" id="input-error-pass"><fmt:message key="required"/> </span>
+                        <span class="input-error" id="span-incorrect-login-pass"><fmt:message key="required"/> </span>
                     </div>
-                    <input type="radio" name="role" class="registration-radio" value="candidate" checked><fmt:message key="candidate"/> </input>
-                    <input type="radio" name="role" class="registration-radio" value="employer"><fmt:message key="employer"/> </input>
                     <div id="submit-div">
-                        <button type="submit" class="btn-reg" id="btn-reg-id"><fmt:message key="register"/> </button>
+                        <button type="submit" class="btn-reg" id="btn-reg-id"><fmt:message key="signIn"/> </button>
                     </div>
+                    <h2><fmt:message key="signUp"/> </h2>
+                </form>
             </div>
         </section>
     </main>
