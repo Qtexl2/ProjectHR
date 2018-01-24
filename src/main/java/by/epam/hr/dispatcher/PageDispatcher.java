@@ -12,6 +12,8 @@ public class PageDispatcher {
     public static final String MAIN_PAGE_PATH = "MAIN_PAGE_PATH";
     public static final String VACANCIES_PAGE_PATH = "VACANCIES_PAGE_PATH";
     public static final String VACANCY_PAGE_PATH = "VACANCY_PAGE_PATH";
+    public static final String REGISTRATION_PAGE_PATH = "REGISTRATION_PAGE_PATH";
+    public static final String PAGE_404_PATH = "PAGE_404_PATH";
     private ResourceBundle resourceBundle;
     private static AtomicBoolean dispatcherCreated = new AtomicBoolean(false);
     private static Lock lockInstance = new ReentrantLock();

@@ -1,7 +1,7 @@
 package by.epam.hr.service;
 
+import by.epam.hr.dao.FactoryDAO;
 import by.epam.hr.dao.VacancyDAO;
-import by.epam.hr.dao.dbmysql.VacancyMysqlDAO;
 import by.epam.hr.exception.DAOException;
 import by.epam.hr.exception.ServiceException;
 import by.epam.hr.model.Vacancy;
@@ -9,7 +9,7 @@ import by.epam.hr.model.Vacancy;
 import java.util.List;
 
 public class VacancyService {
-    public static VacancyDAO vacancyDAO = new VacancyMysqlDAO();
+    private static VacancyDAO vacancyDAO = FactoryDAO.getInstance().getVacancyDAO();
 
     public List<Vacancy> selectVacancyByLocAndTitle(String job, String location) throws ServiceException {
         try{

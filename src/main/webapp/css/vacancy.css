@@ -39,15 +39,30 @@
     background: yellow;
 }
 #vacancy-main{
-    background: #cccccc;
+    background: #f5f5f5;
 }
 .section-vacancy{
-    padding-top: 1px;
+    padding-top: 1px;  }
 
-}
 .field-vacancy{
     height: 100%;
     width: 60%;
     margin-left: 40px;
     background: white;
+    padding: 10px;
+}
+.field-vacancy > h1 , h2{
+    font-size: 20px;
+    font-weight: 400;
+    color: inherit;
+}
+.field-vacancy button{
+    border: 2px #4f2773 solid;
+    position: relative;
+}
+.field-vacancy form{
+    height: 42px;
+}
+#submit-div{
+    height: 52px;
 }

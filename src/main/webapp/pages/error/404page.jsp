@@ -15,18 +15,13 @@
 </head>
 <body>
 <div class="wrapper">
-    <%@include file="header.jsp"%>
-    <main id="vacancy-main">
-        <c:set value="${vacancy}" var="vac" scope="request"/>
-        <section class="vacancy-result section-vacancy">
-            <div class="field-vacancy">
-                <h1><fmt:message key="aboutTheJob"/></h1>
-                <h2><fmt:message key="positionDescription"/>${vac.vacancyTitle} <fmt:message key="at"/> ${vac.company}</h2>
-                <p>${vac.vacancyDescription}</p>
-                <form action="/controller" method="post">
-                    <button type="submit" class="btn"><fmt:message key="respond"/></button>
-                </form>
-
+    <%@include file="../header.jsp"%>
+    <main id="error-page-main">
+        <section>
+            <div id="error-page-div">
+                <h1><fmt:message key="notFound"/> </h1>
+                <h2><fmt:message key="youCanFind"/> </h2>
+                <h2><fmt:message key="returnMain"/> </h2>
             </div>
         </section>
     </main>
@@ -34,6 +29,6 @@
         <div class="bottom-logo"></div>
     </footer>
 </div>
-<script src="../js/front.js"></script>
+<%--<script src="../js/front.js"></script>--%>
 </body>
 </html>

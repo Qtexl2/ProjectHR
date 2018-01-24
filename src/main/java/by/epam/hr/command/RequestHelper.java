@@ -11,6 +11,7 @@ public class RequestHelper {
 
     public static final String SEARCH_JOB_PARAM = "searchJob";
     public static final String VACANCY = "vacancy";
+    public static final String REGISTRATION = "reg";
 
 
     private static AtomicBoolean requestHelperCreated = new AtomicBoolean(false);
@@ -26,6 +27,7 @@ public class RequestHelper {
         commands = new HashMap<>();
         commands.put(SEARCH_JOB_PARAM,new SearchJobCommand());
         commands.put(VACANCY, new VacancyCommand());
+        commands.put(REGISTRATION, new RegisterCommand());
 
     }
 

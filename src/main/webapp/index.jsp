@@ -28,7 +28,7 @@
                             <%--<li><a href=#><fmt:message key="account"/></a>--%>
                                 <%--<ul class="account-submenu drop-menu">--%>
                                     <%--<li><a href=#><fmt:message key="login"/></a></li>--%>
-                                    <%--<li><a href=pages/registration.html><fmt:message key="registration"/></a></li>--%>
+                                    <%--<li><a href=pages/registration.jsp><fmt:message key="registration"/></a></li>--%>
                                 <%--</ul>--%>
                             <%--</li>--%>
                         <%--</ul>--%>

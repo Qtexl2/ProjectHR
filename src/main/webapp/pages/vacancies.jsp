@@ -16,7 +16,7 @@
 <body>
 <div class="wrapper">
     <%@include file="header.jsp"%>
-    <main id="vacancy-main">
+    <main>
         <section class="vacancy-result">
             <c:forEach var="vacancy" items="${vacancies}">
                 <div class="vacancy-result-div">

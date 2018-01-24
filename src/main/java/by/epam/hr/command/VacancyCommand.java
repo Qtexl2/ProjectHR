@@ -23,18 +23,25 @@ public class VacancyCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String strId = request.getParameter(VACANCY_ID);
-        String page ="";
+        String page = null;
         if(strId != null) {
             Long id = Long.valueOf(strId);
             try {
                 Vacancy vacancy = vacancyService.selectVacancyById(id);
                 if (vacancy != null) {
                     request.setAttribute(RequestHelper.VACANCY, vacancy);
+                    page = PageDispatcher.getInstance().getProperty(PageDispatcher.VACANCY_PAGE_PATH);
+                }
+                else {
+                    page = PageDispatcher.getInstance().getProperty(PageDispatcher.PAGE_404_PATH);
                 }
             } catch (ServiceException e) {
                 LOGGER.log(Level.WARN, "VacancyCommand have a problem with service layer", e);
+                return PageDispatcher.getInstance().getProperty(PageDispatcher.PAGE_404_PATH);
             }
-            page = PageDispatcher.getInstance().getProperty(PageDispatcher.VACANCY_PAGE_PATH);
+        }
+        else {
+            page = PageDispatcher.getInstance().getProperty(PageDispatcher.PAGE_404_PATH);
         }
         return page;
     }

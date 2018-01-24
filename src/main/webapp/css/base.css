@@ -282,7 +282,7 @@ section{
     background: #4f2773;
     position: absolute;
     height: 42px;
-    width: 100px;
+    min-width: 100px;
     float: right;
     -webkit-transition: 0.5s;
     -moz-transition: 0.5s;
@@ -371,7 +371,7 @@ opacity: 0;
     url(../font/Material-Design-Iconic-Font.ttf) format('truetype');
 }
 .icon-input{
-    font: 14px 'Material-Design-Iconic-Font';
+    font: 24px 'Material-Design-Iconic-Font';
     text-rendering:auto;
     display: block;
     position: absolute;
@@ -391,6 +391,7 @@ opacity: 0;
 }
 
 .btn-reg{
+    margin-top: 10px;
     font: 300 14px 'Roboto',sans-serif;
     color: white;
     border: 0;
@@ -405,6 +406,11 @@ opacity: 0;
     -o-transition: 0.5s;
     transition: 0.5s;
 }
+#submit-div{
+    height: 52px;
+}
+
+
 #art-create-acc{
     margin-bottom: 20px;
     font-size: 24px;
@@ -463,4 +469,15 @@ opacity: 0;
             width: 90%;
         }
     }
+}
+#error-page-div{
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+#error-page-div > h1{
+    color: #555;
+}
+#error-page-div > h2{
+    color: #444;
 }

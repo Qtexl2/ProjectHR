@@ -40,7 +40,10 @@ public class ProfileMysqlDAO implements ProfileDAO {
             "p.last_name, p.phone, p.english_level, p.age, p.gender, p.current_position, " +
             "p.describe, p.resume, p.photo, p.pre_interview, p.technical_interview, p.status_interview " +
             "FROM profile p WHERE p.email = ? AND  p.password=?";
-
+    private static final String SQL_SELECT_PROFILE_BY_EMAIL = "SELECT p.profile_id, p.email, p.role, p.first_name, " +
+            "p.last_name, p.phone, p.english_level, p.age, p.gender, p.current_position, " +
+            "p.describe, p.resume, p.photo, p.pre_interview, p.technical_interview, p.status_interview " +
+            "FROM profile p WHERE p.email = ?";
     private static final String SQL_SELECT_PROFILE = "SELECT p.profile_id, p.email, p.role, p.first_name, " +
             "p.last_name, p.phone, p.english_level, p.age, p.gender, p.current_position, " +
             "p.describe, p.resume, p.photo, p.pre_interview, p.technical_interview, p.status_interview " +
@@ -268,6 +271,26 @@ public class ProfileMysqlDAO implements ProfileDAO {
             closeStatement(connection,statement);
         }
         return profile;
+    }
+    @Override
+    public boolean checkFreeEmail(String email) throws DAOException{
+        boolean status = true;
+        PooledConnection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            statement = connection.prepareStatement(SQL_SELECT_PROFILE_BY_EMAIL);
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                status = false;
+            }
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception in method checkFreeEmail: " + e);
+        } finally {
+            closeStatement(connection,statement);
+        }
+        return status;
     }
 
     private Profile init(ResultSet resultSet) throws SQLException {
