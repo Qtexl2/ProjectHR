@@ -34,7 +34,7 @@
                         <span class="input-error" id="span-incorrect-login-pass"><fmt:message key="required"/> </span>
                     </div>
                     <div id="submit-div">
-                        <button type="submit" class="btn-reg" id="btn-reg-id"><fmt:message key="signIn"/> </button>
+                        <button type="submit" class="btn-reg"><fmt:message key="signIn"/> </button>
                     </div>
                     <h2><fmt:message key="signUp"/> </h2>
                 </form>
@@ -47,7 +47,7 @@
 </div>
 
 </div>
-    <script src="../js/jquery-1.9.0.js"></script>
-    <script src="../js/registration.js"></script>
+    <%--<script src="../js/jquery-1.9.0.js"></script>--%>
+    <%--<script src="../js/registration.js"></script>--%>
 </body>
 </html>

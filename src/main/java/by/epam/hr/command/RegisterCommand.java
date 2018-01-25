@@ -25,6 +25,7 @@ public class RegisterCommand implements Command {
     private static final String REGEXP_PASSWORD = "(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}";
     private ProfileService profileService;
 //TODO ПОСЛЕ АВТОРИЗАЦИИ СДЛЕАТЬ СОЗДАНИЕ АДМИНОВ
+
     public RegisterCommand(){
         profileService = new ProfileService();
     }

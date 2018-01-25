@@ -1,3 +1,4 @@
+<%@ page import="by.epam.hr.model.Profile" %>
 <!DOCTYPE html>
 <%@ page pageEncoding="UTF-8" isELIgnored="false" contentType="text/html; UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -6,6 +7,7 @@
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="text"/>
+<% Profile profile = (Profile)session.getAttribute("profile"); %>
 <header class="main-head">
     <div class="mobile-navbar">
         <div class="logo-img"></div>
@@ -14,8 +16,31 @@
                 <a href="#" id="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span id="navbar-profile-icon" ></span>
                 </a>
+
                 <ul class="account-menu">
-                    <li><a href=#><fmt:message key="account"/></a>
+                    <li>
+                        <%--<% if( profile == null ){--%>
+                            <%--out.write("<a href=#>Аккаунт</a>");--%>
+                        <%--} else if(profile.getFirstName() == null || profile.getLastName() == null) {--%>
+                            <%--out.write("<a href=#>" + profile.getEmail() + "</a>");--%>
+                        <%--}--%>
+                        <%--else {--%>
+                            <%--out.write("<a href=#>"+ profile.getFirstName() + " " + profile.getLastName() + "</a>");--%>
+                        <%--}%>--%>
+                            <a href=#>
+                        <c:choose>
+                            <c:when test="${empty sessionScope.profile}">
+                                <fmt:message key="account"/>
+                            </c:when>
+                            <c:when test="${empty sessionScope.profile.firstName && empty sessionScope.profile.lastName}">
+                                <c:out value="${sessionScope.profile.email}" />
+                            </c:when>
+                            <c:otherwise>
+                                <c:out value="${sessionScope.profile.firstName}" />
+                                <c:out value="${sessionScope.profile.lastName}" />
+                            </c:otherwise>
+                        </c:choose>
+                            </a>
                         <ul class="account-submenu drop-menu">
                             <li><a href=/controller?command=authPage><fmt:message key="login"/></a></li>
                             <li><a href=/controller?command=regPage><fmt:message key="registration"/></a></li>

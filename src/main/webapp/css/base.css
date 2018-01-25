@@ -40,12 +40,13 @@ header{
 }
 #navbar-profile-icon{
     background: url(../images/avatar.svg) no-repeat center;
-    margin-left: 4px;
+    margin: auto;
     display: block;
     height: 36px;
     width: 36px;
     border: 1px solid #643192;
     border-radius: 50%;
+
 }
 
 /* Список Account*/
