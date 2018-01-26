@@ -39,6 +39,15 @@ public class ProfileService {
         }
     }
 
+    public byte[] selectPhoto(Long id) throws ServiceException {
+
+        try {
+            return profileDAO.selectPhoto(id);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
 
 
 

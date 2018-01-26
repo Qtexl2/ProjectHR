@@ -34,11 +34,6 @@ public class ServletController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Command command = RequestHelper.getInstance().getCommand(request);
         String page = command.execute(request, response);
-//        if (request.getAttribute(Command.ATTR_PAGE) == Command.REDIRECT_PAGE) {
-        System.out.println(((List<Vacancy>) request.getAttribute("vacancies")));
-//            response.sendRedirect(page);
-//        }
-//        else if (request.getAttribute(Command.ATTR_PAGE) == Command.FORWARD_PAGE) {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
             dispatcher.forward(request, response);
 //

@@ -14,7 +14,9 @@ public class RequestHelper {
     public static final String REGISTRATION = "reg";
     public static final String REGISTRATION_PAGE = "regPage";
     public static final String AUTHORIZATION_PAGE = "authPage";
+    public static final String LOGOUT = "logout";
     public static final String AUTHORIZATION = "auth";
+    public static final String IMAGE = "img";
 
 
     private static AtomicBoolean requestHelperCreated = new AtomicBoolean(false);
@@ -34,6 +36,9 @@ public class RequestHelper {
         commands.put(REGISTRATION_PAGE, new RedirectToRegistrationCommand());
         commands.put(AUTHORIZATION_PAGE, new RedirectToAuthCommand());
         commands.put(AUTHORIZATION, new AuthorizationCommand());
+        commands.put(IMAGE, new ImageCommand());
+        commands.put(LOGOUT, new LogoutCommand());
+
     }
 
     public static RequestHelper getInstance(){

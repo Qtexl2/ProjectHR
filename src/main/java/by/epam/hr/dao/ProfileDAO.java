@@ -10,4 +10,5 @@ public interface ProfileDAO extends BaseDAO<Long, Profile> {
     Profile checkUser(String email, String password) throws DAOException;
     List<Profile> selectProfileHaveDialog(Long idReceiver) throws DAOException;
     boolean checkFreeEmail(String email) throws DAOException;
+    byte[] selectPhoto(Long id) throws DAOException;
 }

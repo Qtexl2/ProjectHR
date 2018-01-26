@@ -1,6 +1,8 @@
 package by.epam.hr.model;
 
 
+import java.sql.Blob;
+
 public class Profile extends Entity{
     private Long profileID;
     private String email;
@@ -14,14 +16,16 @@ public class Profile extends Entity{
     private Gender gender;
     private String currentPosition;
     private String describe;
-    private byte[] resume;
-    private byte[] photo;
+    private Blob resume;
+    private Blob photo;
     private String preInterview;
     private String technicalInterview;
     private Boolean statusInterview;
+    private String company;
 
     public Profile(String email, String password, Role role) {
         this.email = email;
+
         this.password = password;
         this.role = role;
     }
@@ -63,6 +67,15 @@ public class Profile extends Entity{
 
     public String getFirstName() {
         return firstName;
+    }
+
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
     }
 
     public void setFirstName(String firstName) {
@@ -125,19 +138,19 @@ public class Profile extends Entity{
         this.describe = describe;
     }
 
-    public byte[] getResume() {
+    public Blob getResume() {
         return resume;
     }
 
-    public void setResume(byte[] resume) {
+    public void setResume(Blob resume) {
         this.resume = resume;
     }
 
-    public byte[] getPhoto() {
+    public Blob getPhoto() {
         return photo;
     }
 
-    public void setPhoto(byte[] photo) {
+    public void setPhoto(Blob photo) {
         this.photo = photo;
     }
 

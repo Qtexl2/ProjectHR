@@ -1,4 +1,3 @@
-<%@ page import="by.epam.hr.model.Profile" %>
 <!DOCTYPE html>
 <%@ page pageEncoding="UTF-8" isELIgnored="false" contentType="text/html; UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -7,26 +6,28 @@
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="text"/>
-<% Profile profile = (Profile)session.getAttribute("profile"); %>
 <header class="main-head">
     <div class="mobile-navbar">
         <div class="logo-img"></div>
         <ul class="account">
             <li>
                 <a href="#" id="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span id="navbar-profile-icon" ></span>
+                    <c:choose>
+                        <c:when test="${empty sessionScope.profile}">
+                            <div class="div-photo"><img class="navbar-profile-icon" src="../images/avatar.svg"></div>
+                        </c:when>
+                        <c:when test="${empty sessionScope.profile.photo}">
+                            <div class="div-photo"><img class="navbar-profile-icon" src="../images/avatar.svg"></div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="div-photo"><img class="navbar-profile-icon" src="/images"> </div>
+                        </c:otherwise>
+                    </c:choose>
                 </a>
 
                 <ul class="account-menu">
                     <li>
-                        <%--<% if( profile == null ){--%>
-                            <%--out.write("<a href=#>Аккаунт</a>");--%>
-                        <%--} else if(profile.getFirstName() == null || profile.getLastName() == null) {--%>
-                            <%--out.write("<a href=#>" + profile.getEmail() + "</a>");--%>
-                        <%--}--%>
-                        <%--else {--%>
-                            <%--out.write("<a href=#>"+ profile.getFirstName() + " " + profile.getLastName() + "</a>");--%>
-                        <%--}%>--%>
+                        
                             <a href=#>
                         <c:choose>
                             <c:when test="${empty sessionScope.profile}">
@@ -42,8 +43,26 @@
                         </c:choose>
                             </a>
                         <ul class="account-submenu drop-menu">
-                            <li><a href=/controller?command=authPage><fmt:message key="login"/></a></li>
-                            <li><a href=/controller?command=regPage><fmt:message key="registration"/></a></li>
+                            <c:choose>
+                                <c:when test="${empty sessionScope.profile}">
+                                    <li><a href=/controller?command=authPage><fmt:message key="login"/></a></li>
+                                    <li><a href=/controller?command=regPage><fmt:message key="registration"/></a></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.profile.role == 'EMPLOYER'}">
+                                            <li><a href=/controller?command=profile><fmt:message key="profile"/></a></li>
+                                            <li><a href=/controller?command=logout><fmt:message key="logout"/></a></li>
+                                        </c:when>
+                                        <c:when test="${sessionScope.profile.role == 'CANDIDATE'}">
+                                            <li><a href=/controller?command=profile><fmt:message key="profile"/></a></li>
+                                            <li><a href=/controller?command=logout><fmt:message key="logout"/></a></li>
+                                        </c:when>
+
+                                    </c:choose>
+                                </c:otherwise>
+                            </c:choose>
+
                         </ul>
                     </li>
                 </ul>

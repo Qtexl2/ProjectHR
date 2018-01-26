@@ -13,10 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,25 +30,25 @@ public class ProfileMysqlDAO implements ProfileDAO {
 
     private static final String SQL_DELETE_PROFILE = "DELETE FROM profile WHERE profile.profile_id=?";
     private static final String SQL_SELECT_PROFILE_BY_ID = "SELECT p.profile_id, p.email, p.role, p.first_name, " +
-            "p.last_name, p.phone, p.english_level, p.age, p.gender, p.current_position, " +
+            "p.last_name, p.phone, p.english_level, p.age, p.gender, p.current_position, p.company, " +
             "p.describe, p.resume, p.photo, p.pre_interview, p.technical_interview, p.status_interview " +
             "FROM profile p WHERE p.profile_id = ? ";
     private static final String SQL_SELECT_PROFILE_BY_EMAIL_AND_PASSWORD= "SELECT p.profile_id, p.email, p.role, p.first_name, " +
-            "p.last_name, p.phone, p.english_level, p.age, p.gender, p.current_position, " +
+            "p.last_name, p.phone, p.english_level, p.age, p.gender, p.current_position, p.company, " +
             "p.describe, p.resume, p.photo, p.pre_interview, p.technical_interview, p.status_interview " +
             "FROM profile p WHERE p.email = ? AND  p.password=?";
     private static final String SQL_SELECT_PROFILE_BY_EMAIL = "SELECT p.profile_id, p.email, p.role, p.first_name, " +
-            "p.last_name, p.phone, p.english_level, p.age, p.gender, p.current_position, " +
+            "p.last_name, p.phone, p.english_level, p.age, p.gender, p.current_position, p.company, " +
             "p.describe, p.resume, p.photo, p.pre_interview, p.technical_interview, p.status_interview " +
             "FROM profile p WHERE p.email = ?";
     private static final String SQL_SELECT_PROFILE = "SELECT p.profile_id, p.email, p.role, p.first_name, " +
-            "p.last_name, p.phone, p.english_level, p.age, p.gender, p.current_position, " +
+            "p.last_name, p.phone, p.english_level, p.age, p.gender, p.current_position, p.company, " +
             "p.describe, p.resume, p.photo, p.pre_interview, p.technical_interview, p.status_interview " +
             "FROM profile p ";
     private static final String SQL_UPDATE_PROFILE_BY_ID = "UPDATE profile p SET p.role=?, p.first_name=?, p.last_name=?, " +
             "p.phone=?, p.english_level=?, p.age=?, p.gender=?, p.current_position=?, " +
-            "p.describe=?, p.pre_interview=?, p.technical_interview=?, p.status_interview=? WHERE p.profile_id=? ";
-
+            "p.describe=?, p.pre_interview=?, p.technical_interview=?, p.status_interview=?, p.company=? WHERE p.profile_id=? ";
+    private static final String SQL_SELECT_PHOTO = "SELECT profile.photo FROM profile WHERE profile.profile_id =?";
     @Override
     public boolean delete(Long id) throws DAOException {
         return deleteQuery(id,SQL_DELETE_PROFILE);
@@ -82,12 +79,13 @@ public class ProfileMysqlDAO implements ProfileDAO {
 
     public static void main(String[] args) throws DAOException, SQLException {
         ProfileMysqlDAO profileMysqlDAO = new ProfileMysqlDAO();
-        Profile profile = new Profile("pds@gmail.com","fsd", Role.CANDIDATE);
+//        profileMysqlDAO.readBLOB();
+//        Profile profile = new Profile("pds@gmail.com","fsd", Role.CANDIDATE);
 //        profileMysqlDAO.insert(profile);
 //        profileMysqlDAO.insert(profile1);
 //        System.out.println(profileMysqlDAO.checkUser("gleb@gmail.com","saasd"));
-        profileMysqlDAO.delete(9L);
-        System.out.println(profileMysqlDAO.selectAll());
+//        profileMysqlDAO.delete(9L);
+//        System.out.println(profileMysqlDAO.selectAll());
         ConnectionPool.getInstance().destroy();
     }
 
@@ -114,30 +112,22 @@ public class ProfileMysqlDAO implements ProfileDAO {
             closeStatement(connection,statement);
         }
     }
-    void readBLOB() throws DAOException {
-        String foto_sql = "SELECT profile.foto FROM profile WHERE profile.profile_id =1";
-        FileOutputStream fis = null;
+    public byte[] selectPhoto(Long id) throws DAOException {
         PooledConnection connection = null;
         PreparedStatement statement = null;
-        try{
+        byte[] out = null;
+        try {
             connection = ConnectionPool.getInstance().getConnection();
-            File file = new File("");/////////
-            fis = new FileOutputStream(file);
-            statement = connection.prepareStatement(foto_sql);
+            statement = connection.prepareStatement(SQL_SELECT_PHOTO);
+            statement.setLong(1,id);
             ResultSet res = statement.executeQuery();
             while (res.next()){
-                InputStream is = res.getBinaryStream("foto");
-                byte[] buffer = new byte[1024];
-                while (is.read(buffer) > 0){
-                    fis.write(buffer);
-                }
+                Blob imageBlob = res.getBlob("photo");
+                out = imageBlob.getBytes(1,(int)imageBlob.length());
             }
-
-        } catch (ConnectionPoolException | SQLException e) {
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            return out;
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("Exception in method selectPhoto",e);
         } finally {
             closeStatement(connection,statement);
         }
@@ -238,7 +228,8 @@ public class ProfileMysqlDAO implements ProfileDAO {
             statement.setString(10, item.getPreInterview());
             statement.setString(11, item.getTechnicalInterview());
             statement.setBoolean(12, item.getStatusInterview());
-            statement.setLong(13, item.getProfileID());
+            statement.setString(13, item.getCompany());
+            statement.setLong(14, item.getProfileID());
             statement.executeUpdate();
             status = true;
         } catch (ConnectionPoolException | SQLException e) {
@@ -300,6 +291,7 @@ public class ProfileMysqlDAO implements ProfileDAO {
         profile.setRole(Role.valueOf(resultSet.getString("role").toUpperCase()));
         profile.setFirstName(resultSet.getString("first_name"));
         profile.setLastName(resultSet.getString("last_name"));
+        profile.setCompany(resultSet.getString("company"));
         profile.setPhone(resultSet.getString("phone"));
         String enLvl = resultSet.getString("english_level");
         String gender = resultSet.getString("gender");
@@ -315,7 +307,8 @@ public class ProfileMysqlDAO implements ProfileDAO {
         profile.setPreInterview(resultSet.getString("pre_interview"));
         profile.setTechnicalInterview(resultSet.getString("technical_interview"));
         profile.setStatusInterview(resultSet.getBoolean("status_interview"));
-//TODO resume and photo  Profile init
+        profile.setPhoto(resultSet.getBlob("photo"));
+        profile.setResume(resultSet.getBlob("resume"));
         return profile;
     }
 }

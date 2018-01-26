@@ -38,16 +38,20 @@ header{
     top: 10px;
     position: relative;
 }
-#navbar-profile-icon{
-    background: url(../images/avatar.svg) no-repeat center;
-    margin: auto;
-    display: block;
-    height: 36px;
-    width: 36px;
-    border: 1px solid #643192;
-    border-radius: 50%;
+.navbar-profile-icon{
 
+    display: block;
+    height: 43px;
+    margin-left: -30%;
 }
+.div-photo{
+    width: 45px;
+    height: 45px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin: auto;
+}
+
 
 /* Список Account*/
 .account-menu{
