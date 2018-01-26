@@ -10,11 +10,16 @@
     float: left;
     background: white;
     padding-top: 21px;
-
 }
-.profile-div-image > button{
-    display: block;
+#profile-input-wrapper{
+    overflow: hidden;
     margin: auto;
+    width: 140px;
+}
+
+.btn-profile-update-photo{
+    display: block;
+    margin: auto auto auto -115px;
     color: #4f2773;
     background: white;
     border: 1px #4f2773 solid;
@@ -25,7 +30,7 @@
     transition: 0.5s
 }
 
-.profile-div-image > button:hover{
+.btn-profile-update-photo:hover{
     background: #765b9e;
     cursor: pointer;
 
@@ -107,5 +112,15 @@
 .wrapper-profile > h1{
     width: min-content;
     color: #555;
-    margin: auto auto 10px;
+    margin: auto auto;
+}
+
+.wrapper-profile > h2{
+    width: fit-content;
+    color: red;
+    margin: auto auto;
+    font-size: 12px;
+}
+#profile-input-success{
+    color: green;
 }

@@ -15,7 +15,7 @@ public class ServletTest extends javax.servlet.http.HttpServlet {
         response.setContentType("text/plain");
         request.setAttribute("user", "Administrator");
         int id = Integer.parseInt(request.getParameter("id"));
-        String name = request.getParameter("name");
+        String name = request.getParameter("firstName");
         PrintWriter out = response.getWriter();
         try {
             Connection cn =  setDriver();

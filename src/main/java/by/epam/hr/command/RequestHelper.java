@@ -11,6 +11,8 @@ public class RequestHelper {
 
     public static final String SEARCH_JOB_PARAM = "searchJob";
     public static final String VACANCY = "vacancy";
+    public static final String PROFILE_PAGE = "profile";
+    public static final String PROFILE_UPDATE = "profileUpdate";
     public static final String REGISTRATION = "reg";
     public static final String REGISTRATION_PAGE = "regPage";
     public static final String AUTHORIZATION_PAGE = "authPage";
@@ -38,7 +40,8 @@ public class RequestHelper {
         commands.put(AUTHORIZATION, new AuthorizationCommand());
         commands.put(IMAGE, new ImageCommand());
         commands.put(LOGOUT, new LogoutCommand());
-
+        commands.put(PROFILE_PAGE, new RedirectToProfileCommand());
+        commands.put(PROFILE_UPDATE, new ProfileUpdateCommand());
     }
 
     public static RequestHelper getInstance(){

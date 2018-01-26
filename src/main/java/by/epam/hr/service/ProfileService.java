@@ -48,7 +48,21 @@ public class ProfileService {
         }
     }
 
+    public boolean updateProfile(Profile profile) throws ServiceException {
+        try {
+            return profileDAO.update(profile);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
 
+    public boolean updateBaseProfile(Profile profile) throws ServiceException {
+        try {
+            return profileDAO.updateBaseProfile(profile);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
 
 
 }

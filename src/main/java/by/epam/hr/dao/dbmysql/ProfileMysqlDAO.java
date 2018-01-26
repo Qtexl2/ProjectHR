@@ -48,6 +48,11 @@ public class ProfileMysqlDAO implements ProfileDAO {
     private static final String SQL_UPDATE_PROFILE_BY_ID = "UPDATE profile p SET p.role=?, p.first_name=?, p.last_name=?, " +
             "p.phone=?, p.english_level=?, p.age=?, p.gender=?, p.current_position=?, " +
             "p.describe=?, p.pre_interview=?, p.technical_interview=?, p.status_interview=?, p.company=? WHERE p.profile_id=? ";
+    private static final String SQL_UPDATE_BASE_PROFILE_BY_ID = "UPDATE profile p SET p.first_name=?, p.last_name=?, " +
+            "p.phone=?, p.age=?, p.gender=?, p.current_position=?, p.describe=?, p.company=? WHERE p.profile_id=? ";
+
+
+
     private static final String SQL_SELECT_PHOTO = "SELECT profile.photo FROM profile WHERE profile.profile_id =?";
     @Override
     public boolean delete(Long id) throws DAOException {
@@ -206,7 +211,36 @@ public class ProfileMysqlDAO implements ProfileDAO {
         }
         return profiles;
     }
+//"UPDATE profile p SET p.first_name=?, p.last_name=?, " +
+//            "p.phone=?, p.age=?, p.gender=?, p.current_position=?, p.describe=?, p.company=? WHERE p.profile_id=? ";
+    @Override
+    public boolean updateBaseProfile(Profile item) throws DAOException {
+        checkInput(item);
+        boolean status = false;
+        PooledConnection connection = null;
+        PreparedStatement statement = null;
+        try{
+            connection = ConnectionPool.getInstance().getConnection();
+            statement = connection.prepareStatement(SQL_UPDATE_BASE_PROFILE_BY_ID);
+            statement.setString(1, item.getFirstName());
+            statement.setString(2, item.getLastName());
+            statement.setString(3, item.getPhone());
+            statement.setInt(4, item.getAge());
+            statement.setString(5, item.getGender().name());
+            statement.setString(6, item.getCurrentPosition());
+            statement.setString(7, item.getDescribe());
+            statement.setString(8, item.getCompany());
+            statement.setLong(9, item.getProfileID());
 
+            statement.executeUpdate();
+            status = true;
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception in method updateBaseProfile: ",e);
+        } finally {
+            closeStatement(connection,statement);
+        }
+        return status;
+    }
     @Override
     public boolean update(Profile item) throws DAOException {
         checkInput(item);

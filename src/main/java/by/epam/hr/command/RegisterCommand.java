@@ -66,8 +66,6 @@ public class RegisterCommand implements Command {
         request.setAttribute("status",status);
         request.setAttribute("statusReg",statusReg);
 
-        System.out.println(status);
-        System.out.println("ДОБАВЛЕН " + statusReg);
 
         List<String> answer = Arrays.asList(status,String.valueOf(statusReg));
         return new Gson().toJson(answer);
