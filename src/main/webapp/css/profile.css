@@ -1,0 +1,111 @@
+.profile-img-photo{
+    width:100%;
+    display:block;
+    float:left;
+    min-width: 150px;
+    margin-bottom: 5px;
+}
+.profile-div-image{
+    width: 40%;
+    float: left;
+    background: white;
+    padding-top: 21px;
+
+}
+.profile-div-image > button{
+    display: block;
+    margin: auto;
+    color: #4f2773;
+    background: white;
+    border: 1px #4f2773 solid;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s
+}
+
+.profile-div-image > button:hover{
+    background: #765b9e;
+    cursor: pointer;
+
+}
+.profile-div{
+    float:left;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 100%;
+}
+.profile-input-data{
+    padding-left: 10px;
+    float:left;
+    height: min-content;
+    width: 58%;
+}
+.main-profile{
+    height: 100%;
+}
+.profile-section{
+    height: 100%;
+}
+.wrapper-profile{
+    height:100%;
+    width: 50%;
+    background: white;
+    margin: auto;
+    padding: 10px;
+}
+.profile-section{
+    background: #f5f5f5;
+}
+.profile-div > label{
+    display: block;
+    font-size: 14px;
+    color: #444;
+}
+.profile-div-describe{
+    margin-top: 10px;
+}
+.profile-div > input{
+    height:20px;
+    width: 99%;
+}
+.profile-div-sex > label{
+    display: inline;
+}
+.profile-div-sex > label:first-child{
+    display: block;
+}
+.profile-div-sex > input{
+    width: 15px;
+    height: 11px;
+}
+#profile-input-describe{
+    width: 99%;
+    height: 200px;
+    resize: none;
+}
+.btn-profile-update{
+    background: #4f2773;
+    color: white;
+    border: 1px #4f2773 solid ;
+    display: block;
+    margin: auto;
+    padding: 10px;
+    font-size: 14px;
+    float: right;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s
+}
+.btn-profile-update:hover{
+    background: #765b9e;
+    cursor: pointer;
+}
+.wrapper-profile > h1{
+    width: min-content;
+    color: #555;
+    margin: auto auto 10px;
+}
