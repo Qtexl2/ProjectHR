@@ -24,7 +24,8 @@
                 <h2><fmt:message key="positionDescription"/>${vac.vacancyTitle} <fmt:message key="at"/> ${vac.company}</h2>
                 <p>${vac.vacancyDescription}</p>
                 <form action="/controller" method="post">
-                    <button type="submit" class="btn"><fmt:message key="respond"/></button>
+                    <input type="text" name="controller" value="vacancyRespond" hidden>
+                    <button type="submit" class="btn" name="idVac" value="${vac.vacancyID}"><fmt:message key="respond"/></button>
                 </form>
 
             </div>
@@ -34,6 +35,5 @@
         <div class="bottom-logo"></div>
     </footer>
 </div>
-<script src="../js/front.js"></script>
 </body>
 </html>

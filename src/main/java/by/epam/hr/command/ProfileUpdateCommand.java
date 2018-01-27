@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ProfileUpdateCommand implements Command {
     private static final String MESSAGE = "message";
+    private static final String MESSAGE_STATUS = "messageStatus";
     private static final String PARAM_NAME_FIRSTNAME = "firstName";
     private static final String PARAM_NAME_LASTNAME = "lastName";
     private static final String PARAM_NAME_PHONE = "phone";
@@ -27,6 +28,7 @@ public class ProfileUpdateCommand implements Command {
     private static final String REGEXP_COMPANY = "^[\\w\\dа-яёА-ЯЁ\\s-]{0,99}$";
     private static final String REGEXP_DESCRIBE = "^[\\w\\W\\dа-яёА-ЯЁ\\s-]{0,500}$";
     private ProfileService profileService;
+
     public ProfileUpdateCommand(){
         profileService = new ProfileService();
     }
@@ -52,6 +54,7 @@ public class ProfileUpdateCommand implements Command {
                 if(!firstName.matches(REGEXP_NAME)){
                     message = "Incorrect First Name";
                     request.setAttribute(MESSAGE,message);
+                    request.setAttribute(MESSAGE_STATUS,true);
                     return page;
                 }
 
@@ -64,6 +67,7 @@ public class ProfileUpdateCommand implements Command {
                 if(!lastName.matches(REGEXP_NAME)){
                     message = "Incorrect Last Name";
                     request.setAttribute(MESSAGE,message);
+                    request.setAttribute(MESSAGE_STATUS,true);
                     return page;
                 }
             }
@@ -74,6 +78,7 @@ public class ProfileUpdateCommand implements Command {
             if(phone != null){
                 if(!phone.matches(REGEXP_PHONE)){
                     message = "Incorrect Phone number";
+                    request.setAttribute(MESSAGE_STATUS,true);
                     request.setAttribute(MESSAGE,message);
                     return page;
                 }
@@ -86,6 +91,8 @@ public class ProfileUpdateCommand implements Command {
                 if(!ageStr.matches(REGEXP_AGE)){
                     message = "Incorrect Age";
                     request.setAttribute(MESSAGE,message);
+                    request.setAttribute(MESSAGE_STATUS,true);
+
                     return page;
                 }
                 else {
@@ -99,6 +106,7 @@ public class ProfileUpdateCommand implements Command {
             if(genderStr != null){
                 if(!genderStr.matches(REGEXP_GENDER)){
                     message = "Incorrect Gender";
+                    request.setAttribute(MESSAGE_STATUS,true);
                     request.setAttribute(MESSAGE,message);
                     return page;
                 }
@@ -113,6 +121,7 @@ public class ProfileUpdateCommand implements Command {
             if(position != null){
                 if(!position.matches(REGEXP_POSITION)){
                     message = "Incorrect Position";
+                    request.setAttribute(MESSAGE_STATUS,true);
                     request.setAttribute(MESSAGE,message);
                     return page;
                 }
@@ -124,6 +133,7 @@ public class ProfileUpdateCommand implements Command {
             if(company != null){
                 if(!company.matches(REGEXP_COMPANY)){
                     message = "Incorrect Company";
+                    request.setAttribute(MESSAGE_STATUS,true);
                     request.setAttribute(MESSAGE,message);
                     return page;
                 }
@@ -135,6 +145,7 @@ public class ProfileUpdateCommand implements Command {
             if(describe != null){
                 if(!describe.matches(REGEXP_DESCRIBE)){
                     message = "Incorrect Describe";
+                    request.setAttribute(MESSAGE_STATUS,true);
                     request.setAttribute(MESSAGE,message);
                     return page;
                 }
@@ -154,6 +165,14 @@ public class ProfileUpdateCommand implements Command {
                 if(!profileService.updateBaseProfile(profile)){
                     message = "Incorrect data";
                     request.setAttribute(MESSAGE,message);
+                    request.setAttribute(MESSAGE_STATUS,true);
+
+                }
+                else{
+                    message = "Success";
+                    request.setAttribute(MESSAGE,message);
+                    request.setAttribute(MESSAGE_STATUS,false);
+
                 }
             } catch (ServiceException e) {
                 e.printStackTrace();

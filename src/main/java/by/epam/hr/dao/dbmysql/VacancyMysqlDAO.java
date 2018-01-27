@@ -27,6 +27,11 @@ public class VacancyMysqlDAO implements VacancyDAO {
     private static final String SQL_INSERT_VACANCY = "INSERT INTO vacancy " +
             "(vacancy.vacancy_title, vacancy.vacancy_description, vacancy.vacancy_location, vacancy.company) VALUES(?,?,?,?)";
 
+    private static final String SQL_INSERT_VACANCY_AND_PROFILE = "INSERT INTO profile_has_vacancy  " +
+            "(profile_has_vacancy.profile_user_id, profile_has_vacancy.vacancy_vacancy_id) VALUES (?, ?) ";
+
+
+
     private static final String SQL_SELECT_ALL_VACANCY = "SELECT  vacancy.vacancy_id, vacancy.vacancy_title, " +
             "vacancy.vacancy_description, vacancy.vacancy_location, vacancy.vacancy_status, vacancy.company FROM vacancy ";
 
@@ -36,6 +41,7 @@ public class VacancyMysqlDAO implements VacancyDAO {
     private static final String SQL_SELECT_VACANCY_BY_ID = "SELECT  vacancy.vacancy_id, vacancy.vacancy_title, " +
             "vacancy.vacancy_description, vacancy.vacancy_location, vacancy.vacancy_status, vacancy.company FROM vacancy " +
             "WHERE vacancy.vacancy_id=?";
+
     private static final String SQL_SELECT_BY_TITLE_AND_LOCAL_AND_DESC = "SELECT v.vacancy_id, v.vacancy_title, " +
             "v.vacancy_description, v.vacancy_location, v.company, v.vacancy_status FROM hr.vacancy v WHERE " +
             "(v.vacancy_title LIKE concat('%',replace(?,' ','%'),'%') " +
@@ -113,6 +119,7 @@ public class VacancyMysqlDAO implements VacancyDAO {
         }
         return vacancies;
     }
+
     @Override
     public boolean insert(Vacancy item) throws DAOException{
         checkInput(item);
@@ -137,6 +144,25 @@ public class VacancyMysqlDAO implements VacancyDAO {
         return status;
     }
 
+    public boolean insertVacancyAndProfile(Long idProfile, Long idVacancy) throws DAOException{
+        boolean status = false;
+        PooledConnection connection = null;
+        PreparedStatement statement = null;
+        try{
+            connection = ConnectionPool.getInstance().getConnection();
+            statement = connection.prepareStatement(SQL_INSERT_VACANCY_AND_PROFILE);
+            statement.setLong(1, idProfile);
+            statement.setLong(2, idVacancy);
+            statement.executeUpdate();
+            status = true;
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception in method insertVacancyAndProfile: ",e);
+        } finally {
+            closeStatement(connection,statement);
+        }
+        return status;
+    }
     @Override
     public boolean update(Vacancy item) throws DAOException {
         checkInput(item);

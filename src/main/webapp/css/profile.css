@@ -124,3 +124,13 @@
 #profile-input-success{
     color: green;
 }
+#profile-h2-upload{
+    font-size: 12px;
+    color: red;
+    width: fit-content;
+    margin: auto;
+    opacity: 0;
+}
+.profile-h2-upload-opacity{
+    opacity: 1;
+}

@@ -50,6 +50,7 @@ public class ProfileMysqlDAO implements ProfileDAO {
             "p.describe=?, p.pre_interview=?, p.technical_interview=?, p.status_interview=?, p.company=? WHERE p.profile_id=? ";
     private static final String SQL_UPDATE_BASE_PROFILE_BY_ID = "UPDATE profile p SET p.first_name=?, p.last_name=?, " +
             "p.phone=?, p.age=?, p.gender=?, p.current_position=?, p.describe=?, p.company=? WHERE p.profile_id=? ";
+    private static final String SQL_UPDATE_PHOTO = "UPDATE profile p SET p.photo=? WHERE p.profile_id=? ";
 
 
 
@@ -94,28 +95,33 @@ public class ProfileMysqlDAO implements ProfileDAO {
         ConnectionPool.getInstance().destroy();
     }
 
-    public  void insertFoto() throws DAOException, SQLException {
-        String foto_sql = "UPDATE profile p SET p.foto=? WHERE p.profile_id=1 ";
+    public  boolean updatePhoto(Long id, InputStream is) throws DAOException{
         FileInputStream fis = null;
+        boolean status = false;
         PooledConnection connection = null;
         PreparedStatement statement = null;
         try{
             connection = ConnectionPool.getInstance().getConnection();
             connection.setAutoCommit(false);
-            File file = new File("src/main/resources/123.jpg");
-            fis = new FileInputStream(file);
-            statement = connection.prepareStatement(foto_sql);
-            statement.setBinaryStream(1,fis, file.length());
+            statement = connection.prepareStatement(SQL_UPDATE_PHOTO);
+            statement.setBinaryStream(1,is);
+            statement.setLong(2,id);
             statement.executeUpdate();
             connection.commit();
+            status =true;
 
         } catch (ConnectionPoolException | SQLException e) {
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            connection.setAutoCommit(false);
+            throw new DAOException("Exception in method selectPhoto",e);
+        }
+        finally {
+            try {
+                connection.setAutoCommit(false);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             closeStatement(connection,statement);
         }
+        return status;
     }
     public byte[] selectPhoto(Long id) throws DAOException {
         PooledConnection connection = null;
@@ -211,8 +217,6 @@ public class ProfileMysqlDAO implements ProfileDAO {
         }
         return profiles;
     }
-//"UPDATE profile p SET p.first_name=?, p.last_name=?, " +
-//            "p.phone=?, p.age=?, p.gender=?, p.current_position=?, p.describe=?, p.company=? WHERE p.profile_id=? ";
     @Override
     public boolean updateBaseProfile(Profile item) throws DAOException {
         checkInput(item);

@@ -10,4 +10,5 @@ public interface VacancyDAO extends BaseDAO<Long, Vacancy> {
     boolean changeStatus(Long id) throws DAOException;
     List<Vacancy> selectActualVacancy() throws DAOException;
     List<Vacancy> selectVacancyByLocAndTitle(String job, String location) throws DAOException;
+    boolean insertVacancyAndProfile(Long idProfile, Long idVacancy) throws DAOException;
 }

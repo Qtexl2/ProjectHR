@@ -14,11 +14,13 @@ public class RequestHelper {
     public static final String PROFILE_PAGE = "profile";
     public static final String PROFILE_UPDATE = "profileUpdate";
     public static final String REGISTRATION = "reg";
+    public static final String VACANCY_RESPOND = "vacancyRespond";
     public static final String REGISTRATION_PAGE = "regPage";
     public static final String AUTHORIZATION_PAGE = "authPage";
     public static final String LOGOUT = "logout";
     public static final String AUTHORIZATION = "auth";
     public static final String IMAGE = "img";
+    public static final String IMAGE_UPDATE = "imgUpd";
 
 
     private static AtomicBoolean requestHelperCreated = new AtomicBoolean(false);
@@ -42,6 +44,8 @@ public class RequestHelper {
         commands.put(LOGOUT, new LogoutCommand());
         commands.put(PROFILE_PAGE, new RedirectToProfileCommand());
         commands.put(PROFILE_UPDATE, new ProfileUpdateCommand());
+        commands.put(IMAGE_UPDATE, new UploadImageCommand());
+        commands.put(VACANCY_RESPOND, new VacancyRespondCommand());
     }
 
     public static RequestHelper getInstance(){

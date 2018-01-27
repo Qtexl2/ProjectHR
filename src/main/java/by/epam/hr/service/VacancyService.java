@@ -27,5 +27,13 @@ public class VacancyService {
         }
     }
 
+    public boolean insertVacandyAndProfile(Long idProfile, Long id) throws ServiceException {
+        try{
+            return vacancyDAO.insertVacancyAndProfile(idProfile, id);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
 
 }

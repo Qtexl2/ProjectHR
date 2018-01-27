@@ -1,7 +1,6 @@
 package by.epam.hr.controller;
 
-import by.epam.hr.command.Command;
-import by.epam.hr.command.RequestHelper;
+import by.epam.hr.dispatcher.PageDispatcher;
 import by.epam.hr.exception.ServiceException;
 import by.epam.hr.model.Profile;
 import by.epam.hr.service.ProfileService;
@@ -26,21 +25,32 @@ public class ImageController extends HttpServlet {
         processRequest(request, response);
 
     }
-
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("image/jpeg");
-        ProfileService profileService = new ProfileService();
         Profile profile = (Profile) request.getSession().getAttribute("profile");
-        Long id = profile.getProfileID();
-        try {
-            byte[] out = profileService.selectPhoto(id);
-            response.setContentLength(out.length);
-            ServletOutputStream outputStream = response.getOutputStream();
-            outputStream.write(out);
-            outputStream.close();
-
-        } catch (ServiceException e) {
-            e.printStackTrace();
+        if(profile != null) {
+            ProfileService profileService = new ProfileService();
+            Long id = profile.getProfileID();
+            ServletOutputStream outputStream = null;
+            try {
+                byte[] out = profileService.selectPhoto(id);
+                response.setContentLength(out.length);
+                outputStream = response.getOutputStream();
+                outputStream.write(out);
+            } catch (ServiceException e) {
+                e.printStackTrace();
+            }
+            finally {
+                if(outputStream != null){
+                    outputStream.close();
+                }
+            }
         }
+        else{
+            String page = PageDispatcher.getInstance().getProperty(PageDispatcher.MAIN_PAGE_PATH);
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+            dispatcher.forward(request, response);
+        }
+
     }
 }

@@ -21,14 +21,18 @@
         <section class="profile-section">
             <div class="wrapper-profile">
                 <h1><fmt:message key="profile"/></h1>
-                <c:choose>
-                    <c:when test="${not empty message}">
-                        <h2 id="profile-input-error">(${message})</h2>
-                    </c:when>
-                    <c:otherwise>
-                        <h2 id="profile-input-success">(Success)</h2>
-                    </c:otherwise>
-                </c:choose>
+                    <c:choose>
+                        <c:when test="${messageStatus == 'true'}">
+                            <c:if test="${not empty message}">
+                                <h2 id="profile-input-error">(${message})</h2>
+                            </c:if>
+                        </c:when>
+                        <c:otherwise>
+                            <c:if test="${not empty message}">
+                                <h2 id="profile-input-success">(${message})</h2>
+                            </c:if>
+                        </c:otherwise>
+                    </c:choose>
                     <div class="profile-div-image">
                         <img class="profile-img-photo"
                             <c:choose>
@@ -38,6 +42,7 @@
                         <div id="profile-input-wrapper">
                             <input type="file" class="btn-profile-update-photo" value="<fmt:message key="uploadPhoto"/> "/>
                         </div>
+                        <h2 id="profile-h2-upload"><fmt:message key="fileToolarge"/></h2>
                     </div>
                 <form class="profile-form" method="post" action="/controller" >
                     <input name="command" value="profileUpdate" hidden>
@@ -131,7 +136,8 @@
         <div class="bottom-logo"></div>
     </footer>
 </div>
-
+    <script src="../js/jquery-1.9.0.js"></script>
+    <script src="../js/profile.js"></script>
 </div>
 </body>
 </html>

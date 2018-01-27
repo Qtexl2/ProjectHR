@@ -3,6 +3,7 @@ package by.epam.hr.dao;
 import by.epam.hr.exception.DAOException;
 import by.epam.hr.model.Profile;
 
+import java.io.InputStream;
 import java.util.List;
 
 public interface ProfileDAO extends BaseDAO<Long, Profile> {
@@ -12,4 +13,5 @@ public interface ProfileDAO extends BaseDAO<Long, Profile> {
     boolean checkFreeEmail(String email) throws DAOException;
     byte[] selectPhoto(Long id) throws DAOException;
     boolean updateBaseProfile(Profile item) throws DAOException;
+    boolean updatePhoto(Long id, InputStream photo) throws DAOException;
 }
