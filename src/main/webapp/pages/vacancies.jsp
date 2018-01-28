@@ -20,8 +20,7 @@
         <section class="vacancy-result">
             <c:forEach var="vacancy" items="${vacancies}">
                 <div class="vacancy-result-div">
-                    <a class="vacancy-title" href="/controller?command=vacancy&vacancyId=${vacancy.vacancyID}">${vacancy.vacancyTitle}</a>
-
+                    <a class="vacancy-title"  target="_blank" href="/controller?command=vacancy&vacancyId=${vacancy.vacancyID}">${vacancy.vacancyTitle}</a>
                     <div>
                         <p>${vacancy.company}</p>
                         <i class="location-icon"></i>
@@ -35,6 +34,5 @@
         <div class="bottom-logo"></div>
     </footer>
 </div>
-<%--<script src="../js/front.js"></script>--%>
 </body>
 </html>

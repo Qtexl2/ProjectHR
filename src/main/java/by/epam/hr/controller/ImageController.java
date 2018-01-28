@@ -27,10 +27,13 @@ public class ImageController extends HttpServlet {
     }
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("image/jpeg");
+        String idStr = request.getParameter("id");
+        RequestDispatcher dispatcher;
         Profile profile = (Profile) request.getSession().getAttribute("profile");
-        if(profile != null) {
+        String page;
+        if(profile != null && idStr !=null && profile.getProfileID() == Long.parseLong(idStr)) {
             ProfileService profileService = new ProfileService();
-            Long id = profile.getProfileID();
+            Long id = Long.parseLong(idStr);
             ServletOutputStream outputStream = null;
             try {
                 byte[] out = profileService.selectPhoto(id);
@@ -38,7 +41,9 @@ public class ImageController extends HttpServlet {
                 outputStream = response.getOutputStream();
                 outputStream.write(out);
             } catch (ServiceException e) {
-                e.printStackTrace();
+                page = PageDispatcher.getInstance().getProperty(PageDispatcher.PAGE_404_PATH);
+                dispatcher = getServletContext().getRequestDispatcher(page);
+                dispatcher.forward(request, response);
             }
             finally {
                 if(outputStream != null){
@@ -47,8 +52,8 @@ public class ImageController extends HttpServlet {
             }
         }
         else{
-            String page = PageDispatcher.getInstance().getProperty(PageDispatcher.MAIN_PAGE_PATH);
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+            page = PageDispatcher.getInstance().getProperty(PageDispatcher.MAIN_PAGE_PATH);
+            dispatcher = getServletContext().getRequestDispatcher(page);
             dispatcher.forward(request, response);
         }
 

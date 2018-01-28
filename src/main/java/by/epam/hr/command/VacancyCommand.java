@@ -43,6 +43,7 @@ public class VacancyCommand implements Command {
         else {
             page = PageDispatcher.getInstance().getProperty(PageDispatcher.PAGE_404_PATH);
         }
+        request.setAttribute(ATTR_PAGE,FORWARD_PAGE);
         return page;
     }
 }

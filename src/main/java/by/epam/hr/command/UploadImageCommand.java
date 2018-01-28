@@ -4,6 +4,7 @@ import by.epam.hr.exception.ServiceException;
 import by.epam.hr.model.Profile;
 import by.epam.hr.service.ProfileService;
 import com.google.gson.Gson;
+import com.mysql.jdbc.Blob;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +24,7 @@ public class UploadImageCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String message = null;
-        Profile profile = (Profile) request.getSession().getAttribute("profile");
+        Profile profile = (Profile) request.getSession(false).getAttribute(PROFILE);
         if(profile != null){
             try {
                 Part part = request.getPart(ATTR_IMG);
@@ -33,7 +34,8 @@ public class UploadImageCommand implements Command {
                 else if(part.getSize() < MAX_FILE_SIZE) {
                     try (InputStream is = part.getInputStream()) {
                         profileService.updatePhoto(profile.getProfileID(), is);
-
+                        profile.setPhoto(" ");
+                        request.getSession(false).setAttribute(PROFILE,profile);
                     } catch (ServiceException e) {
                         e.printStackTrace();
                     }
@@ -48,7 +50,7 @@ public class UploadImageCommand implements Command {
         else {
             message = "Session is over";
         }
-
+        request.setAttribute(ATTR_PAGE,JSON);
         return message;
     }
 }

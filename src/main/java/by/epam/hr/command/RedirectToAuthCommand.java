@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 public class RedirectToAuthCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        request.setAttribute(ATTR_PAGE,FORWARD_PAGE);
         return PageDispatcher.getInstance().getProperty(PageDispatcher.AUTHORIZATION_PAGE_PATH);
-
     }
 }

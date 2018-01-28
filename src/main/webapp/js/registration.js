@@ -21,7 +21,7 @@
             $.ajax({
                 type: 'POST',
                 data: {command: command.val(), email: email.val(), password: password.val(), role: role.val()},
-                url: '/ajax',
+                url: '/controller',
                 success: function (data) {
                     data = JSON.parse(data);
                     message.innerHTML = data[0];
@@ -29,10 +29,10 @@
                     email.val('');
                     if (data[1] === "true") {
                         message.classList.add("input-span-success");
-                        message.classList.remove("input-span-alarm");
+                        // message.classList.remove("input-span-alarm");
                     }
                     else {
-                        message.classList.remove("input-span-success");
+                        // message.classList.remove("input-span-success");
                         message.classList.add("input-span-alarm");
                     }
                 }
@@ -73,6 +73,7 @@
         }
         else if(inputPassword.value.search(patternPass) < 0){
             inputPassword.classList.add("input-alarm-border");
+            errorMessagePassword.classList.remove("input-span-success");
             errorMessagePassword.classList.add("input-span-alarm");
             errorMessagePassword.innerHTML = "Password not strong enough.";
             status = false;

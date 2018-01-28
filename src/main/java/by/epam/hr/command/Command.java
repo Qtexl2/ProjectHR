@@ -4,5 +4,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public interface Command {
+    String ATTR_PAGE = "result";
+    String FORWARD_PAGE = "forward";
+    String REDIRECT_PAGE = "redirect";
+    String JSON = "json";
+    String MESSAGE = "message";
+    String PROFILE = "profile";
+
     String execute(HttpServletRequest request, HttpServletResponse response);
 }

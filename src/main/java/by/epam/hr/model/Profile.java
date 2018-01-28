@@ -16,8 +16,8 @@ public class Profile extends Entity{
     private Gender gender;
     private String currentPosition;
     private String describe;
-    private Blob resume;
-    private Blob photo;
+    private String resume;
+    private String photo;
     private String preInterview;
     private String technicalInterview;
     private Boolean statusInterview;
@@ -138,19 +138,19 @@ public class Profile extends Entity{
         this.describe = describe;
     }
 
-    public Blob getResume() {
+    public String getResume() {
         return resume;
     }
 
-    public void setResume(Blob resume) {
+    public void setResume(String resume) {
         this.resume = resume;
     }
 
-    public Blob getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(Blob photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 

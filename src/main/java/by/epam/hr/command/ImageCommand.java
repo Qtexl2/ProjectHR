@@ -15,18 +15,15 @@ public class ImageCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        Profile profile = (Profile) request.getSession().getAttribute("profile");
-        Long id = profile.getProfileID();
-        byte[] out= null;
-        try {
-            out = profileService.selectPhoto(id);
+//        Profile profile = (Profile) request.getSession().getAttribute("profile");
+//        Long id = profile.getProfileID();
+//        byte[] out= null;
+//        try {
+//            out = profileService.selectPhoto(id);
+//        } catch (ServiceException e) {
+//            e.printStackTrace();
+//        }
 
-
-
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
-
-        return String.valueOf(out);
+        return "";
     }
 }

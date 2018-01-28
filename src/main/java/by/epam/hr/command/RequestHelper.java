@@ -19,7 +19,7 @@ public class RequestHelper {
     public static final String AUTHORIZATION_PAGE = "authPage";
     public static final String LOGOUT = "logout";
     public static final String AUTHORIZATION = "auth";
-    public static final String IMAGE = "img";
+//    public static final String IMAGE = "img";
     public static final String IMAGE_UPDATE = "imgUpd";
 
 
@@ -40,7 +40,7 @@ public class RequestHelper {
         commands.put(REGISTRATION_PAGE, new RedirectToRegistrationCommand());
         commands.put(AUTHORIZATION_PAGE, new RedirectToAuthCommand());
         commands.put(AUTHORIZATION, new AuthorizationCommand());
-        commands.put(IMAGE, new ImageCommand());
+//        commands.put(IMAGE, new ImageCommand());
         commands.put(LOGOUT, new LogoutCommand());
         commands.put(PROFILE_PAGE, new RedirectToProfileCommand());
         commands.put(PROFILE_UPDATE, new ProfileUpdateCommand());

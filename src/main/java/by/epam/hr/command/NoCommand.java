@@ -10,6 +10,8 @@ public class NoCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page = PageDispatcher.getInstance().getProperty(PageDispatcher.MAIN_PAGE_PATH);
+        request.setAttribute(ATTR_PAGE,REDIRECT_PAGE);
+
         return page;
     }
 }

@@ -59,6 +59,9 @@
 .field-vacancy button{
     border: 2px #4f2773 solid;
     position: relative;
+    display: block;
+    margin-left: auto;
+    float: none;
 }
 .field-vacancy form{
     height: 42px;

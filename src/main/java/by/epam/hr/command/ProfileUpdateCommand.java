@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ProfileUpdateCommand implements Command {
-    private static final String MESSAGE = "message";
     private static final String MESSAGE_STATUS = "messageStatus";
     private static final String PARAM_NAME_FIRSTNAME = "firstName";
     private static final String PARAM_NAME_LASTNAME = "lastName";
@@ -34,12 +33,12 @@ public class ProfileUpdateCommand implements Command {
     }
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        Profile profile = (Profile)request.getSession().getAttribute("profile");
+        Profile profile = (Profile)request.getSession(false).getAttribute("profile");
         String page;
         String message;
         if(profile != null){
             page = PageDispatcher.getInstance().getProperty(PageDispatcher.PROFILE_PAGE_PATH);
-
+            request.setAttribute(ATTR_PAGE,FORWARD_PAGE);
             String firstName = request.getParameter(PARAM_NAME_FIRSTNAME);
             String lastName = request.getParameter(PARAM_NAME_LASTNAME);
             String phone = request.getParameter(PARAM_NAME_PHONE);

@@ -11,7 +11,7 @@
         formData.append('img', file);
 
         $.ajax({
-            url: '/ajax?command=imgUpd',
+            url: '/controller?command=imgUpd',
             type: 'POST',
             data: formData,
             cache: false,

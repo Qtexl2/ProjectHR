@@ -63,11 +63,10 @@ public class RegisterCommand implements Command {
 
         }
 
-        request.setAttribute("status",status);
+        request.setAttribute(MESSAGE,status);
         request.setAttribute("statusReg",statusReg);
-
-
         List<String> answer = Arrays.asList(status,String.valueOf(statusReg));
+        request.setAttribute(ATTR_PAGE,JSON);
         return new Gson().toJson(answer);
 
     }

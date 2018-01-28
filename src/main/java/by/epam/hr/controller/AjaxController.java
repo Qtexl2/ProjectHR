@@ -16,18 +16,18 @@ import java.io.PrintWriter;
 @MultipartConfig
 public class AjaxController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request,response);
+//        processRequest(request,response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request,response);
+//        processRequest(request,response);
     }
-
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Command command = RequestHelper.getInstance().getCommand(request);
-        String json = command.execute(request, response);
-        PrintWriter out = response.getWriter();
-        out.print(json);
-
-    }
+//
+//    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        Command command = RequestHelper.getInstance().getCommand(request);
+//        String json = command.execute(request, response);
+//        PrintWriter out = response.getWriter();
+//        out.print(json);
+//
+//    }
 }

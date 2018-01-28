@@ -36,6 +36,9 @@
                     <div id="submit-div">
                         <button type="submit" class="btn-reg"><fmt:message key="signIn"/> </button>
                     </div>
+                    <c:if test="${not empty message}">
+                        <h1 id="auth-error-message"><fmt:message key="incorrectLoginOrPassword"/></h1>
+                    </c:if>
                     <h2><fmt:message key="signUp"/> </h2>
                 </form>
             </div>

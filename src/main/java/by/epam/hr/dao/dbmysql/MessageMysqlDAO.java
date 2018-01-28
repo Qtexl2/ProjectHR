@@ -18,6 +18,9 @@ public class MessageMysqlDAO implements MessageDAO{
     private static final String SQL_INSERT_MESSAGE = "INSERT INTO message " +
             "(message.message_text, message.message_time, message.profile_sender_id) " +
             "values (?, NOW(),?) ";
+    private static final String SQL_INSERT_MESSAGE_ = "INSERT INTO message " +
+            "(message.message_text, message.message_time, message.profile_sender_id) " +
+            "values (?, NOW(),?) ";
     private static final String SQL_INSERT_MESSAGE_AND_USER = "INSERT INTO message_and_user " +
             "(message_and_user.message_id, message_and_user.profile_reception_id) " +
             "values (last_insert_id(),?) ";

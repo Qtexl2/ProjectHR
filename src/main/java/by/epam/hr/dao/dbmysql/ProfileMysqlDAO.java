@@ -96,7 +96,6 @@ public class ProfileMysqlDAO implements ProfileDAO {
     }
 
     public  boolean updatePhoto(Long id, InputStream is) throws DAOException{
-        FileInputStream fis = null;
         boolean status = false;
         PooledConnection connection = null;
         PreparedStatement statement = null;
@@ -115,7 +114,7 @@ public class ProfileMysqlDAO implements ProfileDAO {
         }
         finally {
             try {
-                connection.setAutoCommit(false);
+                connection.setAutoCommit(true);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -345,8 +344,8 @@ public class ProfileMysqlDAO implements ProfileDAO {
         profile.setPreInterview(resultSet.getString("pre_interview"));
         profile.setTechnicalInterview(resultSet.getString("technical_interview"));
         profile.setStatusInterview(resultSet.getBoolean("status_interview"));
-        profile.setPhoto(resultSet.getBlob("photo"));
-        profile.setResume(resultSet.getBlob("resume"));
+        profile.setPhoto(resultSet.getString("photo"));
+        profile.setResume(resultSet.getString("resume"));
         return profile;
     }
 }

@@ -51,6 +51,7 @@ public class SearchJobCommand implements Command {
             LOGGER.log(Level.WARN,"SearchJobCommand have a problem with service layer",e);
         }
         String page = PageDispatcher.getInstance().getProperty(PageDispatcher.VACANCIES_PAGE_PATH);
+        request.setAttribute(ATTR_PAGE,FORWARD_PAGE);
         return page;
     }
 }

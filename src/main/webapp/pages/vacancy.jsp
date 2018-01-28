@@ -13,27 +13,25 @@
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/vacancy.css">
 </head>
-<body>
-<div class="wrapper">
-    <%@include file="header.jsp"%>
-    <main id="vacancy-main">
-        <c:set value="${vacancy}" var="vac" scope="request"/>
-        <section class="vacancy-result section-vacancy">
-            <div class="field-vacancy">
-                <h1><fmt:message key="aboutTheJob"/></h1>
-                <h2><fmt:message key="positionDescription"/>${vac.vacancyTitle} <fmt:message key="at"/> ${vac.company}</h2>
-                <p>${vac.vacancyDescription}</p>
-                <form action="/controller" method="post">
-                    <input type="text" name="controller" value="vacancyRespond" hidden>
-                    <button type="submit" class="btn" name="idVac" value="${vac.vacancyID}"><fmt:message key="respond"/></button>
-                </form>
-
-            </div>
-        </section>
-    </main>
-    <footer class="footer-content">
-        <div class="bottom-logo"></div>
-    </footer>
-</div>
-</body>
+    <body>
+        <div class="wrapper">
+            <%@include file="header.jsp"%>
+            <main id="vacancy-main">
+                <c:set value="${vacancy}" var="vac" scope="request"/>
+                <section class="vacancy-result section-vacancy">
+                    <div class="field-vacancy">
+                        <h1><fmt:message key="aboutTheJob"/></h1>
+                        <h2><fmt:message key="positionDescription"/>${vac.vacancyTitle} <fmt:message key="at"/> ${vac.company}</h2>
+                        <p>${vac.vacancyDescription}</p>
+                        <button type="submit" class="btn btn-respond" name="idVac" value="${vac.vacancyID}"><fmt:message key="respond"/></button>
+                    </div>
+                </section>
+            </main>
+            <footer class="footer-content">
+                <div class="bottom-logo"></div>
+            </footer>
+        </div>
+    <script src="../js/jquery-1.9.0.js"></script>
+    <script src="../js/vacancy.js"></script>
+    </body>
 </html>
