@@ -5,10 +5,11 @@ import by.epam.hr.model.Vacancy;
 
 import java.util.List;
 
-public interface VacancyDAO extends BaseDAO<Long, Vacancy> {
-    List<Vacancy> selectAll() throws DAOException;
-    boolean changeStatus(Long id) throws DAOException;
-    List<Vacancy> selectActualVacancy() throws DAOException;
-    List<Vacancy> selectVacancyByLocAndTitle(String job, String location) throws DAOException;
-    boolean insertVacancyAndProfile(Long idProfile, Long idVacancy) throws DAOException;
+public abstract class VacancyDAO extends BaseDAO<Long, Vacancy> {
+    public abstract List<Vacancy> selectAll() throws DAOException;
+    public abstract boolean changeStatus(Long id) throws DAOException;
+    public abstract List<Vacancy> selectActualVacancy() throws DAOException;
+    public abstract List<Vacancy> selectVacancyByLocAndTitle(String job, String location) throws DAOException;
+    public abstract boolean insertVacancyAndProfile(Long idProfile, Long idVacancy) throws DAOException;
+    public abstract Long selectIdOwnerByIdVacancy(Long idVacancy) throws DAOException;
 }

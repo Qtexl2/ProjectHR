@@ -1,10 +1,9 @@
 package by.epam.hr.command;
 
-import by.epam.hr.dao.FactoryDAO;
 import by.epam.hr.dispatcher.PageDispatcher;
 import by.epam.hr.encryption.EncryptionPassword;
+import by.epam.hr.exception.DAOException;
 import by.epam.hr.exception.ServiceException;
-import by.epam.hr.model.Message;
 import by.epam.hr.model.Profile;
 import by.epam.hr.service.ProfileService;
 import org.apache.logging.log4j.Level;
@@ -22,7 +21,11 @@ public class AuthorizationCommand implements Command {
     private static final String MESSAGE_AUTH = "Incorrect email or password";
     private ProfileService profileService;
     public AuthorizationCommand(){
-        profileService = new ProfileService();
+        try {
+            profileService = new ProfileService();
+        } catch (ServiceException e) {
+            LOGGER.log(Level.WARN,"Object not created",e);
+        }
     }
 
     @Override

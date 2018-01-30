@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ImageCommand implements Command {
     private ProfileService profileService;
-    public ImageCommand(){
-        profileService = new ProfileService();
-    }
+//    public ImageCommand(){
+//        profileService = new ProfileService();
+//    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

@@ -16,7 +16,11 @@ public class VacancyRespondCommand implements Command{
     private static final Logger LOGGER = LogManager.getRootLogger();
     VacancyService vacancyService;
     public VacancyRespondCommand() {
-        vacancyService = new VacancyService();
+        try {
+            vacancyService = new VacancyService();
+        } catch (ServiceException e) {
+            LOGGER.log(Level.WARN,"Object not created",e);
+        }
     }
 
     @Override

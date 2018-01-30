@@ -1,6 +1,5 @@
 package by.epam.hr.command;
 
-import by.epam.hr.dispatcher.PageDispatcher;
 import by.epam.hr.exception.ServiceException;
 import by.epam.hr.model.Profile;
 import by.epam.hr.model.Role;
@@ -27,7 +26,11 @@ public class RegisterCommand implements Command {
 //TODO ПОСЛЕ АВТОРИЗАЦИИ СДЛЕАТЬ СОЗДАНИЕ АДМИНОВ
 
     public RegisterCommand(){
-        profileService = new ProfileService();
+        try {
+            profileService = new ProfileService();
+        } catch (ServiceException e) {
+            LOGGER.log(Level.WARN,"Object not created",e);
+        }
     }
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

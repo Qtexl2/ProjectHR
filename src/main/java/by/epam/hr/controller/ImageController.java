@@ -31,11 +31,12 @@ public class ImageController extends HttpServlet {
         RequestDispatcher dispatcher;
         Profile profile = (Profile) request.getSession().getAttribute("profile");
         String page;
-        if(profile != null && idStr !=null && profile.getProfileID() == Long.parseLong(idStr)) {
-            ProfileService profileService = new ProfileService();
+        if(profile != null && idStr !=null) {
+//        if(profile != null && idStr !=null && profile.getProfileID() == Long.parseLong(idStr)) {
             Long id = Long.parseLong(idStr);
             ServletOutputStream outputStream = null;
             try {
+                ProfileService profileService = new ProfileService();
                 byte[] out = profileService.selectPhoto(id);
                 response.setContentLength(out.length);
                 outputStream = response.getOutputStream();

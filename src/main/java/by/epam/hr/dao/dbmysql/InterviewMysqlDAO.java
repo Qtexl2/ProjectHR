@@ -14,38 +14,44 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InterviewMysqlDAO  implements InterviewDAO{
+public class InterviewMysqlDAO  extends InterviewDAO{
     private static final Logger LOGGER = LogManager.getRootLogger();
 
     private static final String SQL_SELECT_ALL_INTERVIEW = "SELECT  interview.interview_id,interview.interview_time, " +
             "interview.interview_description, interview.type_interview, interview.technical_specialist_id, " +
             "interview.candidate_id, interview.employer_id FROM interview ";
-
     private static final String SQL_SELECT_ALL_INTERVIEW_CANDIDATE = "SELECT  interview.interview_id,interview.interview_time, " +
             "interview.interview_description, interview.type_interview, interview.technical_specialist_id, " +
             "interview.candidate_id, interview.employer_id FROM interview WHERE interview.candidate_id = ? ";
-
     private static final String SQL_SELECT_ALL_INTERVIEW_EMPLOYER = "SELECT  interview.interview_id,interview.interview_time, " +
             "interview.interview_description, interview.type_interview, interview.technical_specialist_id, " +
             "interview.candidate_id, interview.employer_id FROM interview WHERE interview.employer_id = ? ";
-
     private static final String SQL_SELECT_INTERVIEW_BY_ID = "SELECT  interview.interview_id,interview.interview_time, " +
             "interview.interview_description, interview.type_interview, interview.technical_specialist_id, " +
             "interview.candidate_id, interview.employer_id FROM interview WHERE interview.interview_id = ? ";
-
     private static final String SQL_UPDATE_INTERVIEW_BY_ID = "UPDATE interview SET interview.interview_time=?, " +
             "interview.interview_description=?, interview.type_interview=?, interview.technical_specialist_id=? " +
             "WHERE interview.interview_id=?";
-
     private static final String SQL_DELETE_INTERVIEW_BY_ID = "DELETE FROM interview WHERE interview.interview_id=?";
-
     private static final String SQL_INSERT_INTERVIEW = "INSERT INTO interview " +
             "(interview.interview_time, interview.interview_description, interview.type_interview, interview.technical_specialist_id, " +
             "interview.candidate_id, interview.employer_id) VALUES(?,?,?,?,?,?)";
-
     private static final String ACTUAL_POSTFIX = "interview.interview_time > now()";
     private static final String WHERE = "WHERE ";
     private static final String AND = "AND ";
+
+    public InterviewMysqlDAO(PooledConnection connection) {
+        this.connection = connection;
+    }
+
+    public InterviewMysqlDAO(boolean isTransaction) throws DAOException {
+        this.isTransaction = isTransaction;
+    }
+
+    public void setConnection(PooledConnection connection) {
+        this.connection = connection;
+    }
+
     @Override
     public List<Interview> selectAll() throws DAOException {
         return selectInterview(SQL_SELECT_ALL_INTERVIEW);
@@ -72,11 +78,10 @@ public class InterviewMysqlDAO  implements InterviewDAO{
     }
     @Override
     public Interview selectByID(Long id) throws DAOException {
+        checkTransaction();
         Interview interview = null;
-        PooledConnection connection = null;
         PreparedStatement statement = null;
         try{
-            connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(SQL_SELECT_INTERVIEW_BY_ID);
             statement.setLong(1,id);
             ResultSet result = statement.executeQuery();
@@ -86,21 +91,28 @@ public class InterviewMysqlDAO  implements InterviewDAO{
             else {
                 throw new DAOException("Exception in method selectByID(). Interview ID not found");
             }
-        } catch (ConnectionPoolException | SQLException e) {
+        } catch (SQLException e) {
             throw new DAOException("Exception in method selectByID(): ",e);
         } finally {
-            closeStatement(connection,statement);
+            try{
+                closeStatement(statement);
+            }
+            catch (DAOException ex){
+                throw new DAOException("Exception in method selectByID(): ",ex);
+            }
+            finally {
+                closeConnection(connection);
+            }
         }
         return interview;
     }
     @Override
     public boolean update(Interview item) throws DAOException {
         checkInput(item);
+        checkTransaction();
         boolean status = false;
-        PooledConnection connection = null;
         PreparedStatement statement = null;
         try{
-            connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(SQL_UPDATE_INTERVIEW_BY_ID);
             statement.setTimestamp(1,item.getInterviewTime());
             statement.setString(2,item.getInterviewDescription());
@@ -110,27 +122,34 @@ public class InterviewMysqlDAO  implements InterviewDAO{
             statement.executeUpdate();
             status = true;
 
-        } catch (ConnectionPoolException | SQLException e) {
+        } catch (SQLException e) {
             throw new DAOException("Exception in method updateByID(): ",e);
         } finally {
-            closeStatement(connection,statement);
+            try{
+                closeStatement(statement);
+            }
+            catch (DAOException ex){
+                throw new DAOException("Exception in method updateByID(): ",ex);
+            }
+            finally {
+                closeConnection(connection);
+            }
         }
         return status;
     }
 
     @Override
     public boolean delete(Long id) throws DAOException {
-        return deleteQuery(id,SQL_DELETE_INTERVIEW_BY_ID);
+        return deleteEntity(id,SQL_DELETE_INTERVIEW_BY_ID);
 
     }
 
 
     private List<Interview> selectInterview(String sql) throws DAOException {
         List<Interview> interviews = new ArrayList<>();
-        PooledConnection connection = null;
+        checkTransaction();
         Statement statement = null;
         try{
-            connection = ConnectionPool.getInstance().getConnection();
             statement = connection.createStatement();
             ResultSet result = statement.executeQuery(sql);
             while (result.next()) {
@@ -138,10 +157,18 @@ public class InterviewMysqlDAO  implements InterviewDAO{
                 interview = initInterview(result);
                 interviews.add(interview);
             }
-        } catch (ConnectionPoolException | SQLException e) {
+        } catch (SQLException e) {
             throw new DAOException("Exception in method selectInterview(): ",e);
         } finally {
-            closeStatement(connection,statement);
+            try{
+                closeStatement(statement);
+            }
+            catch (DAOException ex){
+                throw new DAOException("Exception in method selectInterview(): ",ex);
+            }
+            finally {
+                closeConnection(connection);
+            }
         }
         return interviews;
     }
@@ -150,10 +177,9 @@ public class InterviewMysqlDAO  implements InterviewDAO{
 
     private List<Interview> selectInterviewByID(Long id,String sql) throws DAOException {
         List<Interview> interviews = new ArrayList<>();
-        PooledConnection connection = null;
+        checkTransaction();
         PreparedStatement statement = null;
         try{
-            connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(sql);
             statement.setLong(1,id);
             ResultSet result = statement.executeQuery();
@@ -162,10 +188,18 @@ public class InterviewMysqlDAO  implements InterviewDAO{
                 interview = initInterview(result);
                 interviews.add(interview);
             }
-        } catch (ConnectionPoolException | SQLException e) {
+        } catch (SQLException e) {
             throw new DAOException("Exception in method selectInterviewByCandidateID(): ",e);
         }finally {
-            closeStatement(connection,statement);
+            try{
+                closeStatement(statement);
+            }
+            catch (DAOException ex){
+                throw new DAOException("Exception in method updateByID(): ",ex);
+            }
+            finally {
+                closeConnection(connection);
+            }
         }
         return interviews;
     }
@@ -182,23 +216,22 @@ public class InterviewMysqlDAO  implements InterviewDAO{
     }
 
     public static void main(String[] args) throws DAOException, ConnectionPoolException, SQLException {
-        InterviewMysqlDAO mysqlDAO = new InterviewMysqlDAO();
+//        InterviewMysqlDAO mysqlDAO = new InterviewMysqlDAO();
 //        Interview interview = new Interview(new Timestamp(System.currentTimeMillis()),"Собес с ИВАНОМ",InterviewType.COMMON,6L,6L,7L);
 //        interview.setInterviewID(9L);
 //        mysqlDAO.update(interview);
-        mysqlDAO.delete(9L);
-        ConnectionPool.getInstance().destroy();
+//        mysqlDAO.delete(9L);
+//        ConnectionPool.getInstance().destroy();
 
     }
 
     @Override
     public boolean insert(Interview item) throws DAOException {
         checkInput(item);
+        checkTransaction();
         boolean status = false;
-        PooledConnection connection = null;
         PreparedStatement statement = null;
         try{
-            connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(SQL_INSERT_INTERVIEW);
             statement.setTimestamp(1,item.getInterviewTime());
             statement.setString(2,item.getInterviewDescription());
@@ -209,10 +242,18 @@ public class InterviewMysqlDAO  implements InterviewDAO{
             statement.executeUpdate();
             status = true;
 
-        } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception in method insert(): ",e);
+        } catch (SQLException e) {
+            throw new DAOException("Exception in method insert: ",e);
         } finally {
-            closeStatement(connection,statement);
+            try{
+                closeStatement(statement);
+            }
+            catch (DAOException ex){
+                throw new DAOException("Exception in method insert: ",ex);
+            }
+            finally {
+                closeConnection(connection);
+            }
         }
         return status;
     }

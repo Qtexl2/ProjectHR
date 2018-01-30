@@ -1,6 +1,5 @@
 package by.epam.hr.service;
 
-import by.epam.hr.dao.FactoryDAO;
 import by.epam.hr.dao.ProfileDAO;
 import by.epam.hr.dao.dbmysql.ProfileMysqlDAO;
 import by.epam.hr.encryption.EncryptionPassword;
@@ -9,10 +8,20 @@ import by.epam.hr.exception.ServiceException;
 import by.epam.hr.model.Profile;
 
 import java.io.InputStream;
+import java.util.List;
 
 public class ProfileService {
 
-    public static ProfileDAO profileDAO = FactoryDAO.getInstance().getProfileDAO();
+    private ProfileDAO profileDAO;
+
+    public ProfileService() throws ServiceException {
+        try {
+            profileDAO = new ProfileMysqlDAO(false);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
 
     public boolean createNewProfile(Profile profile) throws ServiceException {
         boolean status;
@@ -75,5 +84,12 @@ public class ProfileService {
         }
     }
 
+    public List<Profile> selectDialogById(Long id) throws ServiceException{
 
+        try {
+             return profileDAO.selectProfileHaveDialog(id);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
 }

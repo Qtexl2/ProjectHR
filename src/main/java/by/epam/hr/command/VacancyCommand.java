@@ -17,7 +17,11 @@ public class VacancyCommand implements Command {
     private static final String VACANCY_ID = "vacancyId";
     private VacancyService vacancyService;
     public VacancyCommand() {
-        vacancyService = new VacancyService();
+        try {
+            vacancyService = new VacancyService();
+        } catch (ServiceException e) {
+            LOGGER.log(Level.WARN,"Object not created",e);
+        }
     }
 
     @Override

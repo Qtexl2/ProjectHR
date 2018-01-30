@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageMysqlDAO implements MessageDAO{
+public class MessageMysqlDAO extends MessageDAO{
 
     private static final String SQL_INSERT_MESSAGE = "INSERT INTO message " +
             "(message.message_text, message.message_time, message.profile_sender_id) " +
@@ -36,18 +36,27 @@ public class MessageMysqlDAO implements MessageDAO{
     private static final String SQL_UPDATE_MESSAGE_BY_ID = "UPDATE message m SET m.message_text=? WHERE m.message_id=? ";
     private static final String SQL_DELETE_MESSAGE_BY_ID = "DELETE FROM message WHERE message.message_id=? ";
 
+    public MessageMysqlDAO(boolean isTransaction) throws DAOException {
+        this.isTransaction = isTransaction;
+    }
+    public MessageMysqlDAO(PooledConnection connection) {
+        this.connection = connection;
+    }
+
+    public void setConnection(PooledConnection connection) {
+        this.connection = connection;
+    }
 
     public boolean delete(Long id) throws DAOException {
-        return deleteQuery(id,SQL_DELETE_MESSAGE_BY_ID);
+        return deleteEntity(id,SQL_DELETE_MESSAGE_BY_ID);
     }
 
     @Override
     public Message selectByID(Long id) throws DAOException {
         Message message = null;
-        PooledConnection connection = null;
+        checkTransaction();
         PreparedStatement statement = null;
         try{
-            connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(SQL_SELECT_MESSAGE_BY_ID);
             statement.setLong(1,id);
             ResultSet result = statement.executeQuery();
@@ -57,10 +66,18 @@ public class MessageMysqlDAO implements MessageDAO{
             else {
                 throw new DAOException("Exception in method selectByID. Message ID not found");
             }
-        } catch (ConnectionPoolException | SQLException e) {
+        } catch (SQLException e) {
             throw new DAOException("Exception in method selectByID: ",e);
         } finally {
-            closeStatement(connection,statement);
+            try{
+                closeStatement(statement);
+            }
+            catch (DAOException ex){
+                throw new DAOException("Exception in method selectByID(): ",ex);
+            }
+            finally {
+                closeConnection(connection);
+            }
         }
         return message;
     }
@@ -68,34 +85,43 @@ public class MessageMysqlDAO implements MessageDAO{
 
     public boolean update(Message item) throws DAOException {
         checkInput(item);
+        checkTransaction();
         boolean status = false;
-        PooledConnection connection = null;
         PreparedStatement statement = null;
         try{
-            connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(SQL_UPDATE_MESSAGE_BY_ID);
             statement.setString(1,item.getMessageText());
             statement.setLong(2,item.getMessageID());
             statement.executeUpdate();
             status = true;
 
-        } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception in method updateByID(): ",e);
+        } catch ( SQLException e) {
+            throw new DAOException("Exception in method updateByID: ",e);
         } finally {
-            closeStatement(connection,statement);
+            try{
+                closeStatement(statement);
+            }
+            catch (DAOException ex){
+                throw new DAOException("Exception in method updateByID: ",ex);
+            }
+            finally {
+                closeConnection(connection);
+            }
         }
         return status;
     }
 
+
+
     @Override
     public boolean insert(Message item) throws DAOException{
         checkInput(item);
+        checkTransaction();
+
         boolean status = false;
-        PooledConnection connection = null;
         PreparedStatement statementMessage = null;
         PreparedStatement statementMessageUser = null;
         try{
-            connection = ConnectionPool.getInstance().getConnection();
             connection.setAutoCommit(false);
             statementMessage = connection.prepareStatement(SQL_INSERT_MESSAGE);
             statementMessage.setString(1,item.getMessageText());
@@ -104,10 +130,12 @@ public class MessageMysqlDAO implements MessageDAO{
             statementMessageUser = connection.prepareStatement(SQL_INSERT_MESSAGE_AND_USER);
             statementMessageUser.setLong(1,item.getProfileReceptionID());
             statementMessageUser.executeUpdate();
-            connection.commit();
+            if(!isTransaction) {
+                connection.commit();
+            }
             status = true;
 
-        } catch (ConnectionPoolException | SQLException e) {
+        } catch (SQLException e) {
             throw new DAOException("Exception in method insert: ",e);
         } finally {
             try{
@@ -121,13 +149,15 @@ public class MessageMysqlDAO implements MessageDAO{
                 throw new DAOException("Exception in method insert: ",e);
             } finally {
                 try {
-                    connection.setAutoCommit(true);
+                    if(!isTransaction) {
+                        connection.setAutoCommit(true);
+                    }
                 } catch (SQLException e) {
                     connection.setLogicalClose(true);
                     throw new DAOException("Exception in method insert: ",e);
                 }
                 finally {
-                    connection.close();
+                    closeConnection(connection);
                 }
             }
         }
@@ -137,10 +167,9 @@ public class MessageMysqlDAO implements MessageDAO{
     @Override
     public List<Message> selectDialogById(Long idSender, Long idReceiver) throws DAOException{
         List<Message> messages = new ArrayList<>();
-        PooledConnection connection = null;
+        checkTransaction();
         PreparedStatement statement = null;
         try{
-            connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(SQL_SELECT_DIALOG_BY_ID);
             statement.setLong(1,idSender);
             statement.setLong(2,idReceiver);
@@ -151,10 +180,18 @@ public class MessageMysqlDAO implements MessageDAO{
                 Message message = init(result);
                 messages.add(message);
             }
-        } catch (ConnectionPoolException | SQLException e) {
+        } catch (SQLException e) {
             throw new DAOException("Exception in method selectDialogById: ",e);
         }finally {
-            closeStatement(connection,statement);
+            try{
+                closeStatement(statement);
+            }
+            catch (DAOException ex){
+                throw new DAOException("Exception in method selectDialogById:  ",ex);
+            }
+            finally {
+                closeConnection(connection);
+            }
         }
         return messages;
     }
@@ -169,12 +206,9 @@ public class MessageMysqlDAO implements MessageDAO{
         return message;
     }
     public static void main(String[] args) throws DAOException, InterruptedException {
-        MessageMysqlDAO messageMysqlDAO = new MessageMysqlDAO();
-        Message message = new Message("dasdasdas",1L,6L);
-//        messageMysqlDAO.selectByID()
-//        messageMysqlDAO.insert(message);
-//        System.out.println(messageMysqlDAO.selectByID(34L));
-//        System.out.println(messageMysqlDAO.selectDialogById(1L,6L));
+        MessageMysqlDAO messageMysqlDAO = new MessageMysqlDAO(false);
+
+        System.out.println(messageMysqlDAO.selectDialogById(1L,28L));
         ConnectionPool.getInstance().destroy();
 
     }

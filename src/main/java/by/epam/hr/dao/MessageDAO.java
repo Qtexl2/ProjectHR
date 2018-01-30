@@ -5,7 +5,7 @@ import by.epam.hr.model.Message;
 
 import java.util.List;
 
-public interface MessageDAO extends BaseDAO<Long,Message> {
-    List<Message> selectDialogById(Long idSender, Long idReceiver) throws DAOException;
+public abstract class MessageDAO extends BaseDAO<Long,Message> {
+    public abstract List<Message> selectDialogById(Long idSender, Long idReceiver) throws DAOException;
 
 }

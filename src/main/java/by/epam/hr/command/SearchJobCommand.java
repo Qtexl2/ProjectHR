@@ -20,7 +20,11 @@ public class SearchJobCommand implements Command {
     private static final String LOCATION = "location";
     private VacancyService vacancyService;
     public SearchJobCommand() {
-        vacancyService = new VacancyService();
+        try {
+            vacancyService = new VacancyService();
+        } catch (ServiceException e) {
+            LOGGER.log(Level.WARN,"Object not created",e);
+        }
     }
 
     @Override

@@ -5,11 +5,15 @@ import by.epam.hr.exception.ServiceException;
 import by.epam.hr.model.Gender;
 import by.epam.hr.model.Profile;
 import by.epam.hr.service.ProfileService;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ProfileUpdateCommand implements Command {
+    private static final Logger LOGGER = LogManager.getRootLogger();
     private static final String MESSAGE_STATUS = "messageStatus";
     private static final String PARAM_NAME_FIRSTNAME = "firstName";
     private static final String PARAM_NAME_LASTNAME = "lastName";
@@ -29,7 +33,12 @@ public class ProfileUpdateCommand implements Command {
     private ProfileService profileService;
 
     public ProfileUpdateCommand(){
-        profileService = new ProfileService();
+        try {
+            profileService = new ProfileService();
+        } catch (ServiceException e) {
+            LOGGER.log(Level.WARN,"Object not created",e);
+
+        }
     }
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

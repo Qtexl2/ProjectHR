@@ -76,7 +76,9 @@
                     <li><a href=#>Most Popular Jobs</a></li>
                 </ul>
             </li>
-            <li><a class="main-menu" href=#>Post Resume</a></li>
+            <c:if test="${not empty sessionScope.profile}">
+                <li><a class="main-menu menu-message" href="/controller?command=allDialog"><fmt:message key="message"/></a></li>
+            </c:if>
         </ul>
     </div>
 </header>

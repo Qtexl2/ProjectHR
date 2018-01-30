@@ -3,8 +3,9 @@ package by.epam.hr.command;
 import by.epam.hr.exception.ServiceException;
 import by.epam.hr.model.Profile;
 import by.epam.hr.service.ProfileService;
-import com.google.gson.Gson;
-import com.mysql.jdbc.Blob;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,11 +15,16 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class UploadImageCommand implements Command {
+    private static final Logger LOGGER = LogManager.getRootLogger();
     private ProfileService profileService;
     private static final int MAX_FILE_SIZE = 4_000_000;
     private static final String ATTR_IMG = "img";
     public UploadImageCommand() {
-        profileService = new ProfileService();
+        try {
+            profileService = new ProfileService();
+        } catch (ServiceException e) {
+            LOGGER.log(Level.WARN,"Object not created",e);
+        }
     }
 
     @Override

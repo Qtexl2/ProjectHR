@@ -139,6 +139,6 @@
 
 </div>
 <script src="../js/jquery-1.9.0.js"></script>
-<script src="../js/vacancy.js"></script>
+<script src="../js/profile.js"></script>
 </body>
 </html>
