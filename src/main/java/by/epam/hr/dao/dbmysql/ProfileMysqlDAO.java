@@ -53,6 +53,9 @@ public class ProfileMysqlDAO extends ProfileDAO {
     private static final String SQL_UPDATE_PROFILE_BY_ID = "UPDATE profile p SET p.role=?, p.first_name=?, p.last_name=?, " +
             "p.phone=?, p.english_level=?, p.age=?, p.gender=?, p.current_position=?, " +
             "p.describe=?, p.pre_interview=?, p.technical_interview=?, p.status_interview=?, p.company=? WHERE p.profile_id=? ";
+    private static final String SQL_UPDATE_PROFILE_AFTER_INTERVIEW = "UPDATE profile p SET p.english_level=?, " +
+            "p.pre_interview=?, p.technical_interview=?  WHERE p.profile_id=? ";
+
     private static final String SQL_UPDATE_BASE_PROFILE_BY_ID = "UPDATE profile p SET p.first_name=?, p.last_name=?, " +
             "p.phone=?, p.age=?, p.gender=?, p.current_position=?, p.describe=?, p.company=? WHERE p.profile_id=? ";
     private static final String SQL_UPDATE_PHOTO = "UPDATE profile p SET p.photo=? WHERE p.profile_id=? ";
@@ -360,6 +363,36 @@ public class ProfileMysqlDAO extends ProfileDAO {
         }
         return status;
     }
+    public boolean updateAfterInterview(EnglishLevel englishLevel, String preInterview, String techInterview, Long id)
+            throws DAOException {
+        checkTransaction();
+        boolean status = false;
+        PreparedStatement statement = null;
+        try{
+            statement = connection.prepareStatement(SQL_UPDATE_PROFILE_AFTER_INTERVIEW);
+            statement.setString(1, englishLevel.name());
+            statement.setString(2, preInterview);
+            statement.setString(3, techInterview);
+            statement.setLong(4, id);
+            statement.executeUpdate();
+            status = true;
+        } catch (SQLException e) {
+            throw new DAOException("Exception in method updateAfterInterview: ",e);
+        } finally {
+            try{
+                closeStatement(statement);
+            }
+            catch (DAOException ex){
+                throw new DAOException("Exception in method update: ",ex);
+            }
+            finally {
+                closeConnection(connection);
+            }
+        }
+        return status;
+    }
+
+
 
     @Override
     public Profile checkUser(String email, String password) throws DAOException{

@@ -42,7 +42,7 @@ public class ProfileUpdateCommand implements Command {
     }
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        Profile profile = (Profile)request.getSession(false).getAttribute("profile");
+        Profile profile = (Profile)request.getSession(false).getAttribute(PROFILE);
         String page;
         String message;
         if(profile != null){

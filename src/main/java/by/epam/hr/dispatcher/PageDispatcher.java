@@ -13,10 +13,14 @@ public class PageDispatcher {
     public static final String VACANCIES_PAGE_PATH = "VACANCIES_PAGE_PATH";
     public static final String PROFILE_PAGE_PATH = "PROFILE_PAGE_PATH";
     public static final String VACANCY_PAGE_PATH = "VACANCY_PAGE_PATH";
+    public static final String EDIT_INTERVIEW_PAGE_PATH = "EDIT_INTERVIEW_PAGE_PATH";
     public static final String REGISTRATION_PAGE_PATH = "REGISTRATION_PAGE_PATH";
     public static final String AUTHORIZATION_PAGE_PATH = "AUTHORIZATION_PAGE_PATH";
     public static final String PAGE_404_PATH = "PAGE_404_PATH";
     public static final String DIALOG_PAGE_PATH = "DIALOG_PAGE_PATH";
+    public static final String ADMIN_USER_PAGE = "ADMIN_USER_PAGE";
+    public static final String EMPLOYER_USER_PAGE = "EMPLOYER_USER_PAGE";
+
     private ResourceBundle resourceBundle;
     private static AtomicBoolean dispatcherCreated = new AtomicBoolean(false);
     private static Lock lockInstance = new ReentrantLock();

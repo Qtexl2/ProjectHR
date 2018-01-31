@@ -16,7 +16,6 @@ public class RedirectToProfileCommand implements Command {
             page = PageDispatcher.getInstance().getProperty(PageDispatcher.MAIN_PAGE_PATH);
         }
         else {
-            Profile pf = (Profile) request.getSession(false).getAttribute(PROFILE);
             page = PageDispatcher.getInstance().getProperty(PageDispatcher.PROFILE_PAGE_PATH);
         }
         request.setAttribute(ATTR_PAGE, FORWARD_PAGE);

@@ -28,7 +28,7 @@
                                     <img class="navbar-profile-icon dialog-img" src="/images?id=${prof.profileID}"/>
                                 </c:when>
                                 <c:otherwise>
-                                    <img class="navbar-profile-icon dialog-img" src="../images/avatar.svg"/>
+                                    <img class="navbar-profile-icon dialog-img" src="../images/avatar.svg" />
                                 </c:otherwise>
                             </c:choose>
 
@@ -48,9 +48,8 @@
                         <div class="history-chat">
 
                         </div>
-                        <textarea></textarea>
-                        <button>Отправить</button>
-
+                        <textarea id="output-text"></textarea>
+                        <button id="send-message" value=""><fmt:message key="send"/></button>
                     </div>
                 </div>
             </div>

@@ -22,6 +22,10 @@ public class RequestHelper {
     public static final String IMAGE_UPDATE = "imgUpd";
     public static final String ALL_DIALOG = "allDialog";
     public static final String CHAT = "chat";
+    public static final String SEND_MESSAGE = "sendMessage";
+    public static final String INTERVIEW = "interview";
+    public static final String GET_USER_PAGE = "page";
+    public static final String UPDATE_USER = "userUpdate";
 
 
     private static AtomicBoolean requestHelperCreated = new AtomicBoolean(false);
@@ -48,6 +52,10 @@ public class RequestHelper {
         commands.put(VACANCY_RESPOND, new VacancyRespondCommand());
         commands.put(ALL_DIALOG, new DialogCommand());
         commands.put(CHAT, new ChatCommand());
+        commands.put(SEND_MESSAGE, new SendMessageCommand());
+        commands.put(INTERVIEW, new InterviewCommand());
+        commands.put(GET_USER_PAGE, new EditUserPageCommand());
+        commands.put(UPDATE_USER, new EditUserCommand());
     }
 
     public static RequestHelper getInstance(){

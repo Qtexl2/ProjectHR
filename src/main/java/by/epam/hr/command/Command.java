@@ -10,6 +10,7 @@ public interface Command {
     String JSON = "json";
     String MESSAGE = "message";
     String PROFILE = "profile";
+    String SUCCESS = "success";
 
     String execute(HttpServletRequest request, HttpServletResponse response);
 }

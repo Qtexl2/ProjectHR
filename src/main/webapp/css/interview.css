@@ -1,0 +1,24 @@
+.interview-section{
+    height:100%;
+    padding: 0;
+    background: #f5f5f5;
+}
+.wrapper-interview{
+    width: 60%;
+    height: 100%;
+    margin: auto;
+    background: white;
+
+}
+.interview-input-data{
+    height: 100%;
+    padding: 20px;
+}
+.interview-input-data > h1{
+    margin: auto;
+    width: max-content;
+    color: #555;
+}
+.interview-form{
+    height: 90%;
+}

@@ -32,4 +32,13 @@ public class MessageService {
         }
         return messages;
     }
+    public boolean insertMessage(Long idSender,Long idReceiver, String text) throws ServiceException{
+        try{
+            Message message = new Message(text,idSender,idReceiver);
+            return messageDAO.insert(message);
+        }
+        catch (DAOException e) {
+            throw new ServiceException("CreateNewProfile have a problem." ,e);
+        }
+    }
 }

@@ -5,6 +5,7 @@ import by.epam.hr.dao.dbmysql.ProfileMysqlDAO;
 import by.epam.hr.encryption.EncryptionPassword;
 import by.epam.hr.exception.DAOException;
 import by.epam.hr.exception.ServiceException;
+import by.epam.hr.model.EnglishLevel;
 import by.epam.hr.model.Profile;
 
 import java.io.InputStream;
@@ -50,6 +51,15 @@ public class ProfileService {
         }
     }
 
+    public Profile selectUserById(Long id) throws ServiceException {
+        try{
+            return profileDAO.selectByID(id);
+
+        }catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
     public boolean updatePhoto(Long id, InputStream photo) throws ServiceException {
 
         try {
@@ -79,6 +89,13 @@ public class ProfileService {
     public boolean updateBaseProfile(Profile profile) throws ServiceException {
         try {
             return profileDAO.updateBaseProfile(profile);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+    public boolean updateAfterInterview(Long id, String levelEn, String preInterview, String techInterview) throws ServiceException {
+        try {
+            return profileDAO.updateAfterInterview(EnglishLevel.valueOf(levelEn),preInterview,techInterview,id);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }

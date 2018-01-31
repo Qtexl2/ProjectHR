@@ -10,80 +10,80 @@
 <head>
     <meta charset="UTF-8">
     <title><fmt:message key="company"/></title>
-    <link rel="stylesheet" href="../css/base.css">
-    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/profile.css">
 </head>
 <body>
 <div class="wrapper">
-    <%@include file="header.jsp"%>
+    <%@include file="../header.jsp"%>
     </header>
     <main class="main-profile">
         <section class="profile-section">
             <div class="wrapper-profile">
                 <h1><fmt:message key="profile"/></h1>
+                <c:choose>
+                    <c:when test="${messageStatus == 'true'}">
+                        <c:if test="${not empty message}">
+                            <h2 id="profile-input-error">(${message})</h2>
+                        </c:if>
+                    </c:when>
+                    <c:otherwise>
+                        <c:if test="${not empty message}">
+                            <h2 id="profile-input-success">(${message})</h2>
+                        </c:if>
+                    </c:otherwise>
+                </c:choose>
+                <div class="profile-div-image">
+                    <img class="profile-img-photo"
                     <c:choose>
-                        <c:when test="${messageStatus == 'true'}">
-                            <c:if test="${not empty message}">
-                                <h2 id="profile-input-error">(${message})</h2>
-                            </c:if>
-                        </c:when>
-                        <c:otherwise>
-                            <c:if test="${not empty message}">
-                                <h2 id="profile-input-success">(${message})</h2>
-                            </c:if>
-                        </c:otherwise>
-                    </c:choose>
-                    <div class="profile-div-image">
-                        <img class="profile-img-photo"
-                            <c:choose>
-                                <c:when test="${empty sessionScope.profile.photo}">src="../images/defaultAva.svg" </c:when>
-                                <c:otherwise> src="/images?id=${sessionScope.profile.profileID}" </c:otherwise>
-                            </c:choose> alt="">
-                        <div id="profile-input-wrapper">
-                            <input type="file" class="btn-profile-update-photo" value="<fmt:message key="uploadPhoto"/> "/>
-                        </div>
-                        <h2 id="profile-h2-upload"><fmt:message key="fileToolarge"/></h2>
+                         <c:when test="${empty user.photo}">src="../../images/defaultAva.svg" </c:when>
+                    <c:otherwise> src="/images?id=${user.profileID}" </c:otherwise>
+                    </c:choose> alt="">
+                    <div id="profile-input-wrapper">
+                        <input type="file" class="btn-profile-update-photo" value="<fmt:message key="uploadPhoto"/> "/>
                     </div>
+                    <h2 id="profile-h2-upload"><fmt:message key="fileToolarge"/></h2>
+                </div>
                 <form class="profile-form" method="post" action="/controller" >
                     <input name="command" value="profileUpdate" hidden>
                     <div class="profile-input-data">
                         <div class="profile-div-firstName profile-div">
                             <label for="profile-input-firstName"><fmt:message key="firstName"/> </label>
                             <input id="profile-input-firstName" pattern="^[a-zA-Zа-яёА-ЯЁ\s-]{1,45}$" type="text" name="firstName"
-                                <c:if test="${not empty sessionScope.profile.firstName}">
-                                       value="${sessionScope.profile.firstName}"
-                                </c:if>
+                                    <c:if test="${not empty user.firstName}">
+                                        value="${user.firstName}"
+                                    </c:if>
                             />
                         </div>
                         <div class="profile-div-firstName profile-div">
                             <label for="profile-input-lastName"><fmt:message key="lastName"/></label>
                             <input id="profile-input-lastName" type="text" pattern="^[a-zA-Zа-яёА-ЯЁ\s-]{1,45}$" name="lastName"
-                                    <c:if test="${not empty sessionScope.profile.lastName}">
-                                        value="${sessionScope.profile.lastName}"
+                                    <c:if test="${not empty user.lastName}">
+                                        value="${user.lastName}"
                                     </c:if>
                             />
                         </div>
                         <div class="profile-div-phone profile-div">
                             <label for="profile-input-phone"><fmt:message key="phone"/> </label>
                             <input id="profile-input-phone" type="text" pattern="^\+?[\d -\.]{7,18}$" name="phone"
-                                    <c:if test="${not empty sessionScope.profile.phone}">
-                                        value="${sessionScope.profile.phone}"
+                                    <c:if test="${not empty user.phone}">
+                                        value="${user.phone}"
                                     </c:if>
                             />
                         </div>
                         <div class="profile-div-age profile-div">
                             <label for="profile-input-age"><fmt:message key="age"/> </label>
                             <input id="profile-input-age" type="number" pattern="\d{1,3}" name="age"
-                                    <c:if test="${not empty sessionScope.profile.age}">
-                                        value="${sessionScope.profile.age}"
+                                    <c:if test="${not empty user.age}">
+                                        value="${user.age}"
                                     </c:if>
                             />
                         </div>
                         <div class="profile-div-sex profile-div">
                             <label><fmt:message key="gender"/></label>
-                            <c:if test="${not empty sessionScope.profile.role}">
+                            <c:if test="${not empty user.role}">
                                 <c:choose>
-                                    <c:when test="${sessionScope.profile.gender == 'FEMALE'}">
+                                    <c:when test="${user.gender == 'FEMALE'}">
                                         <label for="profile-label-male"><fmt:message key="male"/> </label>
                                         <input id="profile-label-male" class="profile-input-gender" value="male" type="radio" name="sex"/>
                                         <label for="profile-label-female"><fmt:message key="female"/> </label>
@@ -102,17 +102,17 @@
                         <div class="profile-div-position profile-div">
                             <label for="profile-input-position"><fmt:message key="currentPosition"/> </label>
                             <input id="profile-input-position" type="text" pattern="^[\w\dа-яёА-ЯЁ\s-]{1,99}$" name="position"
-                                    <c:if test="${not empty sessionScope.profile.currentPosition}">
-                                        value="${sessionScope.profile.currentPosition}"
+                                    <c:if test="${not empty user.currentPosition}">
+                                        value="${user.currentPosition}"
                                     </c:if>
                             />
                         </div>
                         <div class="profile-div-company profile-div">
                             <label for="profile-input-company"><fmt:message key="currentCompany"/> </label>
                             <input id="profile-input-company" type="text" pattern="^[\w\dа-яёА-ЯЁ\s-]{1,99}$" name="company"
-                                    <c:if test="${not empty sessionScope.profile.company}">
-                                           value="${sessionScope.profile.company}"
-                                    </c:if>
+                            <c:if test="${not empty user.company}">
+                                   value="${user.company}"
+                            </c:if>
                         </div>
                     </div>
                     <div class="profile-div-describe profile-div">
@@ -120,10 +120,10 @@
 
                         <c:choose>
                             <c:when test="${not empty sessionScope.profile.describe}">
-                                <textarea id="profile-input-describe" class="profile-input-describe" name="describe">${sessionScope.profile.describe}</textarea>
+                                <textarea id="profile-input-describe" name="describe">${user.describe}</textarea>
                             </c:when>
                             <c:otherwise>
-                                <textarea id="profile-input-describe" class="profile-input-describe" name="describe"></textarea>
+                                <textarea id="profile-input-describe" name="describe"></textarea>
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -138,7 +138,7 @@
 </div>
 
 </div>
-<script src="../js/jquery-1.9.0.js"></script>
-<script src="../js/profile.js"></script>
+<script src="../../js/jquery-1.9.0.js"></script>
+<script src="../../js/profile.js"></script>
 </body>
 </html>

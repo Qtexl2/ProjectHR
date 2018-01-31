@@ -62,14 +62,24 @@
 .profile-section{
     background: #f5f5f5;
 }
-.profile-div > label{
+.profile-input-data  label{
     display: block;
     font-size: 14px;
     color: #444;
 }
+.profile-block-field{
+    border: 1px #eee solid;
+}
 .profile-div-describe{
     margin-top: 10px;
 }
+.profile-div-preInterview{
+    margin-top: 10px;
+}
+.profile-div-technicalInterview{
+    margin-top: 10px;
+}
+
 .profile-div > input{
     height:20px;
     width: 99%;
@@ -84,7 +94,7 @@
     width: 15px;
     height: 11px;
 }
-#profile-input-describe{
+.profile-input{
     width: 99%;
     height: 200px;
     resize: none;
@@ -113,7 +123,13 @@
     color: #555;
     margin: auto auto;
 }
-
+#profile-input-describe{
+    width: 99%;
+    height: 200px;
+    resize: none;
+    pointer-events: none;
+    border: 1px #eee solid;
+}
 .wrapper-profile > h2{
     width: fit-content;
     color: red;
@@ -123,6 +139,7 @@
 #profile-input-success{
     color: green;
 }
+
 #profile-h2-upload{
     font-size: 12px;
     color: red;
@@ -132,4 +149,9 @@
 }
 .profile-h2-upload-opacity{
     opacity: 1;
+}
+.block{
+    pointer-events:none;
+    border: 1px #eee solid;
+
 }
