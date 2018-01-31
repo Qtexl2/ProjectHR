@@ -14,17 +14,7 @@
 </head>
 <body>
 <div class="wrapper">
-    <c:choose>
-        <c:when test="${sessionScope.profile.role eq 'EMPLOYER'}">
-            <%@include file="employer/employerHeader.jsp" %>
-        </c:when>
-        <c:when test="${sessionScope.profile.role eq 'ADMIN'}">
-            <%@include file="admin/adminHeader.jsp" %>
-        </c:when>
-        <c:otherwise>
-            <%@include file="header.jsp" %>
-        </c:otherwise>
-    </c:choose>
+    <%@include file="../pages/header.jsp"%>
     </header>
     <main class="main-registration">
         <section class="registration-section">

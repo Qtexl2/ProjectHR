@@ -25,7 +25,8 @@ public class VacancyMysqlDAO extends VacancyDAO {
             "vacancy.vacancy_status= not vacancy.vacancy_status  WHERE vacancy.vacancy_id=?";
 
     private static final String SQL_INSERT_VACANCY = "INSERT INTO vacancy " +
-            "(vacancy.vacancy_title, vacancy.vacancy_description, vacancy.vacancy_location, vacancy.company) VALUES(?,?,?,?)";
+            "(vacancy.vacancy_title, vacancy.vacancy_description, vacancy.vacancy_location, vacancy.vacancy_status, " +
+            "vacancy.company, vacancy.employer_id) VALUES(?,?,?,?,?,?)";
 
     private static final String SQL_INSERT_VACANCY_AND_PROFILE = "INSERT INTO profile_has_vacancy  " +
             "(profile_has_vacancy.profile_user_id, profile_has_vacancy.vacancy_vacancy_id) VALUES (?, ?) ";
@@ -38,6 +39,11 @@ public class VacancyMysqlDAO extends VacancyDAO {
     private static final String SQL_SELECT_VACANCY_BY_ID = "SELECT  vacancy.vacancy_id, vacancy.vacancy_title, " +
             "vacancy.vacancy_description, vacancy.vacancy_location, vacancy.vacancy_status, vacancy.company FROM vacancy " +
             "WHERE vacancy.vacancy_id=?";
+
+    private static final String SQL_SELECT_VACANCY_BY_EMPLOYER = "SELECT  vacancy.vacancy_id, vacancy.vacancy_title, " +
+            "vacancy.vacancy_description, vacancy.vacancy_location, vacancy.vacancy_status, vacancy.company FROM vacancy " +
+            "WHERE vacancy.employer_id=?";
+
     private static final String SQL_SELECT_EMPLOYER_BY_ID_VACANCY = "SELECT v.employer_id FROM vacancy v WHERE v.vacancy_id=? ";
 
     private static final String SQL_SELECT_BY_TITLE_AND_LOCAL_AND_DESC = "SELECT v.vacancy_id, v.vacancy_title, " +
@@ -180,6 +186,43 @@ public class VacancyMysqlDAO extends VacancyDAO {
         return vacancies;
     }
 
+
+    @Override
+    public List<Vacancy> selectVacancyByLEmployer(Long id) throws DAOException{
+        List<Vacancy> vacancies = new ArrayList<>();
+        checkTransaction();
+        PreparedStatement statement = null;
+        try{
+            statement = connection.prepareStatement(SQL_SELECT_VACANCY_BY_EMPLOYER);
+            statement.setLong(1,id);
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                Vacancy vacancy;
+                vacancy = initVacancy(result);
+                vacancies.add(vacancy);
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException("Exception in method selectVacancyByLEmployer(): ",e);
+        } finally {
+            try{
+                closeStatement(statement);
+            }
+            catch (DAOException ex){
+                throw new DAOException("Exception in method selectVacancyByLocAndTitle(): ",ex);
+            }
+            finally {
+                closeConnection(connection);
+            }
+        }
+        return vacancies;
+    }
+
+
+
+
+
+
     @Override
     public boolean insert(Vacancy item) throws DAOException{
         checkTransaction();
@@ -191,7 +234,9 @@ public class VacancyMysqlDAO extends VacancyDAO {
             statement.setString(1,item.getVacancyTitle());
             statement.setString(2,item.getVacancyDescription());
             statement.setString(3,item.getLocation());
-            statement.setString(4,item.getCompany());
+            statement.setBoolean(4,item.getVacancyStatus());
+            statement.setString(5,item.getCompany());
+            statement.setLong(6,item.getEmployerId());
             statement.executeUpdate();
             status = true;
 

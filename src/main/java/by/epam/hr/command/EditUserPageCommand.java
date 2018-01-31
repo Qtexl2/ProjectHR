@@ -42,16 +42,18 @@ public class EditUserPageCommand implements Command {
 
                 }
                 else {
-                    request.setAttribute(ATTR_PAGE,FORWARD_PAGE);
+                    request.setAttribute(ATTR_PAGE, FORWARD_PAGE);
                     page = PageDispatcher.getInstance().getProperty(PageDispatcher.PROFILE_PAGE_PATH);
                 }
             } catch (ServiceException e) {
                 LOGGER.log(Level.WARN,"EditUserPageCommand can not return a profile");
-
+                request.setAttribute(ATTR_PAGE,FORWARD_PAGE);
+                page = PageDispatcher.getInstance().getProperty(PageDispatcher.PAGE_404_PATH);
+                return page;
             }
         }
         else {
-            request.setAttribute(ATTR_PAGE,FORWARD_PAGE);
+            request.setAttribute(ATTR_PAGE,REDIRECT_PAGE);
             page = PageDispatcher.getInstance().getProperty(PageDispatcher.MAIN_PAGE_PATH);
 
         }

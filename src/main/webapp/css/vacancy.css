@@ -50,6 +50,7 @@
     margin-left: 40px;
     background: white;
     padding: 10px;
+    min-width: 400px;
 }
 .field-vacancy > h1 , h2{
     font-size: 20px;
@@ -68,4 +69,35 @@
 }
 #submit-div{
     height: 52px;
+}
+.vacancy-label{
+    display: block;
+    margin-bottom: 5px;
+}
+.vacancy-input{
+    width: 397px;
+    height: 20px;
+}
+.wrap-input{
+    margin-top: 15px;
+}
+.vacancy-textarea{
+    width: 99%;
+    resize: none;
+    min-height: 500px;
+}
+#checkbox-actual-vac{
+    display: block;
+    margin: 0 0 0 60px;
+    width: 17px;
+    height: 17px;
+}
+#label-actual-vac{
+    margin: 0;
+    display: block;
+    float: left;
+    width: 160px;
+}
+.wrap-textarea{
+    margin-top: 15px;
 }

@@ -8,7 +8,16 @@ public class Vacancy extends Entity {
     private Boolean vacancyStatus;
     private String location;
     private String company;
+    private Long employerId;
     public Vacancy() {
+    }
+
+    public Long getEmployerId() {
+        return employerId;
+    }
+
+    public void setEmployerId(Long employerId) {
+        this.employerId = employerId;
     }
 
     public String getCompany() {

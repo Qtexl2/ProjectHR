@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ProfileUpdateCommand implements Command {
     private static final Logger LOGGER = LogManager.getRootLogger();
-    private static final String MESSAGE_STATUS = "messageStatus";
     private static final String PARAM_NAME_FIRSTNAME = "firstName";
     private static final String PARAM_NAME_LASTNAME = "lastName";
     private static final String PARAM_NAME_PHONE = "phone";
@@ -30,6 +29,11 @@ public class ProfileUpdateCommand implements Command {
     private static final String REGEXP_POSITION = "^[\\w\\dа-яёА-ЯЁ\\s-]{0,99}$";
     private static final String REGEXP_COMPANY = "^[\\w\\dа-яёА-ЯЁ\\s-]{0,99}$";
     private static final String REGEXP_DESCRIBE = "^[\\w\\W\\dа-яёА-ЯЁ\\s-]{0,500}$";
+    private static final String PROFILE_PAGE = "/controller?command=profile";
+    private static final String MESSAGE = "&message=";
+    private static final String MESSAGE_STATUS = "&messageStatus=";
+
+
     private ProfileService profileService;
 
     public ProfileUpdateCommand(){
@@ -43,11 +47,10 @@ public class ProfileUpdateCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         Profile profile = (Profile)request.getSession(false).getAttribute(PROFILE);
-        String page;
-        String message;
+        StringBuilder page = new StringBuilder();
         if(profile != null){
-            page = PageDispatcher.getInstance().getProperty(PageDispatcher.PROFILE_PAGE_PATH);
-            request.setAttribute(ATTR_PAGE,FORWARD_PAGE);
+            request.setAttribute(ATTR_PAGE,REDIRECT_PAGE);
+            page.append(PROFILE_PAGE);
             String firstName = request.getParameter(PARAM_NAME_FIRSTNAME);
             String lastName = request.getParameter(PARAM_NAME_LASTNAME);
             String phone = request.getParameter(PARAM_NAME_PHONE);
@@ -58,109 +61,54 @@ public class ProfileUpdateCommand implements Command {
             String describe = request.getParameter(PARAM_NAME_DESCRIBE);
             Integer age;
             Gender gender;
-            if(firstName != null){
-                if(!firstName.matches(REGEXP_NAME)){
-                    message = "Incorrect First Name";
-                    request.setAttribute(MESSAGE,message);
-                    request.setAttribute(MESSAGE_STATUS,true);
-                    return page;
-                }
-
-            }
-            else{
-                firstName = profile.getFirstName();
+            page.append(MESSAGE);
+            if(!firstName.matches(REGEXP_NAME)){
+                page.append("Incorrect First Name").append(MESSAGE_STATUS).append(true);
+                return page.toString();
             }
 
-            if(lastName != null){
-                if(!lastName.matches(REGEXP_NAME)){
-                    message = "Incorrect Last Name";
-                    request.setAttribute(MESSAGE,message);
-                    request.setAttribute(MESSAGE_STATUS,true);
-                    return page;
-                }
-            }
-            else{
-                lastName = profile.getLastName();
+            if(!lastName.matches(REGEXP_NAME)){
+                page.append("Incorrect Last Name").append(MESSAGE_STATUS).append(true);
+                return page.toString();
             }
 
-            if(phone != null){
-                if(!phone.matches(REGEXP_PHONE)){
-                    message = "Incorrect Phone number";
-                    request.setAttribute(MESSAGE_STATUS,true);
-                    request.setAttribute(MESSAGE,message);
-                    return page;
-                }
-            }
-            else{
-                phone = profile.getPhone();
+            if(!phone.matches(REGEXP_PHONE)){
+                page.append("Incorrect Phone number").append(MESSAGE_STATUS).append(true);
+                return page.toString();
             }
 
-            if(ageStr != null){
-                if(!ageStr.matches(REGEXP_AGE)){
-                    message = "Incorrect Age";
-                    request.setAttribute(MESSAGE,message);
-                    request.setAttribute(MESSAGE_STATUS,true);
-
-                    return page;
-                }
-                else {
-                    age = Integer.parseInt(ageStr);
-                }
+            if(!ageStr.matches(REGEXP_AGE)){
+                page.append("Incorrect Age").append(MESSAGE_STATUS).append(true);
+                return page.toString();
             }
-            else{
-                age = profile.getAge();
+            else {
+                age = Integer.parseInt(ageStr);
             }
 
-            if(genderStr != null){
-                if(!genderStr.matches(REGEXP_GENDER)){
-                    message = "Incorrect Gender";
-                    request.setAttribute(MESSAGE_STATUS,true);
-                    request.setAttribute(MESSAGE,message);
-                    return page;
-                }
-                else {
-                    gender = Gender.valueOf(genderStr.toUpperCase());
-                }
+            if(!genderStr.matches(REGEXP_GENDER)){
+                page.append("Incorrect Gender").append(MESSAGE_STATUS).append(true);
+                return page.toString();
             }
-            else{
-                gender = profile.getGender();
+            else {
+                gender = Gender.valueOf(genderStr.toUpperCase());
             }
 
-            if(position != null){
-                if(!position.matches(REGEXP_POSITION)){
-                    message = "Incorrect Position";
-                    request.setAttribute(MESSAGE_STATUS,true);
-                    request.setAttribute(MESSAGE,message);
-                    return page;
-                }
-            }
-            else{
-                position = profile.getCurrentPosition();
+            if(!position.matches(REGEXP_POSITION)){
+                page.append("Incorrect Position").append(MESSAGE_STATUS).append(true);
+                return page.toString();
             }
 
-            if(company != null){
-                if(!company.matches(REGEXP_COMPANY)){
-                    message = "Incorrect Company";
-                    request.setAttribute(MESSAGE_STATUS,true);
-                    request.setAttribute(MESSAGE,message);
-                    return page;
-                }
-            }
-            else{
-                company = profile.getCompany();
+            if(!company.matches(REGEXP_COMPANY)){
+                page.append("Incorrect Company").append(MESSAGE_STATUS).append(true);
+                return page.toString();
             }
 
-            if(describe != null){
-                if(!describe.matches(REGEXP_DESCRIBE)){
-                    message = "Incorrect Describe";
-                    request.setAttribute(MESSAGE_STATUS,true);
-                    request.setAttribute(MESSAGE,message);
-                    return page;
-                }
+            if(!describe.matches(REGEXP_DESCRIBE)){
+                page.append("Incorrect Describe").append(MESSAGE_STATUS).append(true);
+                return page.toString();
             }
-            else{
-                describe = profile.getDescribe();
-            }
+
+
             profile.setFirstName(firstName);
             profile.setLastName(lastName);
             profile.setCompany(company);
@@ -171,25 +119,23 @@ public class ProfileUpdateCommand implements Command {
             profile.setPhone(phone);
             try {
                 if(!profileService.updateBaseProfile(profile)){
-                    message = "Incorrect data";
-                    request.setAttribute(MESSAGE,message);
-                    request.setAttribute(MESSAGE_STATUS,true);
-
+                    page.append("Incorrect Describe").append(MESSAGE_STATUS).append(true);
+                    return page.toString();
                 }
                 else{
-                    message = "Success";
-                    request.setAttribute(MESSAGE,message);
-                    request.setAttribute(MESSAGE_STATUS,false);
+                    page.append("Success").append(MESSAGE_STATUS).append(false);
 
                 }
             } catch (ServiceException e) {
-                e.printStackTrace();
+                page.append("Incorrect Describe").append(MESSAGE_STATUS).append(true);
+                return page.toString();
             }
 
         }
         else{
-            page = PageDispatcher.getInstance().getProperty(PageDispatcher.MAIN_PAGE_PATH);
+            request.setAttribute(ATTR_PAGE,FORWARD_PAGE);
+            return PageDispatcher.getInstance().getProperty(PageDispatcher.MAIN_PAGE_PATH);
         }
-        return page;
+        return page.toString();
     }
 }

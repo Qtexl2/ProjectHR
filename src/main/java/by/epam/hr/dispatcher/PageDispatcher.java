@@ -17,9 +17,11 @@ public class PageDispatcher {
     public static final String REGISTRATION_PAGE_PATH = "REGISTRATION_PAGE_PATH";
     public static final String AUTHORIZATION_PAGE_PATH = "AUTHORIZATION_PAGE_PATH";
     public static final String PAGE_404_PATH = "PAGE_404_PATH";
+    public static final String PAGE_500_PATH = "PAGE_500_PATH";
     public static final String DIALOG_PAGE_PATH = "DIALOG_PAGE_PATH";
     public static final String ADMIN_USER_PAGE = "ADMIN_USER_PAGE";
     public static final String EMPLOYER_USER_PAGE = "EMPLOYER_USER_PAGE";
+    public static final String CREATE_VACANCY_PAGE = "CREATE_VACANCY_PAGE";
 
     private ResourceBundle resourceBundle;
     private static AtomicBoolean dispatcherCreated = new AtomicBoolean(false);

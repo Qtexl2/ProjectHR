@@ -47,17 +47,8 @@
                                     <li><a href=/controller?command=regPage><fmt:message key="registration"/></a></li>
                                 </c:when>
                                 <c:otherwise>
-                                    <c:choose>
-                                        <c:when test="${sessionScope.profile.role == 'EMPLOYER'}">
-                                            <li><a href=/controller?command=profile><fmt:message key="profile"/></a></li>
-                                            <li><a href=/controller?command=logout><fmt:message key="logout"/></a></li>
-                                        </c:when>
-                                        <c:when test="${sessionScope.profile.role == 'CANDIDATE'}">
-                                            <li><a href=/controller?command=profile><fmt:message key="profile"/></a></li>
-                                            <li><a href=/controller?command=logout><fmt:message key="logout"/></a></li>
-                                        </c:when>
-
-                                    </c:choose>
+                                    <li><a href=/controller?command=profile><fmt:message key="profile"/></a></li>
+                                    <li><a href=/controller?command=logout><fmt:message key="logout"/></a></li>
                                 </c:otherwise>
                             </c:choose>
 
@@ -70,7 +61,12 @@
     <div class="main-menu-bar">
         <ul class="main-menu-list">
             <li><a class="main-menu" href="/"><fmt:message key="main"/></a></li>
-            <li><a  class="main-menu" href=/controller?command=searchJob&job=&location=><fmt:message key="findJobs"/></a>
+            <li><a class="main-menu multi" href=#><fmt:message key="findJobs"/></a>
+                <ul class="main-submenu drop-menu">
+                    <li><a href=controller?command=searchJob&job=&location=><fmt:message key="allVacancies"/></a></li>
+                    <li><a href=/controller?command=myVacancies><fmt:message key="myVacancies"/></a></li>
+                    <li><a href=/controller?command=createVacancy><fmt:message key="createVacancy"/></a></li>
+                </ul>
             </li>
             <c:if test="${not empty sessionScope.profile}">
                 <li><a class="main-menu menu-message" href="/controller?command=allDialog"><fmt:message key="message"/></a></li>

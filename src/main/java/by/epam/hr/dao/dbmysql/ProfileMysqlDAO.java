@@ -111,7 +111,6 @@ public class ProfileMysqlDAO extends ProfileDAO {
 
     public static void main(String[] args) throws DAOException, SQLException {
         ProfileMysqlDAO profileMysqlDAO = new ProfileMysqlDAO(false);
-        System.out.println(profileMysqlDAO.selectProfileHaveDialog(null));
 //        profileMysqlDAO.readBLOB();
 //        Profile profile = new Profile("pds@gmail.com","fsd", Role.CANDIDATE);
 //        profileMysqlDAO.insert(profile);

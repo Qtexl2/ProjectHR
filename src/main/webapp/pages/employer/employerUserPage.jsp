@@ -22,14 +22,14 @@
             <div class="wrapper-profile">
                 <h1><fmt:message key="profile"/></h1>
                 <c:choose>
-                    <c:when test="${messageStatus == 'true'}">
-                        <c:if test="${not empty message}">
-                            <h2 id="profile-input-error">(${message})</h2>
+                    <c:when test="${param.messageStatus == 'true'}">
+                        <c:if test="${not empty param.message}">
+                            <h2 id="profile-input-error">(${param.message})</h2>
                         </c:if>
                     </c:when>
                     <c:otherwise>
-                        <c:if test="${not empty message}">
-                            <h2 id="profile-input-success">(${message})</h2>
+                        <c:if test="${not empty param.message}">
+                            <h2 id="profile-input-success">(${param.message})</h2>
                         </c:if>
                     </c:otherwise>
                 </c:choose>
@@ -123,31 +123,17 @@
                         </c:choose>
                     </div>
                     <label for="profile-input-level"><fmt:message key="level"/>
-                    <input id="profile-input-level" type="text" value="${user.englishLevel}" name="level">
+                    <input id="profile-input-level" type="text" pattern="^(A1|A2|B1|B2|C1|C2)$" value="${user.englishLevel}" name="level">
 
                     </label>
                     <div class="profile-div-preInterview profile-div">
                         <label for="profile-input-preInterview"><fmt:message key="resultPre"/></label>
-                        <c:choose>
-                            <c:when test="${not empty user.preInterview}">
-                                <textarea id="profile-input-preInterview" class="profile-input" name="preInterview">${user.preInterview}</textarea>
-                            </c:when>
-                            <c:otherwise>
-                                <textarea id="profile-input-preInterview" class="profile-input" name="preInterview"></textarea>
-                            </c:otherwise>
-                        </c:choose>
+                        <textarea id="profile-input-preInterview" class="profile-input" name="preInterview">${user.preInterview}</textarea>
                     </div>
 
                     <div class="profile-div-technicalInterview profile-div">
                         <label for="profile-input-technicalInterview"><fmt:message key="resultTech"/></label>
-                        <c:choose>
-                            <c:when test="${not empty user.technicalInterview}">
-                                 <textarea id="profile-input-technicalInterview" class="profile-input" name="technicalInterview">${user.technicalInterview}</textarea>
-                            </c:when>
-                            <c:otherwise>
-                                <textarea id="profile-input-technicalInterview" class="profile-input" name="technicalInterview"></textarea>
-                            </c:otherwise>
-                        </c:choose>
+                        <textarea id="profile-input-technicalInterview" class="profile-input" name="technicalInterview">${user.technicalInterview}</textarea>
                     </div>
                     <button type="submit" id="btn-profile-update-id" class="btn-profile-update" name="id" value="${user.profileID}"><fmt:message key="update"/> </button>
                 </form>
@@ -161,6 +147,5 @@
 
 </div>
 <script src="../../js/jquery-1.9.0.js"></script>
-<script src="../../js/profile.js"></script>
 </body>
 </html>

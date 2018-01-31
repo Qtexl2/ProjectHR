@@ -15,7 +15,17 @@
 </head>
 <body>
 <div class="wrapper">
-    <%@include file="header.jsp"%>
+    <c:choose>
+        <c:when test="${sessionScope.profile.role eq 'EMPLOYER'}">
+            <%@include file="employer/employerHeader.jsp" %>
+        </c:when>
+        <c:when test="${sessionScope.profile.role eq 'ADMIN'}">
+            <%@include file="admin/adminHeader.jsp" %>
+        </c:when>
+        <c:otherwise>
+            <%@include file="header.jsp" %>
+        </c:otherwise>
+    </c:choose>
     <main>
         <section class="interview-section">
             <div class="wrapper-interview">

@@ -29,6 +29,22 @@ public class VacancyService {
             throw new ServiceException(e);
         }
     }
+    public boolean insertVacancy (Vacancy vacancy) throws ServiceException {
+        try{
+            return vacancyDAO.insert(vacancy);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+
+    public List<Vacancy> selectVacancyByEmployer(Long id) throws ServiceException {
+        try{
+            return vacancyDAO.selectVacancyByLEmployer(id);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
 
     public Vacancy selectVacancyById(Long id) throws ServiceException {
         try{
@@ -38,6 +54,7 @@ public class VacancyService {
         }
     }
 
+
     public boolean insertVacancyAndProfile(Long idProfile, Long idVacancy) throws ServiceException {
         boolean status = true;
         TransactionManager transactionManager = null;
@@ -46,6 +63,8 @@ public class VacancyService {
             VacancyDAO vacancyDAO = new VacancyMysqlDAO(true);
             MessageDAO messageDAO = new MessageMysqlDAO(true);
             transactionManager.begin(vacancyDAO,messageDAO);
+            String mes= "<a href='/controller?command=page&id="+idProfile+"'>Кандидат</a> откликнулся на Вашу " +
+                    "<a href='/controller?command=vacancy&vacancyId="+idVacancy+"'>вакансию</a>";
 
             if(!vacancyDAO.insertVacancyAndProfile(idProfile, idVacancy)){
                 status = false;
@@ -53,7 +72,7 @@ public class VacancyService {
             else {
                 Long idReceiver = vacancyDAO.selectIdOwnerByIdVacancy(idVacancy);
                 if(idProfile != null){
-                    Message message = new Message("БЛА БЛА БЛА НА ПЕРВЫЙ РАЗ",idProfile, idReceiver);
+                    Message message = new Message(mes,idProfile, idReceiver);
                     if(!messageDAO.insert(message)){
                         status = false;
                     }

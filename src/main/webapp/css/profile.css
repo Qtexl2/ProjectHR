@@ -127,8 +127,6 @@
     width: 99%;
     height: 200px;
     resize: none;
-    pointer-events: none;
-    border: 1px #eee solid;
 }
 .wrapper-profile > h2{
     width: fit-content;

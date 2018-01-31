@@ -23,14 +23,14 @@ public class EditUserCommand implements Command {
     private static final String REGEXP_PRE = "^[\\w\\W\\dа-яёА-ЯЁ\\s-]{0,500}$";
     private static final String REGEXP_TECH = "^[\\w\\W\\dа-яёА-ЯЁ\\s-]{0,500}$";
     private static final String REGEXP_ID = "^\\d+$";
-    private static final String MESSAGE_STATUS = "messageStatus";
+    private static final String MESSAGE_STATUS = "&messageStatus=";
+    private static final String MESSAGE = "&message=";
     private static final String USER_PAGE = "/controller?command=page&id=";
 
     private ProfileService profileService;
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String page;
-        String message;
+        StringBuilder page = new StringBuilder();
 
         Profile profile = (Profile) request.getSession(false).getAttribute(PROFILE);
         String idStr = request.getParameter(ID_USER);
@@ -40,82 +40,55 @@ public class EditUserCommand implements Command {
 
         if(profile != null && (Role.EMPLOYER.equals(profile.getRole()) || Role.ADMIN.equals(profile.getRole()))) {
             request.setAttribute(ATTR_PAGE,REDIRECT_PAGE);
-            if (idStr != null) {
-                if (!idStr.matches(REGEXP_ID)) {
-                    message = "Incorrect ID";
-                    request.setAttribute(MESSAGE, message);
-                    request.setAttribute(MESSAGE_STATUS, true);
-                    page = PageDispatcher.getInstance().getProperty(PageDispatcher.PAGE_404_PATH);
-                    return page;
-                }
-            }
-            else {
-                message = "Incorrect ID";
-                request.setAttribute(MESSAGE, message);
-                request.setAttribute(MESSAGE_STATUS, true);
-                page = PageDispatcher.getInstance().getProperty(PageDispatcher.PAGE_404_PATH);
-                return page;
-            }
-
-            Long id = Long.valueOf(idStr);
-            page = USER_PAGE+idStr;
-            if (levelEn != null) {
-                if (!levelEn.matches(REGEXP_LEVEL)) {
-                    message = "Incorrect English Level";
-                    request.setAttribute(MESSAGE, message);
-                    request.setAttribute(MESSAGE_STATUS, true);
-                    return page;
-                }
-            }
-            else {
-                levelEn = "A1";
-            }
-
-            if (preInterview != null) {
-                if (!preInterview.matches(REGEXP_PRE)) {
-                    message = "Incorrect PreInterview field";
-                    request.setAttribute(MESSAGE, message);
-                    request.setAttribute(MESSAGE_STATUS, true);
-                    return page;
-                }
-            }
-            else {
-                preInterview ="";
-            }
-            if (technicalInterview != null) {
-                if (!technicalInterview.matches(REGEXP_TECH)) {
-                    message = "Incorrect TechInterview field";
-                    request.setAttribute(MESSAGE, message);
-                    request.setAttribute(MESSAGE_STATUS, true);
-                    return page;
-                }
-            }
-            else {
-                technicalInterview ="";
-            }
-            try {
-                profileService = new ProfileService();
-                if(!profileService.updateAfterInterview(id,levelEn,preInterview,technicalInterview)){
-                    message = "Incorrect data";
-                    request.setAttribute(MESSAGE,message);
-                    request.setAttribute(MESSAGE_STATUS,true);
+            try{
+                if (idStr != null) {
+                    if (!idStr.matches(REGEXP_ID)) {
+                        throw new ServiceException("User not found");
+                    }
                 }
                 else {
-                    message = "Success";
-                    request.setAttribute(MESSAGE,message);
-                    request.setAttribute(MESSAGE_STATUS,false);
-
+                    throw new ServiceException("User not found");
                 }
-            } catch (ServiceException e) {
+
+                Long id = Long.valueOf(idStr);
+                page.append(USER_PAGE).append(idStr).append(MESSAGE);
+                if (!levelEn.matches(REGEXP_LEVEL)) {
+                    page.append("Incorrect English Level").append(MESSAGE_STATUS).append(true);
+                    return page.toString();
+                }
+
+                if (!preInterview.matches(REGEXP_PRE)) {
+                     page.append("Incorrect PreInterview field").append(MESSAGE_STATUS).append(true);
+                     return page.toString();
+                }
+
+                if (!technicalInterview.matches(REGEXP_TECH)) {
+                    page.append("Incorrect TechInterview field").append(MESSAGE_STATUS).append(true);
+                    return page.toString();
+                }
+
+                profileService = new ProfileService();
+                if(!profileService.updateAfterInterview(id,levelEn,preInterview,technicalInterview)){
+                    page.append("Incorrect data").append(MESSAGE_STATUS).append(true);
+                    return page.toString();
+                }
+                else {
+                    page.append("Success").append(MESSAGE_STATUS).append(false);
+                }
+
+            }
+
+            catch (ServiceException e){
                 LOGGER.log(Level.WARN,"EditUserCommand can not update a profile");
+                request.setAttribute(ATTR_PAGE,FORWARD_PAGE);
+                return PageDispatcher.getInstance().getProperty(PageDispatcher.PAGE_404_PATH);
             }
         }
         else {
             request.setAttribute(ATTR_PAGE,FORWARD_PAGE);
-            page = PageDispatcher.getInstance().getProperty(PageDispatcher.MAIN_PAGE_PATH);
-
+            return PageDispatcher.getInstance().getProperty(PageDispatcher.MAIN_PAGE_PATH);
         }
-        return page;
+        return page.toString();
     }
 
 }

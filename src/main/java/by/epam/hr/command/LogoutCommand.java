@@ -13,7 +13,7 @@ public class LogoutCommand implements Command {
         if (currentSession != null) {
             currentSession.invalidate();
         }
-        request.setAttribute(ATTR_PAGE,FORWARD_PAGE);
+        request.setAttribute(ATTR_PAGE,REDIRECT_PAGE);
         return PageDispatcher.getInstance().getProperty(PageDispatcher.MAIN_PAGE_PATH);
     }
 }
