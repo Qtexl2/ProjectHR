@@ -14,7 +14,9 @@ public class EmployerVacancyCommand implements Command{
     private VacancyService vacancyService;
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+
         Profile profile = (Profile) request.getSession(false) .getAttribute(PROFILE);
+
         String page;
         if(profile != null && profile.getRole().name().equalsIgnoreCase("EMPLOYER")){
             try {
@@ -22,7 +24,7 @@ public class EmployerVacancyCommand implements Command{
                 List<Vacancy> vacancies = vacancyService.selectVacancyByEmployer(profile.getProfileID());
                 request.setAttribute("vacancies",vacancies);
                 request.setAttribute(ATTR_PAGE,FORWARD_PAGE);
-                page = PageDispatcher.getInstance().getProperty(PageDispatcher.VACANCIES_PAGE_PATH);
+                page = PageDispatcher.getInstance().getProperty(PageDispatcher.EMPLOYER_VACANCIES_PAGE_PATH);
             }
             catch (ServiceException e) {
                 request.setAttribute(ATTR_PAGE,REDIRECT_PAGE);

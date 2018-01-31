@@ -16,7 +16,7 @@
         if(validSubmit()) {
             var email = $('.email-input');
             var password = $('.pass-input');
-            var role = $('.registration-radio');
+            var role = $('.registration-radio:checked');
             var command = $('#command-reg');
             $.ajax({
                 type: 'POST',

@@ -27,6 +27,7 @@ public class VacancyCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String strId = request.getParameter(VACANCY_ID);
+        request.setAttribute(ATTR_PAGE,FORWARD_PAGE);
         String page = null;
         if(strId != null) {
             Long id = Long.valueOf(strId);
@@ -47,7 +48,6 @@ public class VacancyCommand implements Command {
         else {
             page = PageDispatcher.getInstance().getProperty(PageDispatcher.PAGE_404_PATH);
         }
-        request.setAttribute(ATTR_PAGE,FORWARD_PAGE);
         return page;
     }
 }

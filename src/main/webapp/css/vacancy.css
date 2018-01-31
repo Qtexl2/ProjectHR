@@ -101,3 +101,10 @@
 .wrap-textarea{
     margin-top: 15px;
 }
+.h1-create-vac{
+    margin-bottom: 0;
+}
+.error-label-vac{
+    font-size: 13px;
+    color: red;
+}

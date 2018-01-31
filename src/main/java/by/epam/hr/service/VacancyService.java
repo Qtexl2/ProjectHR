@@ -37,6 +37,21 @@ public class VacancyService {
         }
     }
 
+    public boolean updateVacancy (Vacancy vacancy) throws ServiceException {
+        try{
+            return vacancyDAO.update(vacancy);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    public boolean deleteVacancy (Long id) throws ServiceException {
+        try{
+            return vacancyDAO.delete(id);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
 
     public List<Vacancy> selectVacancyByEmployer(Long id) throws ServiceException {
         try{

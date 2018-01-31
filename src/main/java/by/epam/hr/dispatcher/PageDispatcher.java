@@ -11,6 +11,7 @@ public class PageDispatcher {
     private static final String BUNDLE_NAME = "dispatcher";
     public static final String MAIN_PAGE_PATH = "MAIN_PAGE_PATH";
     public static final String VACANCIES_PAGE_PATH = "VACANCIES_PAGE_PATH";
+    public static final String EMPLOYER_VACANCIES_PAGE_PATH = "EMPLOYER_VACANCIES_PAGE_PATH";
     public static final String PROFILE_PAGE_PATH = "PROFILE_PAGE_PATH";
     public static final String VACANCY_PAGE_PATH = "VACANCY_PAGE_PATH";
     public static final String EDIT_INTERVIEW_PAGE_PATH = "EDIT_INTERVIEW_PAGE_PATH";
@@ -22,6 +23,7 @@ public class PageDispatcher {
     public static final String ADMIN_USER_PAGE = "ADMIN_USER_PAGE";
     public static final String EMPLOYER_USER_PAGE = "EMPLOYER_USER_PAGE";
     public static final String CREATE_VACANCY_PAGE = "CREATE_VACANCY_PAGE";
+    public static final String UPDATE_VACANCY_PAGE = "UPDATE_VACANCY_PAGE";
 
     private ResourceBundle resourceBundle;
     private static AtomicBoolean dispatcherCreated = new AtomicBoolean(false);

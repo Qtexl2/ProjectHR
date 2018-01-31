@@ -510,3 +510,15 @@ opacity: 0;
     width: fit-content;
     margin: auto;
 }
+.delete-vacancy:before{
+    font: 25px 'Material-Design-Iconic-Font';
+    color: rgba(85, 85, 85, 0.72);
+    text-rendering: auto;
+    content: '\F136';
+    float: right;
+    margin-right: 15px;
+}
+
+.delete-vacancy:hover:before{
+    color: red;
+}

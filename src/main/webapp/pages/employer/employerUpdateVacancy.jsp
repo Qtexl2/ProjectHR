@@ -10,8 +10,8 @@
 <head>
     <meta charset="UTF-8">
     <title><fmt:message key="company"/></title>
-    <link rel="stylesheet" href="../css/base.css">
-    <link rel="stylesheet" href="../css/vacancy.css">
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/vacancy.css">
 </head>
     <body>
         <div class="wrapper">
@@ -19,31 +19,38 @@
             <main id="vacancy-main">
                 <section class="vacancy-result section-vacancy">
                     <form method="post" action="/controller">
-                        <input name="command" value="createVacancy" hidden>
+                        <input name="command" value="editVacancy" hidden>
                         <div class="field-vacancy">
-                            <h1 class="h1-create-vac"><fmt:message key="createNewVacancy"/></h1>
+                            <h1 class="h1-create-vac"><fmt:message key="updateVacancy"/></h1>
                             <label class="error-label-vac">${param.message}</label>
                             <div class="wrap-input">
                                 <label class="vacancy-label"><fmt:message key="position"/> </label>
-                                <input class="vacancy-input" required pattern="^[\wа-яёА-ЯЁ\s-]{1,140}$" name="position" type="text">
+                                <input class="vacancy-input"  required pattern="^[\wа-яёА-ЯЁ\s-]{1,140}$" name="position" type="text" value="${vacancy.vacancyTitle}">
                             </div>
                             <div class="wrap-input">
                                 <label class="vacancy-label"><fmt:message key="city"/> </label>
-                                <input class="vacancy-input" required pattern="^[\wа-яёА-ЯЁ\s-]{1,40}$" name="city" type="text">
+                                <input class="vacancy-input" required pattern="^[\wа-яёА-ЯЁ\s-]{1,40}$" name="city" type="text" value="${vacancy.location}">
                             </div>
                             <div class="wrap-input">
                                 <label class="vacancy-label"><fmt:message key="companyName"/> </label>
-                                <input class="vacancy-input" required pattern="^[\wа-яёА-ЯЁ\s-]{1,95}$" name="companyName" type="text">
+                                <input class="vacancy-input" required pattern="^[\wа-яёА-ЯЁ\s-]{1,95}$" name="companyName" type="text" value="${vacancy.company}">
                             </div>
                             <div class="wrap-input">
                                 <label id="label-actual-vac" class="vacancy-label"><fmt:message key="actualVac"/> </label>
-                                <input id="checkbox-actual-vac" name="actualVac" class="vacancy-input"  type="checkbox">
+                                <c:choose>
+                                    <c:when test="${vacancy.vacancyStatus eq 'true'}">
+                                        <input id="checkbox-actual-vac" name="actualVac" class="vacancy-input" checked type="checkbox">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input id="checkbox-actual-vac" name="actualVac" class="vacancy-input" type="checkbox">
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                             <div class="wrap-textarea">
-                                <label class="vacancy-label" ><fmt:message key="positionDesc"/> </label>
-                                <textarea class="vacancy-textarea" required name="positionDescription"></textarea>
+                                <label class="vacancy-label" ><fmt:message key="positionDescription"/> </label>
+                                <textarea class="vacancy-textarea" required name="positionDescription">${vacancy.vacancyDescription}</textarea>
                             </div>
-                            <button type="submit" class="btn btn-respond"><fmt:message key="create"/></button>
+                            <button type="submit" class="btn btn-respond" name="id" value="${vacancy.vacancyID}"><fmt:message key="updateVacancySubmit"/></button>
                         </div>
                     </form>
                 </section>

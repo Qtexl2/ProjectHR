@@ -26,9 +26,12 @@ public class RequestHelper {
     public static final String INTERVIEW = "interview";
     public static final String GET_USER_PAGE = "page";
     public static final String UPDATE_USER = "userUpdate";
+    public static final String UPDATE_VACANCY_PAGE = "vacancyEdit";
     public static final String MY_VACANCIES = "myVacancies";
     public static final String CREATE_VACANCY_PAGE = "createVacancyPage";
     public static final String CREATE_VACANCY = "createVacancy";
+    public static final String VACANCY_UPDATE = "editVacancy";
+    public static final String VACANCY_DELETE = "deleteVacancy";
 
 
     private static AtomicBoolean requestHelperCreated = new AtomicBoolean(false);
@@ -62,6 +65,9 @@ public class RequestHelper {
         commands.put(MY_VACANCIES, new EmployerVacancyCommand());
         commands.put(CREATE_VACANCY_PAGE, new CreateVacancyPageCommand());
         commands.put(CREATE_VACANCY, new CreateVacancyCommand());
+        commands.put(UPDATE_VACANCY_PAGE, new EditVacancyPageCommand());
+        commands.put(VACANCY_UPDATE, new EditVacancyCommand());
+        commands.put(VACANCY_DELETE, new DeleteVacancyCommand());
     }
 
     public static RequestHelper getInstance(){

@@ -19,7 +19,7 @@ public class VacancyMysqlDAO extends VacancyDAO {
     private final static String SQL_DELETE_VACANCY_BY_ID = "DELETE FROM vacancy WHERE vacancy.vacancy_id=?";
 
     private static final String SQL_UPDATE_VACANCY_BY_ID = "UPDATE vacancy SET vacancy.vacancy_title=?, " +
-            "vacancy.vacancy_description=?, vacancy.vacancy_location=?, vacancy.vacancy_status=? WHERE vacancy.vacancy_id=?";
+            "vacancy.vacancy_description=?, vacancy.vacancy_location=?, vacancy.vacancy_status=?, vacancy.company=? WHERE vacancy.vacancy_id=?";
 
     private static final String SQL_UPDATE_STATUS_BY_ID = "UPDATE vacancy SET " +
             "vacancy.vacancy_status= not vacancy.vacancy_status  WHERE vacancy.vacancy_id=?";
@@ -218,11 +218,6 @@ public class VacancyMysqlDAO extends VacancyDAO {
         return vacancies;
     }
 
-
-
-
-
-
     @Override
     public boolean insert(Vacancy item) throws DAOException{
         checkTransaction();
@@ -289,12 +284,13 @@ public class VacancyMysqlDAO extends VacancyDAO {
         boolean status = false;
         PreparedStatement statement = null;
         try{
-            statement = connection.prepareStatement(SQL_UPDATE_VACANCY_BY_ID);
+                        statement = connection.prepareStatement(SQL_UPDATE_VACANCY_BY_ID);
             statement.setString(1,item.getVacancyTitle());
             statement.setString(2,item.getVacancyDescription());
             statement.setString(3,item.getLocation());
             statement.setBoolean(4,item.getVacancyStatus());
-            statement.setLong(5,item.getVacancyID());
+            statement.setString(5,item.getCompany());
+            statement.setLong(6,item.getVacancyID());
             statement.executeUpdate();
             status = true;
         } catch (SQLException e) {
