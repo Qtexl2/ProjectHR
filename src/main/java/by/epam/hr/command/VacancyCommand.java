@@ -16,13 +16,7 @@ public class VacancyCommand implements Command {
     private static final Logger LOGGER = LogManager.getRootLogger();
     private static final String VACANCY_ID = "vacancyId";
     private VacancyService vacancyService;
-    public VacancyCommand() {
-        try {
-            vacancyService = new VacancyService();
-        } catch (ServiceException e) {
-            LOGGER.log(Level.WARN,"Object not created",e);
-        }
-    }
+    public VacancyCommand() { }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -32,6 +26,8 @@ public class VacancyCommand implements Command {
         if(strId != null) {
             Long id = Long.valueOf(strId);
             try {
+                vacancyService = new VacancyService();
+
                 Vacancy vacancy = vacancyService.selectVacancyById(id);
                 if (vacancy != null) {
                     request.setAttribute(RequestHelper.VACANCY, vacancy);

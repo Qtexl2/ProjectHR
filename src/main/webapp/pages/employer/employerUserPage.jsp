@@ -135,6 +135,7 @@
                         <label for="profile-input-technicalInterview"><fmt:message key="resultTech"/></label>
                         <textarea id="profile-input-technicalInterview" class="profile-input" name="technicalInterview">${user.technicalInterview}</textarea>
                     </div>
+                    <a id="btn-interview-page" href="/controller?command=interview&id=${user.profileID}"><fmt:message key="setUpInterview"/> </a>
                     <button type="submit" id="btn-profile-update-id" class="btn-profile-update" name="id" value="${user.profileID}"><fmt:message key="update"/> </button>
                 </form>
             </div>
@@ -146,6 +147,5 @@
 </div>
 
 </div>
-<script src="../../js/jquery-1.9.0.js"></script>
 </body>
 </html>

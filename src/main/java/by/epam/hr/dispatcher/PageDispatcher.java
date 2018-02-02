@@ -24,6 +24,8 @@ public class PageDispatcher {
     public static final String EMPLOYER_USER_PAGE = "EMPLOYER_USER_PAGE";
     public static final String CREATE_VACANCY_PAGE = "CREATE_VACANCY_PAGE";
     public static final String UPDATE_VACANCY_PAGE = "UPDATE_VACANCY_PAGE";
+    public static final String SELECT_INTERVIEW_PAGE = "SELECT_INTERVIEW_PAGE";
+    public static final String SELECT_EMPLOYER_INTERVIEW_PAGE = "SELECT_EMPLOYER_INTERVIEW_PAGE";
 
     private ResourceBundle resourceBundle;
     private static AtomicBoolean dispatcherCreated = new AtomicBoolean(false);

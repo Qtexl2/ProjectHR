@@ -4,21 +4,128 @@
     background: #f5f5f5;
 }
 .wrapper-interview{
-    width: 60%;
     height: 100%;
-    margin: auto;
+    width: 40%;
+    margin-left: 40px;
     background: white;
+    padding: 10px;
+    min-width: 400px;
 
 }
 .interview-input-data{
     height: 100%;
-    padding: 20px;
 }
-.interview-input-data > h1{
-    margin: auto;
-    width: max-content;
-    color: #555;
-}
+/*.interview-input-data > h1{*/
+    /*margin: auto;*/
+    /*width: max-content;*/
+    /*color: #555;*/
+/*}*/
 .interview-form{
     height: 90%;
+}
+.btn-interview{
+    font: 300 14px 'Roboto',sans-serif;
+    color: white;
+    background: #4f2773;
+    height: 42px;
+    min-width: 100px;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
+    border: 2px #4f2773 solid;
+    position: relative;
+    display: block;
+    margin-left: auto;
+}
+.btn-interview:hover{
+    background: #765b9e;
+    cursor: pointer;
+}
+
+.interview-label{
+    display: block;
+    margin-bottom: 5px;
+}
+.title-interview{
+    font-size: 20px;
+    font-weight: 400;
+    color: inherit;
+    margin: 0;
+}
+.wrapper-input-interview{
+    margin-top: 15px;
+}
+.error-label-interview{
+    font-size: 13px;
+    color: red;
+}
+.interview-describe{
+    resize: none;
+    width: 99%;
+    height: 88%;
+}
+.list-type-interview{
+    width: 191px
+}
+.left-block-interview{
+    height: 100%;
+}
+.wrapper-textarea-interview{
+    height: 64%;
+}
+.interview-result{
+    padding: 0;
+}
+.field-interview{
+    width: 100%;
+    float: left;
+}
+.menu-field{
+    background: #eee;
+    text-align: center;
+    height: 21px;
+    margin-bottom: 10px;
+}
+
+
+.item-field{
+    text-align: center;
+    height: 45px;
+}
+.item-field > div > div{
+    border-bottom: 1px #bbb solid;
+    height: 100%;
+}
+.item-field > div{
+     height: 100%;
+}
+
+
+table th tr td{
+    border: 0;
+}
+.field-time{
+    width: 20%;
+}
+.field-type-interview{
+    width: 20%;
+}
+.field-description{
+    width: 60%;
+}
+tr{
+    height: 45px;
+    background: #eee;
+}
+table{
+    width: 100%;
+}
+td{
+    text-align: center;
+}
+.header-field{
+    background: #ddd;
+    height:40px;
 }

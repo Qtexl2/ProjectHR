@@ -30,21 +30,28 @@
         <section class="interview-section">
             <div class="wrapper-interview">
                 <div class="interview-input-data">
-                    <h1>СОздать интеврью</h1>
+                    <h1 class="title-interview">СОздать интеврью</h1>
+                    <%--<label class="error-label-interview"> Error</label>--%>
                     <form class="interview-form" method="post">
                         <div class="left-block-interview">
-                            <select class = "list-profiles"></select>
-                            <input type="datetime-local"/>
-                            <select class= "list-type-interview">
-                                <option>Собеседование</option>
-                                <option>Тех. собеседование</option>
-                            </select>
-                            <textarea class="interview-describe"></textarea>
-                            <input type="submit"  value="СОздать">
+                            <div class="wrapper-input-interview">
+                                <label class="interview-label" > Дата</label>
+                                <input  name="date" type="datetime-local"/>
+                            </div>
+                            <div class="wrapper-input-interview">
+                                <label class="interview-label"> Тип</label>
+                                <select name="type" class= "list-type-interview">
+                                    <option value="1">Собеседование</option>
+                                    <option value="2">Тех. собеседование</option>
+                                </select>
+                            </div>
+                            <div class="wrapper-input-interview wrapper-textarea-interview">
+                                <label class="interview-label">Описание</label>
+                                <textarea name="describe" class="interview-describe"></textarea>
+                            </div>
+                                <input type="submit" class="btn-interview" value="СОздать">
                         </div>
-                        <div class="right-block-interview"></div>
                     </form>
-
                 </div>
             </div>
         </section>

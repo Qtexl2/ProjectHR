@@ -70,7 +70,7 @@
             </li>
             <c:if test="${not empty sessionScope.profile}">
                 <li><a class="main-menu menu-message" href="/controller?command=allDialog"><fmt:message key="message"/></a></li>
-                <li><a class="main-menu menu-message" href="/controller?command=interview"><fmt:message key="interview"/></a></li>
+                <li><a class="main-menu menu-message" href="/controller?command=selectInterview"><fmt:message key="interview"/></a></li>
             </c:if>
         </ul>
     </div>

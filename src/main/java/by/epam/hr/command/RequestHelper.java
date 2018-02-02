@@ -24,6 +24,8 @@ public class RequestHelper {
     public static final String CHAT = "chat";
     public static final String SEND_MESSAGE = "sendMessage";
     public static final String INTERVIEW = "interview";
+    public static final String CREATE_INTERVIEW = "createInterview";
+    public static final String SELECT_INTERVIEW = "selectInterview";
     public static final String GET_USER_PAGE = "page";
     public static final String UPDATE_USER = "userUpdate";
     public static final String UPDATE_VACANCY_PAGE = "vacancyEdit";
@@ -59,7 +61,7 @@ public class RequestHelper {
         commands.put(ALL_DIALOG, new DialogCommand());
         commands.put(CHAT, new ChatCommand());
         commands.put(SEND_MESSAGE, new SendMessageCommand());
-        commands.put(INTERVIEW, new InterviewCommand());
+        commands.put(INTERVIEW, new CreateInterviewPageCommand());
         commands.put(GET_USER_PAGE, new EditUserPageCommand());
         commands.put(UPDATE_USER, new EditUserCommand());
         commands.put(MY_VACANCIES, new EmployerVacancyCommand());
@@ -68,6 +70,8 @@ public class RequestHelper {
         commands.put(UPDATE_VACANCY_PAGE, new EditVacancyPageCommand());
         commands.put(VACANCY_UPDATE, new EditVacancyCommand());
         commands.put(VACANCY_DELETE, new DeleteVacancyCommand());
+        commands.put(CREATE_INTERVIEW, new CreateInterviewCommand());
+        commands.put(SELECT_INTERVIEW, new GetInterviewPageCommand());
     }
 
     public static RequestHelper getInstance(){

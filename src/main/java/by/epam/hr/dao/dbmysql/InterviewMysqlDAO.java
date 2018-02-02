@@ -34,8 +34,8 @@ public class InterviewMysqlDAO  extends InterviewDAO{
             "WHERE interview.interview_id=?";
     private static final String SQL_DELETE_INTERVIEW_BY_ID = "DELETE FROM interview WHERE interview.interview_id=?";
     private static final String SQL_INSERT_INTERVIEW = "INSERT INTO interview " +
-            "(interview.interview_time, interview.interview_description, interview.type_interview, interview.technical_specialist_id, " +
-            "interview.candidate_id, interview.employer_id) VALUES(?,?,?,?,?,?)";
+            "(interview.interview_time, interview.interview_description, interview.type_interview, " +
+            "interview.candidate_id, interview.employer_id) VALUES(?,?,?,?,?)";
     private static final String ACTUAL_POSTFIX = "interview.interview_time > now()";
     private static final String WHERE = "WHERE ";
     private static final String AND = "AND ";
@@ -236,9 +236,8 @@ public class InterviewMysqlDAO  extends InterviewDAO{
             statement.setTimestamp(1,item.getInterviewTime());
             statement.setString(2,item.getInterviewDescription());
             statement.setString(3,item.getInterviewType().name().toLowerCase());
-            statement.setLong(4,item.getTechnicalID());
-            statement.setLong(5,item.getCandidateID());
-            statement.setLong(6,item.getEmployerID());
+            statement.setLong(4,item.getCandidateID());
+            statement.setLong(5,item.getEmployerID());
             statement.executeUpdate();
             status = true;
 

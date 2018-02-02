@@ -10,12 +10,12 @@
 <head>
     <meta charset="UTF-8">
     <title><fmt:message key="company"/></title>
-    <link rel="stylesheet" href="../css/base.css">
-    <link rel="stylesheet" href="../css/interview.css">
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/interview.css">
 </head>
 <body>
 <div class="wrapper">
-    <%@include file="header.jsp" %>
+    <%@include file="../header.jsp" %>
     <main>
         <section class="interview-result">
             <table>
