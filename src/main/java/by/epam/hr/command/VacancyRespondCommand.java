@@ -25,7 +25,7 @@ public class VacancyRespondCommand implements Command{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        Profile profile = (Profile) request.getSession(false).getAttribute(PROFILE);
+        Profile profile = (Profile) request.getSession().getAttribute(PROFILE);
         String message = null;
         if (profile != null) {
             String id = request.getParameter("idVac");

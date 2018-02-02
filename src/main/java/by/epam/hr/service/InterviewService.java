@@ -45,4 +45,31 @@ public class InterviewService {
             throw new ServiceException("selectInterviewByEmployerID have a problem in service layer." ,e);
         }
     }
+
+    public boolean deleteInterview(Long id) throws ServiceException{
+        try{
+            return interviewDAO.delete(id);
+        }
+        catch (DAOException e) {
+            throw new ServiceException("deleteInterview have a problem in service layer." ,e);
+        }
+    }
+
+    public boolean updateInterview(Interview interview) throws ServiceException{
+        try{
+            return interviewDAO.update(interview);
+        }
+        catch (DAOException e) {
+            throw new ServiceException("deleteInterview have a problem in service layer." ,e);
+        }
+    }
+
+    public Interview selectInterview(Long id) throws ServiceException{
+        try{
+            return interviewDAO.selectByID(id);
+        }
+        catch (DAOException e) {
+            throw new ServiceException("selectInterview have a problem in service layer." ,e);
+        }
+    }
 }

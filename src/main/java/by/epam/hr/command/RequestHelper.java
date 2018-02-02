@@ -26,6 +26,9 @@ public class RequestHelper {
     public static final String INTERVIEW = "interview";
     public static final String CREATE_INTERVIEW = "createInterview";
     public static final String SELECT_INTERVIEW = "selectInterview";
+    public static final String UPDATE_INTERVIEW_PAGE = "updateInterviewPage";
+    public static final String UPDATE_INTERVIEW = "updateInterview";
+    public static final String DELETE_INTERVIEW = "deleteInterview";
     public static final String GET_USER_PAGE = "page";
     public static final String UPDATE_USER = "userUpdate";
     public static final String UPDATE_VACANCY_PAGE = "vacancyEdit";
@@ -72,6 +75,9 @@ public class RequestHelper {
         commands.put(VACANCY_DELETE, new DeleteVacancyCommand());
         commands.put(CREATE_INTERVIEW, new CreateInterviewCommand());
         commands.put(SELECT_INTERVIEW, new GetInterviewPageCommand());
+        commands.put(UPDATE_INTERVIEW_PAGE, new EditInterviewPageCommand());
+        commands.put(UPDATE_INTERVIEW, new EditInterviewCommand());
+        commands.put(DELETE_INTERVIEW, new DeleteInterviewCommand());
     }
 
     public static RequestHelper getInstance(){

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 public class CreateInterviewPageCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        Profile profile = (Profile) request.getSession(false).getAttribute(PROFILE);
+        Profile profile = (Profile) request.getSession().getAttribute(PROFILE);
         request.setAttribute(ATTR_PAGE,FORWARD_PAGE);
 
         if(profile != null && profile.getRole().name().equalsIgnoreCase("EMPLOYER")) {

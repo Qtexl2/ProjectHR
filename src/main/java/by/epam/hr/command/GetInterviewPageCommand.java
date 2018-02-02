@@ -18,7 +18,9 @@ public class GetInterviewPageCommand implements Command {
     private InterviewService interviewService;
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        Profile profile = (Profile) request.getSession(false).getAttribute(PROFILE);
+
+
+        Profile profile = (Profile) request.getSession().getAttribute(PROFILE);
         request.setAttribute(ATTR_PAGE, FORWARD_PAGE);
         if(profile != null){
             try {

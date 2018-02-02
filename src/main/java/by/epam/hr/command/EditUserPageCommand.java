@@ -20,7 +20,7 @@ public class EditUserPageCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page = null;
-        Profile profile = (Profile) request.getSession(false) .getAttribute(PROFILE);
+        Profile profile = (Profile) request.getSession() .getAttribute(PROFILE);
         String idStr = request.getParameter(USER_ID);
         if(profile != null && idStr != null){
             Profile profileById;

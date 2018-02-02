@@ -30,8 +30,7 @@ public class InterviewMysqlDAO  extends InterviewDAO{
             "interview.interview_description, interview.type_interview, interview.technical_specialist_id, " +
             "interview.candidate_id, interview.employer_id FROM interview WHERE interview.interview_id = ? ";
     private static final String SQL_UPDATE_INTERVIEW_BY_ID = "UPDATE interview SET interview.interview_time=?, " +
-            "interview.interview_description=?, interview.type_interview=?, interview.technical_specialist_id=? " +
-            "WHERE interview.interview_id=?";
+            "interview.interview_description=?, interview.type_interview=?  WHERE interview.interview_id=?";
     private static final String SQL_DELETE_INTERVIEW_BY_ID = "DELETE FROM interview WHERE interview.interview_id=?";
     private static final String SQL_INSERT_INTERVIEW = "INSERT INTO interview " +
             "(interview.interview_time, interview.interview_description, interview.type_interview, " +
@@ -117,8 +116,7 @@ public class InterviewMysqlDAO  extends InterviewDAO{
             statement.setTimestamp(1,item.getInterviewTime());
             statement.setString(2,item.getInterviewDescription());
             statement.setString(3,item.getInterviewType().name().toLowerCase());
-            statement.setLong(4,item.getTechnicalID());
-            statement.setLong(5,item.getInterviewID());
+            statement.setLong(4,item.getInterviewID());
             statement.executeUpdate();
             status = true;
 

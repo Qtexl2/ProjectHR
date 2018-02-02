@@ -14,17 +14,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 
-public class CreateInterviewCommand implements Command {
+public class EditInterviewCommand implements Command {
     private static final Logger LOGGER = LogManager.getRootLogger();
     private static final String ID ="id";
     private static final String DATE ="date";
     private static final String TYPE ="type";
     private static final String DESCRIPTION ="description";
     private static final String REGEXP_ID = "^\\d+$";
-    private static final String REGEXP_DATE = "^2\\d{3}-[01]\\d-[0-3][\\d]T[0-2]\\d:[0-5]\\d$";
+    private static final String REGEXP_DATE = "^2\\d{3}-[01]\\d-[0-3][\\d]T[0-2]\\d:([0-5]\\d|[0-5]\\d\\:[0-5]\\d\\.\\d)";
     private static final String REGEXP_TYPE = "^(common|technical)$";
     private static final String REGEXP_DESCRIPTION = "^[\\w\\W\\dа-яёА-ЯЁ\\s-]{0,140}$";
-    private static final String PAGE = "/controller?command=interview&id=";
+    private static final String PAGE = "/controller?command=updateInterviewPage&id=";
     private static final String PAGE_GOOD = "/controller?command=selectInterview";
     private static final String MESSAGE = "&message=";
     private InterviewService interviewService;
@@ -47,11 +47,12 @@ public class CreateInterviewCommand implements Command {
             page.append(idStr).append(MESSAGE);
 
             if(!date.matches(REGEXP_DATE)){
+                System.out.println(date);
                 page.append("Incorrect Date Field");
                 return page.toString();
             }
             else {
-                date = date.replace('T',' ');
+                date = date.replace('T',' ').substring(0,16);
                 date+=":00";
             }
             if(!type.matches(REGEXP_TYPE)){
@@ -66,12 +67,11 @@ public class CreateInterviewCommand implements Command {
                 Long id = Long.valueOf(idStr);
                 interviewService = new InterviewService();
                 Interview interview = new Interview();
-                interview.setCandidateID(id);
+                interview.setInterviewID(id);
                 interview.setInterviewDescription(desc);
-                interview.setEmployerID(profile.getProfileID());
                 interview.setInterviewTime(Timestamp.valueOf(date));
                 interview.setInterviewType(InterviewType.valueOf(type.toUpperCase()));
-                interviewService.insertInterview(interview);
+                interviewService.updateInterview(interview);
                 return PAGE_GOOD;
 
             } catch (ServiceException e) {

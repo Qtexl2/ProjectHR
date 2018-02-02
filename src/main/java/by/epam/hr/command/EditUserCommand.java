@@ -32,7 +32,7 @@ public class EditUserCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         StringBuilder page = new StringBuilder();
 
-        Profile profile = (Profile) request.getSession(false).getAttribute(PROFILE);
+        Profile profile = (Profile) request.getSession().getAttribute(PROFILE);
         String idStr = request.getParameter(ID_USER);
         String levelEn = request.getParameter(LEVEL_EN);
         String preInterview = request.getParameter(PRE_INTERVIEW);

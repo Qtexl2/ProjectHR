@@ -30,7 +30,7 @@ public class UploadImageCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String message = null;
-        Profile profile = (Profile) request.getSession(false).getAttribute(PROFILE);
+        Profile profile = (Profile) request.getSession().getAttribute(PROFILE);
         if(profile != null){
             try {
                 Part part = request.getPart(ATTR_IMG);

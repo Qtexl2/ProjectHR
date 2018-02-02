@@ -22,10 +22,10 @@
                 <tr class="header-field">
                     <th class="field-time"><fmt:message key="time"/></th>
                     <th class="field-type-interview"><fmt:message key="type"/></th>
-                    <th class="field-description"><fmt:message key="descriptionInterview"/></th>
+                    <th class="field-description" colspan="2"><fmt:message key="descriptionInterview"/></th>
                 </tr>
             <c:forEach var="interview" items="${interviews}">
-                <tr class="item-filed-interview">
+                <tr class="item-filed-interview check-item">
                     <td class="field-center">${interview.interviewTime}</td>
                     <c:choose>
                         <c:when test="${interview.interviewType eq 'COMMON'}">
@@ -36,6 +36,10 @@
                         </c:otherwise>
                     </c:choose>
                     <td>${interview.interviewDescription}</td>
+                    <td class="close-edit">
+                        <a href="/controller?command=deleteInterview&id=${interview.interviewID}" class="close-icon-interview"></a>
+                        <a href="/controller?command=updateInterviewPage&id=${interview.interviewID}" class="edit-icon-interview"></a>
+                    </td>
                 </tr>
             </c:forEach>
             </table>

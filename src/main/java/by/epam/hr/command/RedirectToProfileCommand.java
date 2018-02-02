@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 public class RedirectToProfileCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        Object session = request.getSession(false).getAttribute(PROFILE);
+        Object session = request.getSession().getAttribute(PROFILE);
         String page;
         if(session == null){
             page = PageDispatcher.getInstance().getProperty(PageDispatcher.MAIN_PAGE_PATH);

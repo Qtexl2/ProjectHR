@@ -10,7 +10,7 @@ public class CreateVacancyPageCommand implements Command{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        Profile profile = (Profile) request.getSession(false).getAttribute(PROFILE);
+        Profile profile = (Profile) request.getSession().getAttribute(PROFILE);
         String page;
         if(profile != null && profile.getRole().name().equalsIgnoreCase("EMPLOYER")){
             page = PageDispatcher.getInstance().getProperty(PageDispatcher.CREATE_VACANCY_PAGE);

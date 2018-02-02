@@ -129,3 +129,33 @@ td{
     background: #ddd;
     height:40px;
 }
+/*.check-item:hover{*/
+    /*background: #ddd;*/
+/*}*/
+.close-edit{
+    width: 5%;
+}
+.close-icon-interview:before{
+    font: 25px 'Material-Design-Iconic-Font';
+    color: rgba(85, 85, 85, 0.72);
+    text-rendering:auto;
+    content:'\F136';
+    display: inline-block;
+    margin: auto;
+    width: 100%;
+}
+.edit-icon-interview:before{
+    font: 25px 'Material-Design-Iconic-Font';
+    color: rgba(85, 85, 85, 0.72);
+    text-rendering:auto;
+    content:'\F158';
+    display: inline-block;
+    margin: auto;
+    width: 100%;
+}
+.edit-icon-interview:hover:before{
+    color: green;
+}
+.close-icon-interview:hover:before{
+    color: red;
+}

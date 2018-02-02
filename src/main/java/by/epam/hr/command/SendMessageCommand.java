@@ -20,7 +20,7 @@ public class SendMessageCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         MessageService messageService;
         String result = null;
-        Profile profile = (Profile) request.getSession(false).getAttribute(PROFILE);
+        Profile profile = (Profile) request.getSession().getAttribute(PROFILE);
         String receiverId = request.getParameter(RECEIVER);
         String text = request.getParameter(TEXT);
         if(profile != null && receiverId !=null && text != null){

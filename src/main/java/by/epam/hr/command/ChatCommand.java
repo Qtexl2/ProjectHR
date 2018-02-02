@@ -23,7 +23,7 @@ public class ChatCommand implements Command{
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String result =null;
-        Profile profile = (Profile) request.getSession(false).getAttribute(PROFILE);
+        Profile profile = (Profile) request.getSession().getAttribute(PROFILE);
         String sender = request.getParameter(SENDER_ID);
         if(profile != null && sender != null) {
             try {

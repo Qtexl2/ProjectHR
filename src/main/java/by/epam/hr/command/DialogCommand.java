@@ -20,7 +20,7 @@ public class DialogCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page = null;
         List<Profile> profiles;
-        Profile profile = (Profile) request.getSession(false).getAttribute(PROFILE);
+        Profile profile = (Profile) request.getSession().getAttribute(PROFILE);
         if(profile != null){
             Long id = profile.getProfileID();
             try {
