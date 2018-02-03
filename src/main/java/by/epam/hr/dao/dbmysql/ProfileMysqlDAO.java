@@ -56,6 +56,8 @@ public class ProfileMysqlDAO extends ProfileDAO {
     private static final String SQL_UPDATE_PROFILE_AFTER_INTERVIEW = "UPDATE profile p SET p.english_level=?, " +
             "p.pre_interview=?, p.technical_interview=?  WHERE p.profile_id=? ";
 
+    private static final String SQL_UPDATE_USER = "UPDATE profile p SET p.password=?, p.role=?  WHERE p.email=? ";
+
     private static final String SQL_UPDATE_BASE_PROFILE_BY_ID = "UPDATE profile p SET p.first_name=?, p.last_name=?, " +
             "p.phone=?, p.age=?, p.gender=?, p.current_position=?, p.describe=?, p.company=? WHERE p.profile_id=? ";
     private static final String SQL_UPDATE_PHOTO = "UPDATE profile p SET p.photo=? WHERE p.profile_id=? ";
@@ -478,4 +480,38 @@ public class ProfileMysqlDAO extends ProfileDAO {
         profile.setResume(resultSet.getString("resume"));
         return profile;
     }
+
+
+    @Override
+    public boolean updateUser(String email, String password, Role role) throws DAOException{
+        boolean status;
+        checkTransaction();
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_UPDATE_USER);
+            statement.setString(1, password);
+            statement.setString(2, role.name().toLowerCase());
+            statement.setString(3, email);
+            statement.executeUpdate();
+            status = true;
+        } catch (SQLException e) {
+            throw new DAOException("Exception in method updateUser: " + e);
+        } finally {
+            try{
+                closeStatement(statement);
+            }
+            catch (DAOException ex){
+                throw new DAOException("Exception in method updateUser: ",ex);
+            }
+            finally {
+                closeConnection(connection);
+            }
+        }
+        return status;
+    }
+
+
+
+
+
 }

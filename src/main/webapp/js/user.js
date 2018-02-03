@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-
+    var status = true;
     function userReg() {
            var id = $('.interview-result').attr('about');
            var email = $('.email-'+id);
@@ -22,7 +22,45 @@
                }
            })
        }
-    $('.user-icon-i-add').bind('click', function () {
+
+
+    $('.user-icon-action').bind('click', function () {
+        var id = $(this).attr("about");
+        console.log(id);
+        var email = $('.change-email-'+id).text();
+        var password = $('.change-pass-'+id).val();
+        var role = $('.change-role-'+id).val();
+        $.ajax({
+            type: 'POST',
+            data: {email: email, password: password, role: role},
+            url: '/controller?command=updateUserUpd',
+            success: function (data) {
+                data = JSON.parse(data);
+                var message  = data[0];
+                if (data[1] === "true") {
+                    var btn = document.querySelector(".status-"+id);
+                    btn.innerHTML = message;
+                    btn.style.color = "green";
+                }
+                else {
+                    var btn = document.querySelector(".status-"+id);
+                    btn.innerHTML = message;
+                    btn.style.color = "red";
+                }
+            }
+        })
+    });
+
+
+
+
+
+
+
+
+
+       $('.user-icon-i-add').bind('click', function () {
+        if(status){
         var id = $('.interview-result').attr('about');
         var email = "email-"+id;
         var password = "password-"+id;
@@ -43,8 +81,9 @@
             '<td class="status-message-user status-'+ id +'" ></td>'+
             '</tr>';
         $('.user-menu:first').after(str);
-        var input = document.querySelector('.user-create-submit-b');
-        input.addEventListener("click", userReg);
-
+        var create = document.querySelector('.user-create-submit-b');
+        create.addEventListener("click", userReg);
+        status = false;
+        }
     })
 })();

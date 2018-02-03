@@ -31,12 +31,12 @@ public class EditUserCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         StringBuilder page = new StringBuilder();
-
         Profile profile = (Profile) request.getSession().getAttribute(PROFILE);
         String idStr = request.getParameter(ID_USER);
         String levelEn = request.getParameter(LEVEL_EN);
         String preInterview = request.getParameter(PRE_INTERVIEW);
         String technicalInterview = request.getParameter(TECH_INTERVIEW);
+
 
         if(profile != null && (Role.EMPLOYER.equals(profile.getRole()) || Role.ADMIN.equals(profile.getRole()))) {
             request.setAttribute(ATTR_PAGE,REDIRECT_PAGE);

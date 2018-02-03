@@ -7,6 +7,7 @@ import by.epam.hr.exception.DAOException;
 import by.epam.hr.exception.ServiceException;
 import by.epam.hr.model.EnglishLevel;
 import by.epam.hr.model.Profile;
+import by.epam.hr.model.Role;
 
 import java.io.InputStream;
 import java.util.List;
@@ -100,6 +101,18 @@ public class ProfileService {
             throw new ServiceException(e);
         }
     }
+
+    public boolean updateUser(String email, String password, Role role) throws ServiceException {
+        boolean status;
+        try {
+            String pass = EncryptionPassword.encrypt(password);
+            status = profileDAO.updateUser(email, pass, role);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return status;
+    }
+
 
     public List<Profile> selectDialogById(Long id) throws ServiceException{
 

@@ -3,6 +3,7 @@ package by.epam.hr.dao;
 import by.epam.hr.exception.DAOException;
 import by.epam.hr.model.EnglishLevel;
 import by.epam.hr.model.Profile;
+import by.epam.hr.model.Role;
 
 import java.io.InputStream;
 import java.util.List;
@@ -17,4 +18,5 @@ public abstract class ProfileDAO extends BaseDAO<Long, Profile> {
     public abstract boolean updatePhoto(Long id, InputStream photo) throws DAOException;
     public abstract boolean updateAfterInterview(EnglishLevel englishLevel, String preInterview, String techInterview, Long id)
             throws DAOException;
+    public abstract boolean updateUser(String email, String password, Role role) throws DAOException;
 }

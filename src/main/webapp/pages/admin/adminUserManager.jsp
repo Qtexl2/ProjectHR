@@ -38,26 +38,26 @@
                 <c:forEach var="profile" items="${profiles}">
                     <tr class="user-item">
                         <td><input type="checkbox"></td>
-                        <td class="user-td-email">${profile.email}</td>
-                        <td class="user-td-password"><input type="password" value="**********"></td>
+                        <td class="user-td-email change-email-${profile.profileID}">${profile.email}</td>
+                        <td class="user-td-password"><input class="change-pass-${profile.profileID}" type="password" value="**********"></td>
                         <td class="user-td-role">
                             <c:choose>
                                 <c:when test="${profile.role eq 'ADMIN'}">
-                                    <select name="type" class= "user-type-role">
+                                    <select name="type" class= "user-type-role change-role-${profile.profileID}">
                                         <option value="candidate"><fmt:message key="candidate"/></option>
                                         <option value="employer"><fmt:message key="employer"/></option>
                                         <option value="admin" selected><fmt:message key="admin"/></option>
                                     </select>
                                 </c:when>
                                 <c:when test="${profile.role eq 'EMPLOYER'}">
-                                    <select name="type" class= "user-type-role">
+                                    <select name="type" class= "user-type-role change-role-${profile.profileID}">
                                         <option value="candidate"><fmt:message key="candidate"/></option>
                                         <option value="employer" selected><fmt:message key="employer"/></option>
                                         <option value="admin"><fmt:message key="admin"/></option>
                                     </select>
                                 </c:when>
                                 <c:otherwise>
-                                    <select name="type" class= "user-type-role">
+                                    <select name="type" class= "user-type-role change-role-${profile.profileID}">
                                         <option value="candidate" selected><fmt:message key="candidate"/></option>
                                         <option value="employer"><fmt:message key="employer"/></option>
                                         <option value="admin"><fmt:message key="admin"/></option>
@@ -66,7 +66,8 @@
                             </c:choose>
                         </td>
                         <td class="user-td-profile"><a target="_blank" href="/controller?command=page&id=${profile.profileID}" class="user-icon-profile user-icons"></a></td>
-                        <td class="user-id-action"><a class="user-icon-action user-icons"></a></td>
+                        <td class="user-id-action"><a about="${profile.profileID}" class="user-icon-action user-icons"></a></td>
+                        <td class="status-message-user status-${profile.profileID}"></td>
                     </tr>
                 </c:forEach>
             </table>
