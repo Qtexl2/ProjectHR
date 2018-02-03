@@ -15,21 +15,21 @@
 </head>
 <body>
 <div class="wrapper">
-    <%@include file="../header.jsp"%>
+    <%@include file="adminHeader.jsp"%>
     </header>
     <main class="main-profile">
         <section class="profile-section">
             <div class="wrapper-profile">
                 <h1><fmt:message key="profile"/></h1>
                 <c:choose>
-                    <c:when test="${messageStatus == 'true'}">
-                        <c:if test="${not empty message}">
-                            <h2 id="profile-input-error">(${message})</h2>
+                    <c:when test="${param.messageStatus == 'true'}">
+                        <c:if test="${not empty param.message}">
+                            <h2 id="profile-input-error">(${param.message})</h2>
                         </c:if>
                     </c:when>
                     <c:otherwise>
-                        <c:if test="${not empty message}">
-                            <h2 id="profile-input-success">(${message})</h2>
+                        <c:if test="${not empty param.message}">
+                            <h2 id="profile-input-success">(${param.message})</h2>
                         </c:if>
                     </c:otherwise>
                 </c:choose>
@@ -39,13 +39,10 @@
                          <c:when test="${empty user.photo}">src="../../images/defaultAva.svg" </c:when>
                     <c:otherwise> src="/images?id=${user.profileID}" </c:otherwise>
                     </c:choose> alt="">
-                    <div id="profile-input-wrapper">
-                        <input type="file" class="btn-profile-update-photo" value="<fmt:message key="uploadPhoto"/> "/>
-                    </div>
-                    <h2 id="profile-h2-upload"><fmt:message key="fileToolarge"/></h2>
                 </div>
                 <form class="profile-form" method="post" action="/controller" >
-                    <input name="command" value="profileUpdate" hidden>
+                    <input name="command" value="userUpdateAdm" hidden>
+                    <input name="id" value="${user.profileID}" hidden>
                     <div class="profile-input-data">
                         <div class="profile-div-firstName profile-div">
                             <label for="profile-input-firstName"><fmt:message key="firstName"/> </label>
@@ -117,9 +114,8 @@
                     </div>
                     <div class="profile-div-describe profile-div">
                         <label for="profile-input-describe"><fmt:message key="aboutMyself"/></label>
-
                         <c:choose>
-                            <c:when test="${not empty sessionScope.profile.describe}">
+                            <c:when test="${not empty user.describe}">
                                 <textarea id="profile-input-describe" name="describe">${user.describe}</textarea>
                             </c:when>
                             <c:otherwise>
@@ -138,7 +134,7 @@
 </div>
 
 </div>
-<script src="../../js/jquery-1.9.0.js"></script>
-<script src="../../js/profile.js"></script>
+<%--<script src="../../js/jquery-1.9.0.js"></script>--%>
+<%--<script src="../../js/profile.js"></script>--%>
 </body>
 </html>

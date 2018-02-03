@@ -529,7 +529,7 @@ opacity: 0;
     height: 22px;
 }
 .user-td-email{
-    width: 30%;
+    min-width: 175px;
 }
 .user-td-password{
     width: 25%;
@@ -583,7 +583,7 @@ opacity: 0;
 
 
 .user-icon-check{
-    width: 5%;
+    width: 40px
 }
 .user-menu span{
     width: max-content;
@@ -600,4 +600,15 @@ opacity: 0;
 }
 .user-menu{
     height: auto;
+}
+.status-insert-update{
+    min-width: 200px;
+    background: white;
+    content: ' ';
+}
+.status-message-user{
+    background: white;
+    color: red;
+    text-align: left;
+    font-size: 13px;
 }

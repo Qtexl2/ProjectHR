@@ -17,7 +17,7 @@
 <div class="wrapper">
     <%@include file="adminHeader.jsp" %>
     <main>
-        <section class="interview-result">
+        <section class="interview-result" about="${sessionScope.profile.profileID}">
             <table class="user-table-wrapper">
                 <tr class="user-table">
                     <th class="user-icon-check"><span class="user-icon-check-i user-icons" ></span></th>
@@ -26,6 +26,8 @@
                     <th class="user-role" >role</th>
                     <th class="user-profile" ><fmt:message key="profile"/></th>
                     <th class="user-action" >Action</th>
+                    <th class="status-insert-update"> </th>
+
                 </tr>
                 <tr class="user-menu">
                     <td colspan="6">
@@ -63,8 +65,8 @@
                                 </c:otherwise>
                             </c:choose>
                         </td>
-                        <td class="user-td-profile"><a class="user-icon-profile user-icons" href="#"></a></td>
-                        <td class="user-id-action"><a class="user-icon-action user-icons" href="#"></a></td>
+                        <td class="user-td-profile"><a target="_blank" href="/controller?command=page&id=${profile.profileID}" class="user-icon-profile user-icons"></a></td>
+                        <td class="user-id-action"><a class="user-icon-action user-icons"></a></td>
                     </tr>
                 </c:forEach>
             </table>

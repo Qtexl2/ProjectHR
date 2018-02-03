@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="wrapper">
-    <%@include file="../employer/employerHeader.jsp" %>
+    <%@include file="employerHeader.jsp" %>
     <main>
         <section class="interview-section">
             <div class="wrapper-interview">

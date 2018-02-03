@@ -19,11 +19,10 @@ public class RegisterCommand implements Command {
     private static final String PARAM_NAME_EMAIL = "email";
     private static final String PARAM_NAME_PASSWORD = "password";
     private static final String PARAM_ROLE = "role";
-    private static final String REGEXP_ROLE = "(candidate|employer|admin)";
+    private static final String REGEXP_ROLE = "(candidate|employer)";
     private static final String REGEXP_EMAIL = ".+@.+\\..+";
     private static final String REGEXP_PASSWORD = "(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}";
     private ProfileService profileService;
-//TODO ПОСЛЕ АВТОРИЗАЦИИ СДЛЕАТЬ СОЗДАНИЕ АДМИНОВ
 
     public RegisterCommand(){
         try {
@@ -73,9 +72,4 @@ public class RegisterCommand implements Command {
         return new Gson().toJson(answer);
 
     }
-
-
-
-
-
 }
