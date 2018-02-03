@@ -61,17 +61,8 @@
     <div class="main-menu-bar">
         <ul class="main-menu-list">
             <li><a class="main-menu" href="/"><fmt:message key="main"/></a></li>
-            <li><a class="main-menu multi" href=#><fmt:message key="findJobs"/></a>
-                <ul class="main-submenu drop-menu">
-                    <li><a href=controller?command=searchJob&job=&location=><fmt:message key="allVacancies"/></a></li>
-                    <li><a href=/controller?command=myVacancies><fmt:message key="myVacancies"/></a></li>
-                    <li><a href=/controller?command=createVacancy><fmt:message key="createVacancy"/></a></li>
-                </ul>
-            </li>
-            <c:if test="${not empty sessionScope.profile}">
-                <li><a class="main-menu menu-message" href="/controller?command=allDialog"><fmt:message key="message"/></a></li>
-                <li><a class="main-menu menu-message" href="/controller?command=interview"><fmt:message key="interview"/></a></li>
-            </c:if>
+            <li><a class="main-menu" href="/controller?command=searchJob&job=&location="><fmt:message key="findJobs"/></a>
+            <li><a class="main-menu" href="/controller?command=userManager"><fmt:message key="userManagement"/></a></li>
         </ul>
     </div>
 </header>

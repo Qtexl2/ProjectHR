@@ -21,7 +21,7 @@
         <section class="interview-section">
             <div class="wrapper-interview">
                 <div class="interview-input-data">
-                    <h1 class="title-interview"><fmt:message key="createInterview"/> </h1>
+                    <h1 class="title-interview"><fmt:message key="updateInterviewTitle"/> </h1>
                     <c:if test="${not empty param.message}">
                         <label class="error-label-interview">${param.message}</label>
                     </c:if>

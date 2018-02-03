@@ -109,4 +109,15 @@ public class ProfileService {
             throw new ServiceException(e);
         }
     }
+
+
+    public List<Profile> select() throws ServiceException{
+        try {
+            return profileDAO.selectAll();
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+
 }

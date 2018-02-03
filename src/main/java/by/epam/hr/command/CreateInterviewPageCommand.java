@@ -14,7 +14,7 @@ public class CreateInterviewPageCommand implements Command {
 
         if(profile != null && profile.getRole().name().equalsIgnoreCase("EMPLOYER")) {
             request.setAttribute(ATTR_PAGE,FORWARD_PAGE);
-            return PageDispatcher.getInstance().getProperty(PageDispatcher.EDIT_INTERVIEW_PAGE_PATH);
+            return PageDispatcher.getInstance().getProperty(PageDispatcher.CREATE_INTERVIEW_PAGE_PATH);
         }
         else {
             return PageDispatcher.getInstance().getProperty(PageDispatcher.MAIN_PAGE_PATH);

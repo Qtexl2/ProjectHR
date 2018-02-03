@@ -522,3 +522,82 @@ opacity: 0;
 .delete-vacancy:hover:before{
     color: red;
 }
+.user-item{
+    background: #eee;
+}
+.user-type-role{
+    height: 22px;
+}
+.user-td-email{
+    width: 30%;
+}
+.user-td-password{
+    width: 25%;
+}
+.user-td-role{
+    width: 20%;
+}
+.user-td-profile{
+    width: 10%;
+}
+.user-id-action{
+    width: 10%;
+}
+.user-table-wrapper{
+    width:60%;
+}
+.user-table{
+    background: #ddd;
+    min-width: 600px;
+}
+.user-icon-profile:before{
+    content:'\F207';
+}
+
+
+.user-icon-action:before{
+    content:'\F158';
+}
+.user-icon-check-i:before{
+    content:'\F26B';
+}
+
+.user-icon-i-delete:before{
+    content:'\F135';
+}
+.user-icon-i-add:before{
+    content:'\F276';
+}
+.user-icon-create:before{
+    content:'\F278';
+}
+
+.user-icons{
+    font: 25px 'Material-Design-Iconic-Font';
+    color: rgba(85, 85, 85, 0.72);
+    text-rendering:auto;
+    display: inline-block;
+    margin: auto;
+    width: 100%;
+}
+
+
+.user-icon-check{
+    width: 5%;
+}
+.user-menu span{
+    width: max-content;
+}
+.user-icon-i-delete{
+    color: #ff0000b5;
+    margin-right: 20px;
+}
+.user-icon-i-add{
+    color: #0080009e;
+}
+.user-item:hover{
+    background: #ddd;
+}
+.user-menu{
+    height: auto;
+}

@@ -37,6 +37,7 @@ public class RequestHelper {
     public static final String CREATE_VACANCY = "createVacancy";
     public static final String VACANCY_UPDATE = "editVacancy";
     public static final String VACANCY_DELETE = "deleteVacancy";
+    public static final String USER_MANAGER = "userManager";
 
 
     private static AtomicBoolean requestHelperCreated = new AtomicBoolean(false);
@@ -78,6 +79,7 @@ public class RequestHelper {
         commands.put(UPDATE_INTERVIEW_PAGE, new EditInterviewPageCommand());
         commands.put(UPDATE_INTERVIEW, new EditInterviewCommand());
         commands.put(DELETE_INTERVIEW, new DeleteInterviewCommand());
+        commands.put(USER_MANAGER, new SelectUserCommand());
     }
 
     public static RequestHelper getInstance(){

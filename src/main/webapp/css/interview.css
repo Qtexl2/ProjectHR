@@ -129,9 +129,9 @@ td{
     background: #ddd;
     height:40px;
 }
-/*.check-item:hover{*/
-    /*background: #ddd;*/
-/*}*/
+.check-item:hover{
+    background: #ddd;
+}
 .close-edit{
     width: 5%;
 }

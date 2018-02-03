@@ -26,7 +26,6 @@
                 <%@include file="pages/header.jsp" %>
             </c:otherwise>
         </c:choose>
-
         <main class="main-page-picture">
             <section class="search-section">
                 <h2 class="text-center"><fmt:message key="weCanHelp"/></h2>

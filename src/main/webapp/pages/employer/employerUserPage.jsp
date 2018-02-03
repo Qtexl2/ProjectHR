@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="wrapper">
-    <%@include file="../header.jsp"%>
+    <%@include file="../employer/employerHeader.jsp" %>
     </header>
     <main class="main-profile">
         <section class="profile-section">

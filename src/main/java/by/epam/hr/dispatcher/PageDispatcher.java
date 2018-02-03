@@ -21,11 +21,13 @@ public class PageDispatcher {
     public static final String PAGE_500_PATH = "PAGE_500_PATH";
     public static final String DIALOG_PAGE_PATH = "DIALOG_PAGE_PATH";
     public static final String ADMIN_USER_PAGE = "ADMIN_USER_PAGE";
+    public static final String ADMIN_USER_MANAGER_PAGE = "ADMIN_USER_MANAGER_PAGE";
     public static final String EMPLOYER_USER_PAGE = "EMPLOYER_USER_PAGE";
     public static final String CREATE_VACANCY_PAGE = "CREATE_VACANCY_PAGE";
     public static final String UPDATE_VACANCY_PAGE = "UPDATE_VACANCY_PAGE";
     public static final String SELECT_INTERVIEW_PAGE = "SELECT_INTERVIEW_PAGE";
     public static final String SELECT_EMPLOYER_INTERVIEW_PAGE = "SELECT_EMPLOYER_INTERVIEW_PAGE";
+    public static final String CREATE_INTERVIEW_PAGE_PATH = "CREATE_INTERVIEW_PAGE_PATH";
 
     private ResourceBundle resourceBundle;
     private static AtomicBoolean dispatcherCreated = new AtomicBoolean(false);
