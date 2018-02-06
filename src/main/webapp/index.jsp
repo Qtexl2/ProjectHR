@@ -1,19 +1,21 @@
 <!DOCTYPE html>
-
 <%@ page pageEncoding="UTF-8" isELIgnored="false" contentType="text/html; UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
-<fmt:setLocale value="${language}"/>
+<c:set  var="lang" value="${not empty param.lang ? param.lang : not empty lang ? lang : pageContext.request.locale.language}" scope="session" />
+<fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="text"/>
-<html lang="${language}">
+<html lang="${lang}">
     <head>
         <meta charset="UTF-8">
         <title><fmt:message key="company"/></title>
         <link rel="stylesheet" href="css/base.css">
     </head>
     <body>
+        <label>${pageContext.getAttribute('lang')}</label>
+        <label>${requestScope.lang}</label>
+
         <div class="wrapper">
         <c:choose>
             <c:when test="${sessionScope.profile.role eq 'EMPLOYER'}">

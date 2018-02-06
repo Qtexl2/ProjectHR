@@ -132,5 +132,12 @@ public class ProfileService {
         }
     }
 
+    public boolean delete(Long id) throws ServiceException{
+        try {
+            return profileDAO.delete(id);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
 
 }

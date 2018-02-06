@@ -85,5 +85,30 @@
         create.addEventListener("click", userReg);
         status = false;
         }
+    });
+
+
+    $('.user-icon-i-delete').bind('click', function () {
+        var arrayCheckBox = $(".checkbox-user").toArray();
+        var arrayId = [];
+        for(var i = 0; i<arrayCheckBox.length; i++){
+            var el = $(arrayCheckBox[i]);
+            if (el.is(":checked") ){
+                // console.log(arrayCheckBox[i]);
+                arrayId.push(el.attr('about'));
+            }
+        }
+        console.log(arrayId);
+
+        $.ajax({
+            type: 'POST',
+            data: {ids: arrayId},
+            url: '/controller?command=deleteUser',
+            success: function () {
+                location.reload();
+            }
+        })
+
     })
+
 })();

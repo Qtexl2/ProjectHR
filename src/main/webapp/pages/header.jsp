@@ -3,8 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
-<fmt:setLocale value="${language}"/>
+<c:set  var="lang" value="${not empty param.lang ? param.lang : not empty lang ? lang : pageContext.request.locale.language}" scope="session" />
+<fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="text"/>
 <header class="main-head">
     <div class="mobile-navbar">
@@ -60,7 +60,6 @@
                                     </c:choose>
                                 </c:otherwise>
                             </c:choose>
-
                         </ul>
                     </li>
                 </ul>
@@ -76,6 +75,15 @@
                 <li><a class="main-menu menu-message" href="/controller?command=allDialog"><fmt:message key="message"/></a></li>
                 <li><a class="main-menu menu-message" href="/controller?command=selectInterview"><fmt:message key="interview"/></a></li>
             </c:if>
-        </ul>
+            <li>
+                <form action="/controller" class="lang-select">
+                    <input hidden value="lang" name="command">
+                    <select id="lang" name="lang" onchange="submit()" class="form-control">
+                        <option value="ru" ${lang.equals('ru')  ? 'selected' : ''}>Ру</option>
+                        <option value="en" ${lang.equals('en')  ? 'selected' : ''}>English</option>
+                    </select>
+                 </form>
+            </li>
+            </ul>
     </div>
 </header>

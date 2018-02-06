@@ -41,6 +41,8 @@ public class RequestHelper {
     public static final String USER_MANAGER = "userManager";
     public static final String CREATE_USER = "createUser";
     public static final String UPDATE_USER_ADM = "updateUserUpd";
+    public static final String DELETE_USER_ADM = "deleteUser";
+    public static final String LANG = "lang";
 
 
     private static AtomicBoolean requestHelperCreated = new AtomicBoolean(false);
@@ -86,6 +88,8 @@ public class RequestHelper {
         commands.put(CREATE_USER, new CreateUserCommand());
         commands.put(UPDATE_USER_ADMIN, new EditUserAdmCommand());
         commands.put(UPDATE_USER_ADM, new UpdateUserAdmCommand());
+        commands.put(DELETE_USER_ADM, new DeleteUserCommand());
+        commands.put(LANG, new ChangeLanguageCommand());
     }
 
     public static RequestHelper getInstance(){
@@ -105,6 +109,7 @@ public class RequestHelper {
     }
 
     public Command getCommand(HttpServletRequest request){
+        System.out.println(request.getHeader("Referer"));
         String nameCommand = request.getParameter(REQ_PARAM);
         Command command = commands.get(nameCommand);
         if(command == null){

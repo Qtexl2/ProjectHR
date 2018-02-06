@@ -51,6 +51,7 @@ public class ServletController extends HttpServlet {
             case Command.JSON:
                 PrintWriter out = response.getWriter();
                 out.print(result);
+                break;
         }
     }
 }

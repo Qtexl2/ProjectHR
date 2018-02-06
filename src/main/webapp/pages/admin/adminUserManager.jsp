@@ -3,10 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
-<fmt:setLocale value="${language}"/>
+<c:set  var="lang" value="${not empty param.lang ? param.lang : not empty lang ? lang : pageContext.request.locale.language}" scope="session" />
+<fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="text"/>
-<html lang="${language}">
+<html lang="${lang}">
 <head>
     <meta charset="UTF-8">
     <title><fmt:message key="company"/></title>
@@ -37,7 +37,7 @@
                 </tr>
                 <c:forEach var="profile" items="${profiles}">
                     <tr class="user-item">
-                        <td><input type="checkbox"></td>
+                        <td><input class="checkbox-user" about="${profile.profileID}" type="checkbox"></td>
                         <td class="user-td-email change-email-${profile.profileID}">${profile.email}</td>
                         <td class="user-td-password"><input class="change-pass-${profile.profileID}" type="password" value="**********"></td>
                         <td class="user-td-role">
