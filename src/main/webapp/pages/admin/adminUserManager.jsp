@@ -21,11 +21,11 @@
             <table class="user-table-wrapper">
                 <tr class="user-table">
                     <th class="user-icon-check"><span class="user-icon-check-i user-icons" ></span></th>
-                    <th class="user-email">email</th>
-                    <th class="user-password">password</th>
-                    <th class="user-role" >role</th>
+                    <th class="user-email"><fmt:message key="email"/></th>
+                    <th class="user-password"><fmt:message key="password"/> </th>
+                    <th class="user-role" ><fmt:message key="role"/> </th>
                     <th class="user-profile" ><fmt:message key="profile"/></th>
-                    <th class="user-action" >Action</th>
+                    <th class="user-action" ><fmt:message key="action"/> </th>
                     <th class="status-insert-update"> </th>
 
                 </tr>

@@ -612,3 +612,20 @@ opacity: 0;
     text-align: left;
     font-size: 13px;
 }
+.lang{
+    padding: 0 !important;
+    position: absolute !important;
+    right: 60px;
+    top: 112px;
+}
+.lang  a{
+    display: inline !important;
+}
+.user-icon-action:hover:before{
+    color:green;
+    cursor: pointer;
+}
+.user-icon-profile:hover:before{
+    cursor: pointer;
+    color:green;
+}

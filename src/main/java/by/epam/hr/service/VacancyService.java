@@ -73,6 +73,7 @@ public class VacancyService {
     public boolean insertVacancyAndProfile(Long idProfile, Long idVacancy) throws ServiceException {
         boolean status = true;
         TransactionManager transactionManager = null;
+        
         try{
             transactionManager = new TransactionManager();
             VacancyDAO vacancyDAO = new VacancyMysqlDAO(true);

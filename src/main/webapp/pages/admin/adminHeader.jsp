@@ -63,14 +63,9 @@
             <li><a class="main-menu" href="/"><fmt:message key="main"/></a></li>
             <li><a class="main-menu" href="/controller?command=searchJob&job=&location="><fmt:message key="findJobs"/></a>
             <li><a class="main-menu" href="/controller?command=userManager"><fmt:message key="userManagement"/></a></li>
-            <li>
-                <form action="/controller" class="lang-select">
-                    <input hidden value="lang" name="command">
-                    <select id="lang" name="lang" onchange="submit()" class="form-control">
-                        <option value="ru" ${lang.equals('ru')  ? 'selected' : ''}>Ру</option>
-                        <option value="en" ${lang.equals('en')  ? 'selected' : ''}>English</option>
-                    </select>
-                </form>
+            <li class="lang">
+                <a href="/controller?command=lang&lang=ru"><img src="../images/Russia.png"/></a>
+                <a href="/controller?command=lang&lang=en"><img src="../images/United-Kingdom.png"/></a>
             </li>
         </ul>
     </div>

@@ -9,6 +9,7 @@
 <header class="main-head">
     <div class="mobile-navbar">
         <div class="logo-img"></div>
+
         <ul class="account">
             <li>
                 <a href="#" id="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -75,15 +76,25 @@
                 <li><a class="main-menu menu-message" href="/controller?command=allDialog"><fmt:message key="message"/></a></li>
                 <li><a class="main-menu menu-message" href="/controller?command=selectInterview"><fmt:message key="interview"/></a></li>
             </c:if>
-            <li>
-                <form action="/controller" class="lang-select">
-                    <input hidden value="lang" name="command">
-                    <select id="lang" name="lang" onchange="submit()" class="form-control">
-                        <option value="ru" ${lang.equals('ru')  ? 'selected' : ''}>Ру</option>
-                        <option value="en" ${lang.equals('en')  ? 'selected' : ''}>English</option>
-                    </select>
-                 </form>
+            <li class="lang">
+                <a href="/controller?command=lang&lang=ru"><img src="../images/Russia.png"/></a>
+                <a href="/controller?command=lang&lang=en"><img src="../images/United-Kingdom.png"/></a>
             </li>
+            <%--<li>--%>
+                <%--<a href="/controller?command=lang&lang=ru"><img src="../images/Russia.png"/></a>--%>
+                <%--<a href="/controller?command=lang&lang=en"><img src="../images/United-Kingdom.png"/></a>--%>
+            <%--</li>--%>
+                <%--<form action="/controller" class="lang-select">--%>
+                    <%--<input hidden value="lang" name="command">--%>
+                    <%--<select id="lang" name="lang" onchange="submit()" class="form-control">--%>
+                        <%--<option class="sing-rus" value="ru" ${lang.equals('ru')  ? 'selected' : ''}>RUS</option>--%>
+                        <%--<option class="sing-eng"  value="en" ${lang.equals('en')  ? 'selected' : ''}>ENG</option>--%>
+                    <%--</select>--%>
+                 <%--</form>--%>
+            <%--<div class="lang">--%>
+                <%----%>
+            <%--</div>--%>
             </ul>
+
     </div>
 </header>
