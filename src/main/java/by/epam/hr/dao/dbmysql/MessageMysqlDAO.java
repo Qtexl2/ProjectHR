@@ -1,6 +1,5 @@
 package by.epam.hr.dao.dbmysql;
 
-import by.epam.hr.connection.ConnectionPool;
 import by.epam.hr.connection.PooledConnection;
 import by.epam.hr.exception.DAOException;
 import by.epam.hr.dao.MessageDAO;
@@ -15,45 +14,84 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Class MessageMysqlDAO.
+ */
 public class MessageMysqlDAO extends MessageDAO{
+
+    /** The Constant LOGGER. */
     private static final Logger LOGGER = LogManager.getLogger(MessageMysqlDAO.class);
 
+    /** The Constant SQL_INSERT_MESSAGE. */
     private static final String SQL_INSERT_MESSAGE = "INSERT INTO message " +
             "(message.message_text, message.message_time, message.profile_sender_id) " +
             "values (?, NOW(),?) ";
+
+    /** The Constant SQL_INSERT_MESSAGE_. */
     private static final String SQL_INSERT_MESSAGE_ = "INSERT INTO message " +
             "(message.message_text, message.message_time, message.profile_sender_id) " +
             "values (?, NOW(),?) ";
+
+    /** The Constant SQL_INSERT_MESSAGE_AND_USER. */
     private static final String SQL_INSERT_MESSAGE_AND_USER = "INSERT INTO message_and_user " +
             "(message_and_user.message_id, message_and_user.profile_reception_id) " +
             "values (last_insert_id(),?) ";
+
+    /** The Constant SQL_SELECT_MESSAGE_BY_ID. */
     private static final String SQL_SELECT_MESSAGE_BY_ID = "SELECT m.message_id, m.message_text, m.message_time, " +
             "m.profile_sender_id, mu.profile_reception_id from message m " +
             "INNER JOIN message_and_user mu ON m.message_id = mu.message_id " +
             "WHERE m.message_id=? ";
+
+    /** The Constant SQL_SELECT_DIALOG_BY_ID. */
     private static final String SQL_SELECT_DIALOG_BY_ID ="SELECT m.message_id, m.message_text, m.message_time, " +
             "m.profile_sender_id, mu.profile_reception_id from message m " +
             "INNER JOIN message_and_user mu ON m.message_id = mu.message_id " +
             "WHERE (m.profile_sender_id = ? and mu.profile_reception_id = ?) or (m.profile_sender_id = ? and mu.profile_reception_id = ?) " +
             "ORDER BY m.message_id ";
+
+    /** The Constant SQL_UPDATE_MESSAGE_BY_ID. */
     private static final String SQL_UPDATE_MESSAGE_BY_ID = "UPDATE message m SET m.message_text=? WHERE m.message_id=? ";
+
+    /** The Constant SQL_DELETE_MESSAGE_BY_ID. */
     private static final String SQL_DELETE_MESSAGE_BY_ID = "DELETE FROM message WHERE message.message_id=? ";
 
+    /**
+     * Instantiates a new message mysql DAO.
+     *
+     * @param isTransaction the is transaction
+     * @throws DAOException the DAO exception
+     */
     public MessageMysqlDAO(boolean isTransaction) throws DAOException {
         this.isTransaction = isTransaction;
     }
+
+    /**
+     * Instantiates a new message mysql DAO.
+     *
+     * @param connection the connection
+     */
     public MessageMysqlDAO(PooledConnection connection) {
         this.connection = connection;
     }
 
+    /**
+     * @see by.epam.hr.dao.BaseDAO#setConnection(by.epam.hr.connection.PooledConnection)
+     */
     public void setConnection(PooledConnection connection) {
         this.connection = connection;
     }
 
+    /**
+     * @see by.epam.hr.dao.BaseDAO#delete(java.lang.Object)
+     */
     public boolean delete(Long id) throws DAOException {
         return deleteEntity(id,SQL_DELETE_MESSAGE_BY_ID);
     }
 
+    /**
+     * @see by.epam.hr.dao.BaseDAO#selectByID(java.lang.Object)
+     */
     @Override
     public Message selectByID(Long id) throws DAOException {
         Message message = null;
@@ -78,7 +116,10 @@ public class MessageMysqlDAO extends MessageDAO{
         return message;
     }
 
-
+    /**
+     * @see by.epam.hr.dao.BaseDAO#update(by.epam.hr.model.Entity)
+     */
+    @Override
     public boolean update(Message item) throws DAOException {
         checkInput(item);
         checkTransaction();
@@ -100,6 +141,9 @@ public class MessageMysqlDAO extends MessageDAO{
         return status;
     }
 
+    /**
+     * @see by.epam.hr.dao.BaseDAO#insert(by.epam.hr.model.Entity)
+     */
     @Override
     public boolean insert(Message item) throws DAOException{
         checkInput(item);
@@ -152,6 +196,9 @@ public class MessageMysqlDAO extends MessageDAO{
         return status;
     }
 
+    /**
+     * @see by.epam.hr.dao.MessageDAO#selectDialogById(java.lang.Long, java.lang.Long)
+     */
     @Override
     public List<Message> selectDialogById(Long idSender, Long idReceiver) throws DAOException{
         List<Message> messages = new ArrayList<>();
@@ -177,6 +224,13 @@ public class MessageMysqlDAO extends MessageDAO{
         return messages;
     }
 
+    /**
+     * Inits the.
+     *
+     * @param resultSet the result set
+     * @return the message
+     * @throws SQLException the SQL exception
+     */
     private Message init(ResultSet resultSet) throws SQLException {
         Message message = new Message();
         message.setMessageId(resultSet.getLong("message_id"));

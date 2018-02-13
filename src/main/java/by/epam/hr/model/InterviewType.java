@@ -1,5 +1,12 @@
 package by.epam.hr.model;
 
+/**
+ * The Enum InterviewType.
+ */
 public enum  InterviewType {
-    COMMON, TECHNICAL
+
+    /** The common type. */
+    COMMON,
+    /** The technical type. */
+    TECHNICAL
 }

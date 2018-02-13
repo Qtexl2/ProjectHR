@@ -1,5 +1,14 @@
 package by.epam.hr.model;
 
+/**
+ * The Enum Role.
+ */
 public enum Role {
-    CANDIDATE, EMPLOYER, ADMIN
+
+    /** The candidate. */
+    CANDIDATE,
+    /** The employer. */
+    EMPLOYER,
+    /** The admin. */
+    ADMIN
 }

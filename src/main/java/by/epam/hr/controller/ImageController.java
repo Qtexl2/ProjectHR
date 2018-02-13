@@ -14,17 +14,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * The Class ImageController.
+ */
 @WebServlet("/images")
 public class ImageController extends HttpServlet {
+
+    /**
+     * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
 
     }
 
+    /**
+     * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
 
     }
+
+    /**
+     * Process request.
+     *
+     * @param request the request
+     * @param response the response
+     * @throws ServletException the servlet exception
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("image/jpeg");
         String idStr = request.getParameter("id");

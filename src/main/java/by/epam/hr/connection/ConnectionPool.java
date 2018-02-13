@@ -20,31 +20,71 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-
+/**
+ * The Class ConnectionPool.
+ */
 public class ConnectionPool{
+
+    /** The pool shutting down. */
     private static AtomicBoolean poolShuttingDown;
+
+    /** The Constant LOGGER. */
     private static final Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
+
+    /** The instance. */
     private static ConnectionPool instance;
+
+    /** The number attempts get connection. */
     private static int numberAttemptsGetConnection;
+
+    /** The ms between attempts connection. */
     private static int msBetweenAttemptsConnection;
-    /**
-     * How long to wait in second for a validation of connection (isValid(time))
-     */
+
+    /** How long to wait in second for a validation of connection (isValid(time)). */
     private static final int TIME_VALID_CON = 2;
+
+    /** The lock instance. */
     private static Lock lockInstance = new ReentrantLock();
+
+    /** The counter free connection. */
     private static AtomicInteger counterFreeConnection;
+
+    /** The counter all connection. */
     private static AtomicInteger counterAllConnection;
+
+    /** The pool created. */
     private static AtomicBoolean poolCreated = new AtomicBoolean(false);
+
+    /** The increment connection. */
     private static AtomicLong incrementConnection;
+
+    /** The time out force close. */
     private static int timeOutForceClose;
+
+    /** The min size pool. */
     private static int minSizePool;
+
+    /** The ms timer period. */
     private static int msTimerPeriod;
+
+    /** The max size pool. */
     private static int maxSizePool;
+
+    /** The min count free connections. */
     private static int minCountFreeConnections;
+
+    /** The free connections. */
     private LinkedBlockingQueue<PooledConnection> freeConnections;
+
+    /** The busy connections. */
     private ArrayBlockingQueue<PooledConnection> busyConnections;
+
+    /** The config CP. */
     private ConnectionPoolConfig configCP;
 
+    /**
+     * Instantiates a new connection pool.
+     */
     private ConnectionPool(){
         poolShuttingDown = new AtomicBoolean(false);
         configCP = new ConnectionPoolConfig();
@@ -66,6 +106,11 @@ public class ConnectionPool{
         LOGGER.log(Level.INFO,"ConnectionPool was created with " + minSizePool + "connections");
     }
 
+    /**
+     * Close connection.
+     *
+     * @param conn the conn
+     */
     private void closeConnection(PooledConnection conn){
         if(conn != null) {
             try {
@@ -80,6 +125,10 @@ public class ConnectionPool{
             }
         }
     }
+
+    /**
+     * Destroy.
+     */
     public void destroy() {
         if(poolShuttingDown.get())
         {
@@ -98,6 +147,14 @@ public class ConnectionPool{
         configCP.destroy();
         LOGGER.log(Level.INFO,"ConnectionPool was destroyed");
     }
+
+    /**
+     * The main method.
+     *
+     * @param args the arguments
+     * @throws ConnectionPoolException the connection pool exception
+     * @throws InterruptedException the interrupted exception
+     */
     public static void main(String[] args) throws ConnectionPoolException, InterruptedException {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         PooledConnection pooledConnection1 = connectionPool.getConnection();
@@ -127,26 +184,36 @@ public class ConnectionPool{
 
     }
 
+    /**
+     * Gets the single instance of ConnectionPool.
+     *
+     * @return single instance of ConnectionPool
+     */
     public static ConnectionPool getInstance(){
         if (!poolCreated.get()){
             lockInstance.lock();
-                if(instance == null){
-                    try {
-                        instance = new ConnectionPool();
-                        Timer timer = new Timer();
-                        timer.schedule(new TimerTaskCheckConnections(instance,timer),1000,msTimerPeriod);
-                        poolCreated.set(true);
-                    }
-                    finally {
-                        lockInstance.unlock();
-                    }
+            if(instance == null){
+                try {
+                    instance = new ConnectionPool();
+                    Timer timer = new Timer();
+                    timer.schedule(new TimerTaskCheckConnections(instance,timer),1000,msTimerPeriod);
+                    poolCreated.set(true);
                 }
-
-
+                finally {
+                    lockInstance.unlock();
+                }
             }
+
+
+        }
         return instance ;
     }
 
+    /**
+     * Release connection.
+     *
+     * @param connection the connection
+     */
     void releaseConnection(PooledConnection connection){
         if(poolShuttingDown.get()){
             instance.closeConnection(connection);
@@ -167,6 +234,12 @@ public class ConnectionPool{
         }
     }
 
+    /**
+     * Gets the connection.
+     *
+     * @return the connection
+     * @throws ConnectionPoolException the connection pool exception
+     */
     public PooledConnection getConnection() throws ConnectionPoolException {
         if(poolShuttingDown.get()){
             throw new ConnectionPoolException("Pool is disabled!");
@@ -187,8 +260,8 @@ public class ConnectionPool{
                     busyConnections.offer(connection);
                     return connection;
                 }
-                    LOGGER.log(Level.INFO, "Wait " + msBetweenAttemptsConnection + " ms until the next connection attempt");
-                    TimeUnit.MILLISECONDS.sleep(msBetweenAttemptsConnection);
+                LOGGER.log(Level.INFO, "Wait " + msBetweenAttemptsConnection + " ms until the next connection attempt");
+                TimeUnit.MILLISECONDS.sleep(msBetweenAttemptsConnection);
             }
             catch (SQLException | InterruptedException e){
                 LOGGER.log(Level.WARN, "Connection not returned " );
@@ -197,7 +270,9 @@ public class ConnectionPool{
         throw new ConnectionPoolException("Pool is free!");
     }
 
-
+    /**
+     * Adds the connection.
+     */
     private void addConnection() {
         if(poolShuttingDown.get()){
             return;
@@ -218,15 +293,31 @@ public class ConnectionPool{
         }
     }
 
+    /**
+     * The Class TimerTaskCheckConnections.
+     */
     private static class TimerTaskCheckConnections extends TimerTask {
+
+        /** The connection pool. */
         ConnectionPool connectionPool;
+
+        /** The timer. */
         Timer timer;
 
+        /**
+         * Instantiates a new timer task check connections.
+         *
+         * @param connectionPool the connection pool
+         * @param timer the timer
+         */
         private TimerTaskCheckConnections(ConnectionPool connectionPool,Timer timer) {
             this.connectionPool = connectionPool;
             this.timer = timer;
         }
 
+        /**
+         * @see java.util.TimerTask#run()
+         */
         public void run() {
             if(poolShuttingDown.get()){
                 timer.cancel();
@@ -262,6 +353,7 @@ public class ConnectionPool{
                         LOGGER.log(Level.WARN, "Connection not closed " + con, e);
                     }
                 }
+
                 while (counterAllConnection.get() < minSizePool) {
                     ConnectionPool.getInstance().addConnection();
                 }

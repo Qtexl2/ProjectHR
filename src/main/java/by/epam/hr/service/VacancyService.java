@@ -12,8 +12,19 @@ import by.epam.hr.model.Vacancy;
 
 import java.util.List;
 
+/**
+ * The Class VacancyService.
+ */
 public class VacancyService {
+
+    /** The vacancy DAO. */
     private VacancyDAO vacancyDAO;
+
+    /**
+     * Instantiates a new vacancy service.
+     *
+     * @throws ServiceException the service exception
+     */
     public VacancyService() throws ServiceException {
         try {
             vacancyDAO = new VacancyMysqlDAO(false);
@@ -22,6 +33,14 @@ public class VacancyService {
         }
     }
 
+    /**
+     * Select vacancy by loc and title.
+     *
+     * @param job the job
+     * @param location the location
+     * @return the list
+     * @throws ServiceException the service exception
+     */
     public List<Vacancy> selectVacancyByLocAndTitle(String job, String location) throws ServiceException {
         try{
             return vacancyDAO.selectVacancyByLocAndTitle(job,location);
@@ -29,6 +48,14 @@ public class VacancyService {
             throw new ServiceException(e);
         }
     }
+
+    /**
+     * Insert vacancy.
+     *
+     * @param vacancy the vacancy
+     * @return true, if successful
+     * @throws ServiceException the service exception
+     */
     public boolean insertVacancy (Vacancy vacancy) throws ServiceException {
         try{
             return vacancyDAO.insert(vacancy);
@@ -37,6 +64,13 @@ public class VacancyService {
         }
     }
 
+    /**
+     * Update vacancy.
+     *
+     * @param vacancy the vacancy
+     * @return true, if successful
+     * @throws ServiceException the service exception
+     */
     public boolean updateVacancy (Vacancy vacancy) throws ServiceException {
         try{
             return vacancyDAO.update(vacancy);
@@ -45,6 +79,13 @@ public class VacancyService {
         }
     }
 
+    /**
+     * Delete vacancy.
+     *
+     * @param id the id
+     * @return true, if successful
+     * @throws ServiceException the service exception
+     */
     public boolean deleteVacancy (Long id) throws ServiceException {
         try{
             return vacancyDAO.delete(id);
@@ -53,6 +94,13 @@ public class VacancyService {
         }
     }
 
+    /**
+     * Select vacancy by employer.
+     *
+     * @param id the id
+     * @return the list
+     * @throws ServiceException the service exception
+     */
     public List<Vacancy> selectVacancyByEmployer(Long id) throws ServiceException {
         try{
             return vacancyDAO.selectVacancyByLEmployer(id);
@@ -61,6 +109,13 @@ public class VacancyService {
         }
     }
 
+    /**
+     * Select vacancy by id.
+     *
+     * @param id the id
+     * @return the vacancy
+     * @throws ServiceException the service exception
+     */
     public Vacancy selectVacancyById(Long id) throws ServiceException {
         try{
             return vacancyDAO.selectByID(id);
@@ -70,16 +125,24 @@ public class VacancyService {
     }
 
 
+    /**
+     * Insert vacancy and profile.
+     *
+     * @param idProfile the id profile
+     * @param idVacancy the id vacancy
+     * @return true, if successful
+     * @throws ServiceException the service exception
+     */
     public boolean insertVacancyAndProfile(Long idProfile, Long idVacancy) throws ServiceException {
         boolean status = true;
         TransactionManager transactionManager = null;
-        
+
         try{
             transactionManager = new TransactionManager();
             VacancyDAO vacancyDAO = new VacancyMysqlDAO(true);
             MessageDAO messageDAO = new MessageMysqlDAO(true);
             transactionManager.begin(vacancyDAO,messageDAO);
-            String mes= "<a href='/controller?command=page&id="+idProfile+"'>Кандидат</a> откликнулся на Вашу " +
+            String mes= "<a href='/controller?command=page&id="+idProfile+"'>Кандидат</a> откликнулся на  " +
                     "<a href='/controller?command=vacancy&vacancyId="+idVacancy+"'>вакансию</a>";
 
             if(!vacancyDAO.insertVacancyAndProfile(idProfile, idVacancy)){

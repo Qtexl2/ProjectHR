@@ -1,7 +1,16 @@
 package by.epam.hr.encryption;
 
+/**
+ * The Class EncryptionPassword.
+ */
 public class EncryptionPassword {
 
+    /**
+     * Encrypt.
+     *
+     * @param pass the pass
+     * @return the string
+     */
     public static String encrypt(String pass){
         char[] array = pass.toCharArray();
         StringBuilder out = new StringBuilder();
