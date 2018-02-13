@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ProfileUpdateCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(ProfileUpdateCommand.class);
     private static final String PARAM_NAME_FIRSTNAME = "firstName";
     private static final String PARAM_NAME_LASTNAME = "lastName";
     private static final String PARAM_NAME_PHONE = "phone";
@@ -107,8 +107,6 @@ public class ProfileUpdateCommand implements Command {
                 page.append("Incorrect Describe").append(MESSAGE_STATUS).append(true);
                 return page.toString();
             }
-
-
             profile.setFirstName(firstName);
             profile.setLastName(lastName);
             profile.setCompany(company);
@@ -123,6 +121,7 @@ public class ProfileUpdateCommand implements Command {
                     return page.toString();
                 }
                 else{
+                    LOGGER.log(Level.INFO, "Profile update by id=" + profile.getProfileId());
                     page.append("Success").append(MESSAGE_STATUS).append(false);
 
                 }

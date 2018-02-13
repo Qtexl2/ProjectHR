@@ -1,14 +1,13 @@
 package by.epam.hr.dao.dbmysql;
 
-import by.epam.hr.connection.ConnectionPool;
 import by.epam.hr.connection.PooledConnection;
 import by.epam.hr.dao.ProfileDAO;
-import by.epam.hr.exception.ConnectionPoolException;
 import by.epam.hr.exception.DAOException;
 import by.epam.hr.model.EnglishLevel;
 import by.epam.hr.model.Gender;
 import by.epam.hr.model.Profile;
 import by.epam.hr.model.Role;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,13 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileMysqlDAO extends ProfileDAO {
-    private static final Logger LOGGER = LogManager.getRootLogger();
-//    private static final String SQL_SELECT_DIALOG = "SELECT  m.message_id,  p.first_name, p.last_name, " +
-//            "(m.profile_sender_id + mu.profile_reception_id)-? as id FROM message m " +
-//            "INNER JOIN message_and_user mu ON m.message_id = mu.message_id " +
-//            "INNER JOIN profile p ON (m.profile_sender_id + mu.profile_reception_id) - ? = p.profile_id " +
-//            "WHERE m.profile_sender_id = ? or mu.profile_reception_id = ? " +
-//            "GROUP BY p.email ";
+    private static final Logger LOGGER = LogManager.getLogger(ProfileMysqlDAO.class);
+
     private static final String SQL_SELECT_DIALOG = "SELECT  p.profile_id, p.email, p.first_name, p.last_name, p.photo, " +
             "(m.profile_sender_id + mu.profile_reception_id)-? as id FROM message m " +
             "INNER JOIN message_and_user mu ON m.message_id = mu.message_id " +
@@ -96,31 +90,12 @@ public class ProfileMysqlDAO extends ProfileDAO {
             status = true;
 
         } catch (SQLException e) {
-            throw new DAOException("Exception in method insert(): ",e);
+            throw new DAOException("Exception in method insert ",e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method insert(): ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return status;
-    }
-
-    public static void main(String[] args) throws DAOException, SQLException {
-        ProfileMysqlDAO profileMysqlDAO = new ProfileMysqlDAO(false);
-//        profileMysqlDAO.readBLOB();
-//        Profile profile = new Profile("pds@gmail.com","fsd", Role.CANDIDATE);
-//        profileMysqlDAO.insert(profile);
-//        profileMysqlDAO.insert(profile1);
-//        System.out.println(profileMysqlDAO.checkUser("gleb@gmail.com","saasd"));
-//        profileMysqlDAO.delete(9L);
-//        System.out.println(profileMysqlDAO.selectAll());
-        ConnectionPool.getInstance().destroy();
     }
 
     public  boolean updatePhoto(Long id, InputStream is) throws DAOException{
@@ -137,29 +112,23 @@ public class ProfileMysqlDAO extends ProfileDAO {
             status =true;
 
         } catch (SQLException e) {
-            throw new DAOException("Exception in method selectPhoto",e);
+            throw new DAOException("Exception in method updatePhoto",e);
         }
         finally {
             try {
                 connection.setAutoCommit(true);
             } catch (SQLException e) {
                 connection.setLogicalClose(true);
-                throw new DAOException("Exception in method selectPhoto",e);
+                LOGGER.log(Level.WARN,"Connection can not set autoCommit. It will be closed ",e);
             }
             finally {
-                try{
-                    closeStatement(statement);
-                }
-                catch (DAOException ex){
-                    throw new DAOException("Exception in method selectPhoto ",ex);
-                }
-                finally {
-                    closeConnection(connection);
-                }
+                closeStatement(statement);
+                closeConnection(connection);
             }
         }
         return status;
     }
+
     public byte[] selectPhoto(Long id) throws DAOException {
         checkTransaction();
         PreparedStatement statement = null;
@@ -176,28 +145,19 @@ public class ProfileMysqlDAO extends ProfileDAO {
         } catch (SQLException e) {
             throw new DAOException("Exception in method selectPhoto",e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method selectPhoto ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
     }
-
 
     @Override
     public List<Profile> selectProfileHaveDialog(Long idReceiver) throws DAOException {
         checkTransaction();
         List<Profile> profiles = new ArrayList<>();
         if(idReceiver == null){
-            throw new DAOException("Exception in method selectProfileHaveDialog(): ");
+            throw new DAOException("Exception in method selectProfileHaveDialog. Id is empty ");
         }
         PreparedStatement statement = null;
-
         try{
             statement = connection.prepareStatement(SQL_SELECT_DIALOG);
             statement.setLong(1,idReceiver);
@@ -207,29 +167,22 @@ public class ProfileMysqlDAO extends ProfileDAO {
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 Profile profile = new Profile();
-                profile.setProfileID(result.getLong("id"));
+                profile.setProfileId(result.getLong("id"));
                 profile.setEmail(result.getString("email"));
                 profile.setFirstName(result.getString("first_name"));
                 profile.setLastName(result.getString("last_name"));
                 profile.setPhoto(result.getString("photo"));
                 profiles.add(profile);
             }
-            System.out.println(profiles);
         } catch (SQLException e) {
-            throw new DAOException("Exception in method selectProfileHaveDialog(): ",e);
+            throw new DAOException("Exception in method selectProfileHaveDialog ",e);
         }finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method selectProfileHaveDialog():",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return profiles;
     }
+
     @Override
     public Profile selectByID(Long id) throws DAOException {
         checkTransaction();
@@ -248,15 +201,8 @@ public class ProfileMysqlDAO extends ProfileDAO {
         } catch (SQLException e) {
             throw new DAOException("Exception in method selectByID: ",e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method selectByID(): ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return profile;
     }
@@ -277,15 +223,8 @@ public class ProfileMysqlDAO extends ProfileDAO {
         } catch (SQLException e) {
             throw new DAOException("Exception in method selectAll: ",e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method selectAll: ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return profiles;
     }
@@ -306,25 +245,19 @@ public class ProfileMysqlDAO extends ProfileDAO {
             statement.setString(6, item.getCurrentPosition());
             statement.setString(7, item.getDescribe());
             statement.setString(8, item.getCompany());
-            statement.setLong(9, item.getProfileID());
+            statement.setLong(9, item.getProfileId());
 
             statement.executeUpdate();
             status = true;
         } catch (SQLException e) {
             throw new DAOException("Exception in method updateBaseProfile: ",e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method updateBaseProfile: ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return status;
     }
+
     @Override
     public boolean update(Profile item) throws DAOException {
         checkTransaction();
@@ -346,21 +279,14 @@ public class ProfileMysqlDAO extends ProfileDAO {
             statement.setString(11, item.getTechnicalInterview());
             statement.setBoolean(12, item.getStatusInterview());
             statement.setString(13, item.getCompany());
-            statement.setLong(14, item.getProfileID());
+            statement.setLong(14, item.getProfileId());
             statement.executeUpdate();
             status = true;
         } catch (SQLException e) {
             throw new DAOException("Exception in method update: ",e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method update: ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return status;
     }
@@ -380,20 +306,11 @@ public class ProfileMysqlDAO extends ProfileDAO {
         } catch (SQLException e) {
             throw new DAOException("Exception in method updateAfterInterview: ",e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method update: ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return status;
     }
-
-
 
     @Override
     public Profile checkUser(String email, String password) throws DAOException{
@@ -413,15 +330,8 @@ public class ProfileMysqlDAO extends ProfileDAO {
         } catch (SQLException e) {
             throw new DAOException("Exception in method checkUser: " + e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method checkUser: ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return profile;
     }
@@ -440,22 +350,15 @@ public class ProfileMysqlDAO extends ProfileDAO {
         } catch (SQLException e) {
             throw new DAOException("Exception in method checkFreeEmail: " + e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method checkFreeEmail: ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return status;
     }
 
     private Profile init(ResultSet resultSet) throws SQLException {
         Profile profile = new Profile();
-        profile.setProfileID(resultSet.getLong("profile_id"));
+        profile.setProfileId(resultSet.getLong("profile_id"));
         profile.setEmail(resultSet.getString("email"));
         profile.setRole(Role.valueOf(resultSet.getString("role").toUpperCase()));
         profile.setFirstName(resultSet.getString("first_name"));
@@ -497,15 +400,8 @@ public class ProfileMysqlDAO extends ProfileDAO {
         } catch (SQLException e) {
             throw new DAOException("Exception in method updateUser: " + e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method updateUser: ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return status;
     }

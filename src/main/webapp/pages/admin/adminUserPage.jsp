@@ -37,12 +37,12 @@
                     <img class="profile-img-photo"
                     <c:choose>
                          <c:when test="${empty user.photo}">src="../../images/defaultAva.svg" </c:when>
-                    <c:otherwise> src="/images?id=${user.profileID}" </c:otherwise>
+                    <c:otherwise> src="/images?id=${user.profileId}" </c:otherwise>
                     </c:choose> alt="">
                 </div>
                 <form class="profile-form" method="post" action="/controller" >
                     <input name="command" value="userUpdateAdm" hidden>
-                    <input name="id" value="${user.profileID}" hidden>
+                    <input name="id" value="${user.profileId}" hidden>
                     <div class="profile-input-data">
                         <div class="profile-div-firstName profile-div">
                             <label for="profile-input-firstName"><fmt:message key="firstName"/> </label>

@@ -1,11 +1,9 @@
 package by.epam.hr.dao.dbmysql;
 
-import by.epam.hr.connection.ConnectionPool;
 import by.epam.hr.dao.VacancyDAO;
 import by.epam.hr.exception.DAOException;
 import by.epam.hr.connection.PooledConnection;
 import by.epam.hr.model.Vacancy;
-import by.epam.hr.exception.ConnectionPoolException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -79,15 +77,8 @@ public class VacancyMysqlDAO extends VacancyDAO {
         } catch (SQLException e) {
             throw new DAOException("Exception in method selectVacancy(): ",e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method selectVacancy(): ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return vacancies;
     }
@@ -107,17 +98,10 @@ public class VacancyMysqlDAO extends VacancyDAO {
                 throw new DAOException("Exception in method selectIdOwnerByIdVacancy. Vacancy ID not found");
             }
         } catch (SQLException e) {
-            throw new DAOException("Exception in method selectByID(): ",e);
+            throw new DAOException("Exception in method selectIdOwnerByIdVacancy: ",e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method selectByID(): ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return idOwner;
     }
@@ -140,15 +124,8 @@ public class VacancyMysqlDAO extends VacancyDAO {
         } catch (SQLException e) {
             throw new DAOException("Exception in method selectByID(): ",e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method selectByID(): ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return vacancy;
     }
@@ -173,15 +150,8 @@ public class VacancyMysqlDAO extends VacancyDAO {
         } catch (SQLException e) {
             throw new DAOException("Exception in method selectVacancyByLocAndTitle(): ",e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method selectVacancyByLocAndTitle(): ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return vacancies;
     }
@@ -205,15 +175,8 @@ public class VacancyMysqlDAO extends VacancyDAO {
         } catch (SQLException e) {
             throw new DAOException("Exception in method selectVacancyByLEmployer(): ",e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method selectVacancyByLocAndTitle(): ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return vacancies;
     }
@@ -238,15 +201,8 @@ public class VacancyMysqlDAO extends VacancyDAO {
         } catch (SQLException e) {
             throw new DAOException("Exception in method insert: ",e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method insert: ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return status;
     }
@@ -265,15 +221,8 @@ public class VacancyMysqlDAO extends VacancyDAO {
         } catch (SQLException e) {
             throw new DAOException("Exception in method insertVacancyAndProfile: ",e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method insertVacancyAndProfile: ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return status;
     }
@@ -284,27 +233,20 @@ public class VacancyMysqlDAO extends VacancyDAO {
         boolean status = false;
         PreparedStatement statement = null;
         try{
-                        statement = connection.prepareStatement(SQL_UPDATE_VACANCY_BY_ID);
+            statement = connection.prepareStatement(SQL_UPDATE_VACANCY_BY_ID);
             statement.setString(1,item.getVacancyTitle());
             statement.setString(2,item.getVacancyDescription());
             statement.setString(3,item.getLocation());
             statement.setBoolean(4,item.getVacancyStatus());
             statement.setString(5,item.getCompany());
-            statement.setLong(6,item.getVacancyID());
+            statement.setLong(6,item.getVacancyId());
             statement.executeUpdate();
             status = true;
         } catch (SQLException e) {
             throw new DAOException("Exception in method update: ",e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method update: ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return status;
     }
@@ -315,7 +257,6 @@ public class VacancyMysqlDAO extends VacancyDAO {
 
     }
 
-
     @Override
     public List<Vacancy> selectAll() throws DAOException {
         return selectVacancy(SQL_SELECT_ALL_VACANCY);
@@ -323,31 +264,13 @@ public class VacancyMysqlDAO extends VacancyDAO {
 
     private Vacancy initVacancy(ResultSet resultSet) throws SQLException {
         Vacancy vacancy = new Vacancy();
-        vacancy.setVacancyID(resultSet.getLong("vacancy_id"));
+        vacancy.setVacancyId(resultSet.getLong("vacancy_id"));
         vacancy.setVacancyTitle(resultSet.getString("vacancy_title"));
         vacancy.setVacancyDescription(resultSet.getString("vacancy_description"));
         vacancy.setLocation(resultSet.getString("vacancy_location"));
         vacancy.setCompany(resultSet.getString("company"));
         vacancy.setVacancyStatus(resultSet.getBoolean("vacancy_status"));
         return vacancy;
-    }
-
-    public static void main(String[] args) throws DAOException {
-        VacancyMysqlDAO vacancyMysqlDAO = new VacancyMysqlDAO(false);
-        System.out.println(vacancyMysqlDAO.selectIdOwnerByIdVacancy(10L));
-//        Vacancy vacancy = new Vacancy("Java Junior", qwe,"Minsk","IBM");
-//        vacancy.setVacancyStatus(true);
-//        vacancy.setVacancyID(1L);
-////        vacancyMysqlDAO.deleteByID(7L);
-//        vacancyMysqlDAO.deleteByID(8L);
-//        vacancyMysqlDAO.updateByID(6L,"DEVkaKAKA","DEVKAKA",null,false);
-//        vacancyMysqlDAO.update(vacancy);
-//        System.out.println(vacancyMysqlDAO.selectAll());
-//        System.out.println(vacancyMysqlDAO.selectActualVacancy());
-//        vacancyMysqlDAO.changeStatus(7L);
-//        vacancyMysqlDAO.changeStatus(1L);
-//        System.out.println(vacancyMysqlDAO.selectByID(10L));
-        ConnectionPool.getInstance().destroy();
     }
 
     @Override
@@ -363,15 +286,8 @@ public class VacancyMysqlDAO extends VacancyDAO {
         } catch (SQLException e) {
             throw new DAOException("Exception in method changeStatus: ",e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method changeStatus: ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return status;
     }

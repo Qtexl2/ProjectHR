@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 
 public class EditInterviewPageCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(EditInterviewPageCommand.class);
     private static final String INTERVIEW_ID = "id";
     private static final String REGEXP_ID ="\\d+";
     private InterviewService interviewService;
@@ -32,7 +32,7 @@ public class EditInterviewPageCommand implements Command {
                     interviewService = new InterviewService();
                     Interview interview = interviewService.selectInterview(id);
                     request.setAttribute("interview",interview);
-
+                    LOGGER.log(Level.WARN,profile.getEmail() + " go to page for update an interview");
                     return PageDispatcher.getInstance().getProperty(PageDispatcher.EDIT_INTERVIEW_PAGE_PATH);
                 }
                 else throw new ServiceException("Invalid ID");
@@ -41,8 +41,6 @@ public class EditInterviewPageCommand implements Command {
                 LOGGER.log(Level.WARN,"EditInterview can not select a vacancy");
                 return PageDispatcher.getInstance().getProperty(PageDispatcher.PAGE_500_PATH);
             }
-
-
         }
         else {
             return PageDispatcher.getInstance().getProperty(PageDispatcher.MAIN_PAGE_PATH);

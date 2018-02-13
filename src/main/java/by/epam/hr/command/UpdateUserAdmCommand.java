@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class UpdateUserAdmCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(UpdateUserAdmCommand.class);
     private static final String PARAM_NAME_EMAIL = "email";
     private static final String PARAM_NAME_PASSWORD = "password";
     private static final String PARAM_ROLE = "role";
@@ -26,35 +26,38 @@ public class UpdateUserAdmCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        Profile profile;
+        Profile profile = (Profile)request.getSession().getAttribute(PROFILE);
         String password = request.getParameter(PARAM_NAME_PASSWORD);
         String email = request.getParameter(PARAM_NAME_EMAIL);
         String role = request.getParameter(PARAM_ROLE);
         boolean statusReg = false;
         String status = null;
-        if(password == null || email == null || role == null){
-            status = "Password and email are empty. This field is required";
-        }
-        else if(!(password.matches(REGEXP_PASSWORD) && email.matches(REGEXP_EMAIL) && role.matches(REGEXP_ROLE))){
+        if(profile != null  && Role.ADMIN.equals(profile.getRole())) {
+            if (password == null || email == null || role == null) {
+                status = "Password and email are empty. This field is required";
+            } else if (!(password.matches(REGEXP_PASSWORD) && email.matches(REGEXP_EMAIL) && role.matches(REGEXP_ROLE))) {
 
-            status = "Wrong Email or password format";
-        }
-        else if(password.length() > 30 && email.length() > 50){
-            status = "Wrong Email or password format";
-        }
-        else{
-            try {
-                profileService = new ProfileService();
-                if(profileService.updateUser(email,password,Role.valueOf(role.toUpperCase()))){
-                    status = "Success";
-                    statusReg = true;
+                status = "Wrong Email or password format";
+            } else if (password.length() > 30 && email.length() > 50) {
+                status = "Wrong Email or password format";
+            } else {
+                try {
+                    profileService = new ProfileService();
+                    if (profileService.updateUser(email, password, Role.valueOf(role.toUpperCase()))) {
+                        status = "Success";
+                        statusReg = true;
+                        LOGGER.log(Level.INFO, "Update user by admin " + profile.getEmail());
+                    } else {
+                        status = "Incorrect data";
+                    }
+                } catch (ServiceException e) {
+                    LOGGER.log(Level.WARN, "RegisterCommand have a problem with service layer", e);
                 }
-                else {
-                    status = "Incorrect data";
-                }
-            } catch (ServiceException e) {
-                LOGGER.log(Level.WARN,"RegisterCommand have a problem with service layer",e);
             }
+        }
+        else {
+            status = "Access error";
+            request.setAttribute("statusReg",false);
         }
         request.setAttribute(MESSAGE,status);
         request.setAttribute("statusReg",statusReg);

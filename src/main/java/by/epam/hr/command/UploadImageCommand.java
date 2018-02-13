@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class UploadImageCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(UploadImageCommand.class);
     private ProfileService profileService;
     private static final int MAX_FILE_SIZE = 4_000_000;
     private static final String ATTR_IMG = "img";
@@ -39,7 +39,7 @@ public class UploadImageCommand implements Command {
                 }
                 else if(part.getSize() < MAX_FILE_SIZE) {
                     try (InputStream is = part.getInputStream()) {
-                        profileService.updatePhoto(profile.getProfileID(), is);
+                        profileService.updatePhoto(profile.getProfileId(), is);
                         profile.setPhoto(" ");
                         request.getSession(false).setAttribute(PROFILE,profile);
                     } catch (ServiceException e) {

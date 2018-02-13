@@ -50,7 +50,7 @@
                                 <label class="vacancy-label" ><fmt:message key="positionDescription"/> </label>
                                 <textarea class="vacancy-textarea" required name="positionDescription">${vacancy.vacancyDescription}</textarea>
                             </div>
-                            <button type="submit" class="btn btn-respond" name="id" value="${vacancy.vacancyID}"><fmt:message key="updateVacancySubmit"/></button>
+                            <button type="submit" class="btn btn-respond" name="id" value="${vacancy.vacancyId}"><fmt:message key="updateVacancySubmit"/></button>
                         </div>
                     </form>
                 </section>

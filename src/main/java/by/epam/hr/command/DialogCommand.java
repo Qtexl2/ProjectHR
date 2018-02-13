@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class DialogCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(DialogCommand.class);
     private ProfileService profileService;
     private static final String DIALOGS = "dialogs";
     @Override
@@ -22,7 +22,7 @@ public class DialogCommand implements Command {
         List<Profile> profiles;
         Profile profile = (Profile) request.getSession().getAttribute(PROFILE);
         if(profile != null){
-            Long id = profile.getProfileID();
+            Long id = profile.getProfileId();
             try {
                 profileService = new ProfileService();
                 profiles = profileService.selectDialogById(id);

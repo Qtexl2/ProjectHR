@@ -26,7 +26,7 @@
                         <label class="error-label-interview">${param.message}</label>
                     </c:if>
                     <form class="interview-form" method="post" action="/controller?command=updateInterview">
-                        <input name="id" value="${interview.interviewID}" hidden>
+                        <input name="id" value="${interview.interviewId}" hidden>
                         <div class="left-block-interview">
                             <div class="wrapper-input-interview">
                                 <label class="interview-label" ><fmt:message key="date"/> </label>

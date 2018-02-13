@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 
 public class CreateInterviewCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(CreateInterviewCommand.class);
     private static final String ID ="id";
     private static final String DATE ="date";
     private static final String TYPE ="type";
@@ -66,12 +66,13 @@ public class CreateInterviewCommand implements Command {
                 Long id = Long.valueOf(idStr);
                 interviewService = new InterviewService();
                 Interview interview = new Interview();
-                interview.setCandidateID(id);
+                interview.setCandidateId(id);
                 interview.setInterviewDescription(desc);
-                interview.setEmployerID(profile.getProfileID());
+                interview.setEmployerId(profile.getProfileId());
                 interview.setInterviewTime(Timestamp.valueOf(date));
                 interview.setInterviewType(InterviewType.valueOf(type.toUpperCase()));
                 interviewService.insertInterview(interview);
+                LOGGER.log(Level.INFO,"Interview was created by "+ profile.getProfileId());
                 return PAGE_GOOD;
 
             } catch (ServiceException e) {

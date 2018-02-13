@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class DeleteInterviewCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(DeleteInterviewCommand.class);
     private static final String REGEXP_ID = "\\d+";
     private static final String PAGE = "/controller?command=selectInterview";
     private InterviewService interviewService;
@@ -28,6 +28,8 @@ public class DeleteInterviewCommand implements Command {
             try{
                 interviewService = new InterviewService();
                 interviewService.deleteInterview(Long.parseLong(idStr));
+                LOGGER.log(Level.WARN,"Delete a interview by employer" + profile.getEmail());
+
 
             } catch (ServiceException e) {
                 LOGGER.log(Level.WARN,"DeleteVacancy can not delete a vacancy");

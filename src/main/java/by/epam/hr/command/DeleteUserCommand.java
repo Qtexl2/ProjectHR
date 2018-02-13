@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class DeleteUserCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(DeleteUserCommand.class);
     private static final String ID_USERS = "ids[]";
     private static final String SUCCESS = "Success";
     private static final String PROBLEM = "Problem";
@@ -33,6 +33,8 @@ public class DeleteUserCommand implements Command {
                     for (String idStr: arrayId) {
                         if(idStr.matches(REGEXP_ID)){
                             profileService.delete(Long.parseLong(idStr));
+                            LOGGER.log(Level.INFO,"Delete user by admin" + profile.getEmail());
+
                         }
                     }
                     message = SUCCESS;

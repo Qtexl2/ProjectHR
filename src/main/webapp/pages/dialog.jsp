@@ -32,10 +32,10 @@
             <div class="wrapper-dialog">
                 <div class="menu-dialog">
                     <c:forEach var="prof" items="${dialogs}">
-                        <div class="dialog-field"  id = "dialog-profile-${prof.profileID}" about="${prof.profileID}">
+                        <div class="dialog-field"  id = "dialog-profile-${prof.profileId}" about="${prof.profileId}">
                             <c:choose>
                                 <c:when test="${not empty prof.photo}">
-                                    <img class="navbar-profile-icon dialog-img" src="/images?id=${prof.profileID}"/>
+                                    <img class="navbar-profile-icon dialog-img" src="/images?id=${prof.profileId}"/>
                                 </c:when>
                                 <c:otherwise>
                                     <img class="navbar-profile-icon dialog-img" src="../images/avatar.svg" />

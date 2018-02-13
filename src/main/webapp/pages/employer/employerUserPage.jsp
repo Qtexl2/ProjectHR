@@ -37,7 +37,7 @@
                     <img class="profile-img-photo"
                     <c:choose>
                          <c:when test="${empty user.photo}">src="../../images/defaultAva.svg" </c:when>
-                    <c:otherwise> src="/images?id=${user.profileID}" </c:otherwise>
+                    <c:otherwise> src="/images?id=${user.profileId}" </c:otherwise>
                     </c:choose> alt="">
                 </div>
                 <form class="profile-form" method="post" action="/controller" >
@@ -135,8 +135,8 @@
                         <label for="profile-input-technicalInterview"><fmt:message key="resultTech"/></label>
                         <textarea id="profile-input-technicalInterview" class="profile-input" name="technicalInterview">${user.technicalInterview}</textarea>
                     </div>
-                    <a id="btn-interview-page" href="/controller?command=interview&id=${user.profileID}"><fmt:message key="setUpInterview"/> </a>
-                    <button type="submit" id="btn-profile-update-id" class="btn-profile-update" name="id" value="${user.profileID}"><fmt:message key="update"/> </button>
+                    <a id="btn-interview-page" href="/controller?command=interview&id=${user.profileId}"><fmt:message key="setUpInterview"/> </a>
+                    <button type="submit" id="btn-profile-update-id" class="btn-profile-update" name="id" value="${user.profileId}"><fmt:message key="update"/> </button>
                 </form>
             </div>
         </section>

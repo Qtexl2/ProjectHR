@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class SelectUserCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(SelectUserCommand.class);
     private ProfileService profileService;
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.util.List;
 
 public class ProfileService {
-
     private ProfileDAO profileDAO;
 
     public ProfileService() throws ServiceException {

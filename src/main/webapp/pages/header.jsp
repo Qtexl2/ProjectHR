@@ -21,7 +21,7 @@
                             <div class="div-photo"><img class="navbar-profile-icon" src="../images/avatar.svg"></div>
                         </c:when>
                         <c:otherwise>
-                            <div class="div-photo"><img class="navbar-profile-icon" src="/images?id=${sessionScope.profile.profileID}"> </div>
+                            <div class="div-photo"><img class="navbar-profile-icon" src="/images?id=${sessionScope.profile.profileId}"> </div>
                         </c:otherwise>
                     </c:choose>
                 </a>

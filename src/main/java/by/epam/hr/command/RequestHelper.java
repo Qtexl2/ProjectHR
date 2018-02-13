@@ -59,11 +59,11 @@ public class RequestHelper {
         commands.put(SEARCH_JOB_PARAM,new SearchJobCommand());
         commands.put(VACANCY, new VacancyCommand());
         commands.put(REGISTRATION, new RegisterCommand());
-        commands.put(REGISTRATION_PAGE, new RedirectToRegistrationCommand());
-        commands.put(AUTHORIZATION_PAGE, new RedirectToAuthCommand());
+        commands.put(REGISTRATION_PAGE, new GoToRegistrationCommand());
+        commands.put(AUTHORIZATION_PAGE, new GoToAuthCommand());
         commands.put(AUTHORIZATION, new AuthorizationCommand());
         commands.put(LOGOUT, new LogoutCommand());
-        commands.put(PROFILE_PAGE, new RedirectToProfileCommand());
+        commands.put(PROFILE_PAGE, new GoToProfileCommand());
         commands.put(PROFILE_UPDATE, new ProfileUpdateCommand());
         commands.put(IMAGE_UPDATE, new UploadImageCommand());
         commands.put(VACANCY_RESPOND, new VacancyRespondCommand());
@@ -109,7 +109,6 @@ public class RequestHelper {
     }
 
     public Command getCommand(HttpServletRequest request){
-        System.out.println(request.getHeader("Referer"));
         String nameCommand = request.getParameter(REQ_PARAM);
         Command command = commands.get(nameCommand);
         if(command == null){

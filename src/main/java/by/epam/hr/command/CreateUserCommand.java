@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CreateUserCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(CreateUserCommand.class);
     private static final String PARAM_NAME_EMAIL = "email";
     private static final String PARAM_NAME_PASSWORD = "password";
     private static final String PARAM_ROLE = "role";
@@ -51,6 +51,7 @@ public class CreateUserCommand implements Command {
                     if(profileService.createNewProfile(profile)){
                         status = "Success";
                         statusReg = true;
+                        LOGGER.log(Level.INFO,"User was created with email" + email + " by admin " + profile.getProfileId());
                     }
                     else {
                         status = "This email already exists";

@@ -10,14 +10,15 @@ import java.util.Enumeration;
 import java.util.Properties;
 
 class ConnectionPoolConfig {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(ConnectionPoolConfig.class);
     private static final String USER = "dbUserName";
     private static final String PASSWORD = "dbPassword";
     private static final String URL = "dbUrl";
     private static final String MIN_CONNECTION = "dbMinConnections";
     private static final String MAX_CONNECTION = "dbMaxConnections";
     private static final String DB_DRIVER = "dbDriver";
-    private static final String PATH_CONFIG_FILE = "D:/ProjectHR/target/ProjectHR/WEB-INF/classes/CPconf.properties";
+//    private static final String PATH_CONFIG_FILE = "D:/ProjectHR/target/ProjectHR/WEB-INF/classes/CPconf.properties";
+    private static final String PATH_CONFIG_FILE = "CPconf.properties";
     private static final String DEFAULT_MIN_CONNECTION = "5";
     private static final String DEFAULT_MAX_CONNECTION = "20";
     private static final String NUMBER_ATTEMPTS_GET_CONNECTION = "dbNumberAttemptsGetConnection";
@@ -53,8 +54,8 @@ class ConnectionPoolConfig {
     private void setProperties(String pathConfigFile){
         try {
             Properties props = new Properties();
-            FileInputStream config = new FileInputStream(pathConfigFile);
-            props.load(config);//
+//            FileInputStream config = new FileInputStream(pathConfigFile);
+            props.load(ConnectionPoolConfig.class.getClassLoader().getResourceAsStream(pathConfigFile));
 
             minConnections = Integer.parseInt(props.getProperty(MIN_CONNECTION,DEFAULT_MIN_CONNECTION));
             maxConnections = Integer.parseInt(props.getProperty(MAX_CONNECTION,DEFAULT_MAX_CONNECTION));
@@ -67,6 +68,8 @@ class ConnectionPoolConfig {
             username = props.getProperty(USER);
             password = props.getProperty(PASSWORD);
             driver = (Driver)Class.forName(props.getProperty(DB_DRIVER)).newInstance();
+            LOGGER.log(Level.INFO,"ConnectionPoolConfig was created ");
+
         } catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             LOGGER.log(Level.FATAL,"ConnectionPoolConfig was not created", e);
             throw new RuntimeException();
@@ -127,7 +130,7 @@ class ConnectionPoolConfig {
         return msTimerPeriod;
     }
 
-    public int getTimeOutForceClose() {
+    int getTimeOutForceClose() {
         return timeOutForceClose;
     }
 }

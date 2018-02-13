@@ -3,32 +3,32 @@ package by.epam.hr.model;
 import java.sql.Timestamp;
 
 public class Interview extends Entity {
-    private Long interviewID;
+    private Long interviewId;
     private Timestamp interviewTime;
     private String interviewDescription;
     private InterviewType interviewType;
-    private Long technicalID;
-    private Long employerID;
-    private Long candidateID;
+    private Long technicalId;
+    private Long employerId;
+    private Long candidateId;
 
     public Interview() {
     }
 
-    public Interview(Timestamp interviewTime, String interviewDescription, InterviewType interviewType, Long technicalID, Long employerID, Long candidateID) {
+    public Interview(Timestamp interviewTime, String interviewDescription, InterviewType interviewType, Long technicalId, Long employerId, Long candidateId) {
         this.interviewTime = interviewTime;
         this.interviewDescription = interviewDescription;
         this.interviewType = interviewType;
-        this.technicalID = technicalID;
-        this.employerID = employerID;
-        this.candidateID = candidateID;
+        this.technicalId = technicalId;
+        this.employerId = employerId;
+        this.candidateId = candidateId;
     }
 
-    public Long getInterviewID() {
-        return interviewID;
+    public Long getInterviewId() {
+        return interviewId;
     }
 
-    public void setInterviewID(Long interviewID) {
-        this.interviewID = interviewID;
+    public void setInterviewId(Long interviewId) {
+        this.interviewId = interviewId;
     }
 
     public Timestamp getInterviewTime() {
@@ -55,40 +55,69 @@ public class Interview extends Entity {
         this.interviewType = interviewType;
     }
 
-    public Long getTechnicalID() {
-        return technicalID;
+    public Long getTechnicalId() {
+        return technicalId;
     }
 
-    public void setTechnicalID(Long technicalID) {
-        this.technicalID = technicalID;
+    public void setTechnicalId(Long technicalId) {
+        this.technicalId = technicalId;
     }
 
-    public Long getEmployerID() {
-        return employerID;
+    public Long getEmployerId() {
+        return employerId;
     }
 
-    public void setEmployerID(Long employerID) {
-        this.employerID = employerID;
+    public void setEmployerId(Long employerId) {
+        this.employerId = employerId;
     }
 
-    public Long getCandidateID() {
-        return candidateID;
+    public Long getCandidateId() {
+        return candidateId;
     }
 
-    public void setCandidateID(Long candidateID) {
-        this.candidateID = candidateID;
+    public void setCandidateId(Long candidateId) {
+        this.candidateId = candidateId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Interview interview = (Interview) o;
+
+        if (interviewId != null ? !interviewId.equals(interview.interviewId) : interview.interviewId != null)
+            return false;
+        if (interviewDescription != null ? !interviewDescription.equals(interview.interviewDescription) : interview.interviewDescription != null)
+            return false;
+        if (interviewType != interview.interviewType) return false;
+        if (technicalId != null ? !technicalId.equals(interview.technicalId) : interview.technicalId != null)
+            return false;
+        if (employerId != null ? !employerId.equals(interview.employerId) : interview.employerId != null) return false;
+        return candidateId != null ? candidateId.equals(interview.candidateId) : interview.candidateId == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = interviewId != null ? interviewId.hashCode() : 0;
+        result = 31 * result + (interviewDescription != null ? interviewDescription.hashCode() : 0);
+        result = 31 * result + (interviewType != null ? interviewType.hashCode() : 0);
+        result = 31 * result + (technicalId != null ? technicalId.hashCode() : 0);
+        result = 31 * result + (employerId != null ? employerId.hashCode() : 0);
+        result = 31 * result + (candidateId != null ? candidateId.hashCode() : 0);
+        return result;
     }
 
     @Override
     public String toString() {
         return "Interview{" +
-                "interviewID=" + interviewID +
+                "interviewId=" + interviewId +
                 ", interviewTime=" + interviewTime +
                 ", interviewDescription='" + interviewDescription + '\'' +
                 ", interviewType=" + interviewType +
-                ", technicalID=" + technicalID +
-                ", employerID=" + employerID +
-                ", candidateID=" + candidateID +
+                ", technicalId=" + technicalId +
+                ", employerId=" + employerId +
+                ", candidateId=" + candidateId +
                 '}';
     }
 }

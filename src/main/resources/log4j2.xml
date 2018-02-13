@@ -2,23 +2,26 @@
 <Configuration status="WARN">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <!--<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>-->
+            <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"/>
         </Console>
-    <RollingFile name = "rollingFile" fileName = "log/history.log"
-                 filePattern = "log/history - %d{yyyyMMddmmss}.log">
-        <PatternLayout>
-            <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss} [%t] %M- %msg %n</pattern>
-        </PatternLayout>
-        <Policies>
-            <OnStartupTriggeringPolicy></OnStartupTriggeringPolicy>
-        </Policies>
-    </RollingFile>
+        <RollingFile name = "fileLogger" fileName = "../log/history.log"
+                     filePattern = "../log/history - %d{yyyyMMddmmss}.log">
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+            </Policies>
+        </RollingFile>
     </Appenders>
-
     <Loggers>
+        <Logger name="by.epam" level="all">
+            <appender-ref ref="fileLogger" level="all" />
+            <appender-ref ref="Console" level="all" />
+        </Logger>
         <Root level="all">
             <AppenderRef ref="Console" level = "all"/>
-            <AppenderRef ref="rollingFile" level = "all"/>
         </Root>
     </Loggers>
 </Configuration>

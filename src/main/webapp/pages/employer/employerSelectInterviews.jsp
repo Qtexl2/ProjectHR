@@ -37,8 +37,8 @@
                     </c:choose>
                     <td>${interview.interviewDescription}</td>
                     <td class="close-edit">
-                        <a href="/controller?command=deleteInterview&id=${interview.interviewID}" class="close-icon-interview"></a>
-                        <a href="/controller?command=updateInterviewPage&id=${interview.interviewID}" class="edit-icon-interview"></a>
+                        <a href="/controller?command=deleteInterview&id=${interview.interviewId}" class="close-icon-interview"></a>
+                        <a href="/controller?command=updateInterviewPage&id=${interview.interviewId}" class="edit-icon-interview"></a>
                     </td>
                 </tr>
             </c:forEach>

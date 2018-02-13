@@ -21,7 +21,7 @@ public class EmployerVacancyCommand implements Command{
         if(profile != null && profile.getRole().name().equalsIgnoreCase("EMPLOYER")){
             try {
                 vacancyService = new VacancyService();
-                List<Vacancy> vacancies = vacancyService.selectVacancyByEmployer(profile.getProfileID());
+                List<Vacancy> vacancies = vacancyService.selectVacancyByEmployer(profile.getProfileId());
                 request.setAttribute("vacancies",vacancies);
                 request.setAttribute(ATTR_PAGE,FORWARD_PAGE);
                 page = PageDispatcher.getInstance().getProperty(PageDispatcher.EMPLOYER_VACANCIES_PAGE_PATH);

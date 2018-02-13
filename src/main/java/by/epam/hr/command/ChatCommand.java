@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class ChatCommand implements Command{
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(ChatCommand.class);
     private static final String MESSAGES = "messages";
     private static final String SENDER_ID = "sender";
     private MessageService messageService;
@@ -28,10 +28,11 @@ public class ChatCommand implements Command{
         if(profile != null && sender != null) {
             try {
                 messageService = new MessageService();
-                List<Message> messages = messageService.selectDialogById(Long.parseLong(sender), profile.getProfileID());
+                List<Message> messages = messageService.selectDialogById(Long.parseLong(sender), profile.getProfileId());
                 if(messages != null){
                     result = new Gson().toJson(messages);
                 }
+                LOGGER.log(Level.INFO,profile.getEmail() + " go to Chat page");
             } catch (ServiceException e) {
                 LOGGER.log(Level.WARN,"ChatCommand can not return a list of message");
             }

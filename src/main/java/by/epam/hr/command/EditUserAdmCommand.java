@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class EditUserAdmCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(EditUserAdmCommand.class);
     private static final String PARAM_NAME_FIRSTNAME = "firstName";
     private static final String PARAM_NAME_LASTNAME = "lastName";
     private static final String PARAM_NAME_PHONE = "phone";
@@ -124,12 +124,12 @@ public class EditUserAdmCommand implements Command {
                 userProfile.setDescribe(describe);
                 userProfile.setGender(gender);
                 userProfile.setPhone(phone);
+                userProfile.setProfileId(Long.parseLong(idStr));
 
-
-                userProfile.setProfileID(Long.parseLong(idStr));
                 profileService = new ProfileService();
                 if(!profileService.updateBaseProfile(userProfile)){
                     page.append("Incorrect Describe").append(MESSAGE_STATUS).append(true);
+                    LOGGER.log(Level.INFO,"Admin "+ profile.getEmail() + " update profile with id=" + idStr);
                     return page.toString();
                 }
                 else{

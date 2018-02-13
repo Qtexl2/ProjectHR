@@ -12,7 +12,6 @@ import java.util.concurrent.Executor;
 
 public class PooledConnection implements Connection {
     private long connectionId;
-    private static final Logger LOGGER = LogManager.getRootLogger();
     private final Connection connection;
     private long lastUsed;
     private boolean logicalClose;
@@ -53,17 +52,14 @@ public class PooledConnection implements Connection {
     void destroy() throws ConnectionPoolException {
         try {
             connection.close();
-            LOGGER.log(Level.INFO,"Connection "+ this + " closed");
         } catch (SQLException e) {
             throw new ConnectionPoolException("Connection is not closed!",e);
         }
-
     }
 
     @Override
     public void close(){
       ConnectionPool.getInstance().releaseConnection(this);
-      LOGGER.log(Level.INFO,"Connection returned to the pool");
     }
 
 

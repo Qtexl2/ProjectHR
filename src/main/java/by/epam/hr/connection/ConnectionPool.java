@@ -23,7 +23,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool{
     private static AtomicBoolean poolShuttingDown;
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
     private static ConnectionPool instance;
     private static int numberAttemptsGetConnection;
     private static int msBetweenAttemptsConnection;
@@ -42,7 +42,7 @@ public class ConnectionPool{
     private static int maxSizePool;
     private static int minCountFreeConnections;
     private LinkedBlockingQueue<PooledConnection> freeConnections;
-    private ArrayBlockingQueue<PooledConnection> busyConnections;// обычную
+    private ArrayBlockingQueue<PooledConnection> busyConnections;
     private ConnectionPoolConfig configCP;
 
     private ConnectionPool(){
@@ -63,6 +63,7 @@ public class ConnectionPool{
         for (int i = 0; i < minSizePool; i++) {
             addConnection();
         }
+        LOGGER.log(Level.INFO,"ConnectionPool was created with " + minSizePool + "connections");
     }
 
     private void closeConnection(PooledConnection conn){
@@ -79,7 +80,6 @@ public class ConnectionPool{
             }
         }
     }
-//TODO PooolDestoy
     public void destroy() {
         if(poolShuttingDown.get())
         {
@@ -87,7 +87,7 @@ public class ConnectionPool{
         }
         PooledConnection tempCon;
         poolShuttingDown.set(true);
-        while (!freeConnections.isEmpty()){//take for
+        for (int i = 0; i < freeConnections.size(); i++) {
             try {
                 tempCon = freeConnections.take();
                 instance.closeConnection(tempCon);
@@ -95,8 +95,8 @@ public class ConnectionPool{
                 LOGGER.log(Level.WARN, "Connection not closed ", e);
             }
         }
-
         configCP.destroy();
+        LOGGER.log(Level.INFO,"ConnectionPool was destroyed");
     }
     public static void main(String[] args) throws ConnectionPoolException, InterruptedException {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
@@ -160,7 +160,6 @@ public class ConnectionPool{
                     freeConnections.offer(connection);
                     busyConnections.remove(connection);
                     counterFreeConnection.incrementAndGet();
-                    System.out.println("Возврат соединения " + connection);
                 }
             } catch (SQLException e) {
                 LOGGER.log(Level.WARN,"The connection wasn't returned to the pool",e);
@@ -173,7 +172,6 @@ public class ConnectionPool{
             throw new ConnectionPoolException("Pool is disabled!");
         }
         PooledConnection connection;
-
         for (int i = 0; i < numberAttemptsGetConnection; i++) {
             try{
                 if(counterFreeConnection.get() > 0){
@@ -187,7 +185,6 @@ public class ConnectionPool{
                     }
                     counterFreeConnection.decrementAndGet();
                     busyConnections.offer(connection);
-                    System.out.println("Соеднинение заюзано " + connection);
                     return connection;
                 }
                     LOGGER.log(Level.INFO, "Wait " + msBetweenAttemptsConnection + " ms until the next connection attempt");

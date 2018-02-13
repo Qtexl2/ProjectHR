@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class EditUserCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(EditUserCommand.class);
     private static final String LEVEL_EN = "level";
     private static final String PRE_INTERVIEW = "preInterview";
     private static final String TECH_INTERVIEW = "technicalInterview";
@@ -73,6 +73,8 @@ public class EditUserCommand implements Command {
                     return page.toString();
                 }
                 else {
+                    LOGGER.log(Level.INFO,"Employer "+ profile.getEmail() + " update profile with id=" + id);
+
                     page.append("Success").append(MESSAGE_STATUS).append(false);
                 }
 

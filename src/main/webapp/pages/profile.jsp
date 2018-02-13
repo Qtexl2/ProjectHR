@@ -47,7 +47,7 @@
                         <img class="profile-img-photo"
                             <c:choose>
                                 <c:when test="${empty sessionScope.profile.photo}">src="../images/defaultAva.svg" </c:when>
-                                <c:otherwise> src="/images?id=${sessionScope.profile.profileID}" </c:otherwise>
+                                <c:otherwise> src="/images?id=${sessionScope.profile.profileId}" </c:otherwise>
                             </c:choose> alt="">
                         <div id="profile-input-wrapper">
                             <input type="file" class="btn-profile-update-photo" value="<fmt:message key="uploadPhoto"/> "/>

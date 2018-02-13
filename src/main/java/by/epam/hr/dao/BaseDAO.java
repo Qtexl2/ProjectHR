@@ -5,25 +5,29 @@ import by.epam.hr.connection.PooledConnection;
 import by.epam.hr.exception.ConnectionPoolException;
 import by.epam.hr.exception.DAOException;
 import by.epam.hr.model.Entity;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public abstract class BaseDAO<K,T extends Entity>{
+    private static final Logger LOGGER = LogManager.getLogger(BaseDAO.class);
     public abstract boolean insert(T item) throws DAOException;
     public abstract boolean update(T item) throws DAOException;
     public abstract boolean delete(K id) throws DAOException;
     public abstract T selectByID(K id) throws DAOException;
     protected boolean isTransaction = false;
     protected PooledConnection connection;
-    protected void closeStatement(Statement statement) throws DAOException {
+    protected void closeStatement(Statement statement){
         try {
             if (statement != null) {
                 statement.close();
             }
         } catch (SQLException e) {
-            throw new DAOException("Exception in method closeStatement: ", e);
+            LOGGER.log(Level.WARN,"Statement not closed",e);
         }
     }
     protected void closeConnection(PooledConnection connection){
@@ -62,14 +66,8 @@ public abstract class BaseDAO<K,T extends Entity>{
         } catch (SQLException e) {
             throw new DAOException("Exception in method deleteEntity: ",e);
         } finally {
-            try {
                 closeStatement(statement);
-            } catch (DAOException e) {
-                throw new DAOException("Exception in method deleteEntity: ",e);
-            }
-            finally {
                 closeConnection(connection);
-            }
         }
         return status;
     }

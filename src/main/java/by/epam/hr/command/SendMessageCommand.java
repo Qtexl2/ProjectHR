@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class SendMessageCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(SendMessageCommand.class);
     private static final String RECEIVER = "receiver";
     private static final String TEXT = "text";
     private MessageService messageService;
@@ -24,7 +24,7 @@ public class SendMessageCommand implements Command {
         String receiverId = request.getParameter(RECEIVER);
         String text = request.getParameter(TEXT);
         if(profile != null && receiverId !=null && text != null){
-            Long senderId = profile.getProfileID();
+            Long senderId = profile.getProfileId();
             try {
                 messageService = new MessageService();
                 if(messageService.insertMessage(senderId,Long.parseLong(receiverId),text)){

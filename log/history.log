@@ -1,8 +1,0 @@
-[INFO ] 2018-01-31 18:12:00 [main] addConnection- Create new connection Connection_1 
-[INFO ] 2018-01-31 18:12:00 [main] addConnection- Create new connection Connection_2 
-[INFO ] 2018-01-31 18:12:00 [main] addConnection- Create new connection Connection_3 
-[INFO ] 2018-01-31 18:12:00 [main] destroy- Connection Connection_1 closed 
-[INFO ] 2018-01-31 18:12:00 [main] destroy- Connection Connection_2 closed 
-[INFO ] 2018-01-31 18:12:00 [main] destroy- Connection Connection_3 closed 
-[INFO ] 2018-01-31 18:12:00 [main] destroy- Driver deregister 
-[INFO ] 2018-01-31 18:12:01 [Timer-0] run- poolShutting is true. Timer cancel 

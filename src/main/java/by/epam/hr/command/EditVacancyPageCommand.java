@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class EditVacancyPageCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(EditVacancyPageCommand.class);
     private static final String VACANCY_ID = "vacancyId";
     private static final String REGEXP_ID ="\\d+";
     private VacancyService vacancyService;

@@ -14,7 +14,6 @@ public class TransactionManager {
     public TransactionManager() throws DAOException {
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            System.out.println(connection);
         } catch (ConnectionPoolException e) {
             throw new DAOException("Exception in constructor", e);
         }
@@ -24,14 +23,11 @@ public class TransactionManager {
             connection.setAutoCommit(false);
             for (BaseDAO baseDao: baseDAOs) {
                 baseDao.setConnection(connection);
-                System.out.println(baseDao);
             }
         }
          catch (SQLException e) {
             throw new DAOException("Exception in method Begin Transaction", e);
         }
-
-
     }
 
     public void commit() throws DAOException {
@@ -39,7 +35,7 @@ public class TransactionManager {
             connection.commit();
             connection.setAutoCommit(true);
         } catch (SQLException e) {
-            throw new DAOException("Exception in method Begin Transaction", e);
+            throw new DAOException("Exception in method Commit Transaction", e);
         }
     }
 

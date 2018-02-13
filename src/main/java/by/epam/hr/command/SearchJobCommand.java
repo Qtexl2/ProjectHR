@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SearchJobCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(SearchJobCommand.class);
     private static final String JOB = "job";
     private static final String LOCATION = "location";
     private VacancyService vacancyService;

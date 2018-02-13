@@ -32,7 +32,6 @@ public class ImageController extends HttpServlet {
         Profile profile = (Profile) request.getSession().getAttribute("profile");
         String page;
         if(profile != null && idStr !=null) {
-//        if(profile != null && idStr !=null && profile.getProfileID() == Long.parseLong(idStr)) {
             Long id = Long.parseLong(idStr);
             ServletOutputStream outputStream = null;
             try {

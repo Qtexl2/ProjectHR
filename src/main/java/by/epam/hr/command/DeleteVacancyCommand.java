@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class DeleteVacancyCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(DeleteVacancyCommand.class);
     private static final String REGEXP_ID = "\\d+";
     private static final String PAGE = "/controller?command=myVacancies";
     private VacancyService vacancyService;
@@ -29,6 +29,7 @@ public class DeleteVacancyCommand implements Command {
             try{
                 vacancyService = new VacancyService();
                 vacancyService.deleteVacancy(Long.parseLong(idStr));
+                LOGGER.log(Level.INFO,"Delete vacancy by employer " + profile.getEmail());
 
             } catch (ServiceException e) {
                 LOGGER.log(Level.WARN,"DeleteVacancy can not delete a vacancy");

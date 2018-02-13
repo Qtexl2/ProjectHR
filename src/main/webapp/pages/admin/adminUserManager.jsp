@@ -17,7 +17,7 @@
 <div class="wrapper">
     <%@include file="adminHeader.jsp" %>
     <main>
-        <section class="interview-result" about="${sessionScope.profile.profileID}">
+        <section class="interview-result" about="${sessionScope.profile.profileId}">
             <table class="user-table-wrapper">
                 <tr class="user-table">
                     <th class="user-icon-check"><span class="user-icon-check-i user-icons" ></span></th>
@@ -37,27 +37,27 @@
                 </tr>
                 <c:forEach var="profile" items="${profiles}">
                     <tr class="user-item">
-                        <td><input class="checkbox-user" about="${profile.profileID}" type="checkbox"></td>
-                        <td class="user-td-email change-email-${profile.profileID}">${profile.email}</td>
-                        <td class="user-td-password"><input class="change-pass-${profile.profileID}" type="password" value="**********"></td>
+                        <td><input class="checkbox-user" about="${profile.profileId}" type="checkbox"></td>
+                        <td class="user-td-email change-email-${profile.profileId}">${profile.email}</td>
+                        <td class="user-td-password"><input class="change-pass-${profile.profileId}" type="password" value="**********"></td>
                         <td class="user-td-role">
                             <c:choose>
                                 <c:when test="${profile.role eq 'ADMIN'}">
-                                    <select name="type" class= "user-type-role change-role-${profile.profileID}">
+                                    <select name="type" class= "user-type-role change-role-${profile.profileId}">
                                         <option value="candidate"><fmt:message key="candidate"/></option>
                                         <option value="employer"><fmt:message key="employer"/></option>
                                         <option value="admin" selected><fmt:message key="admin"/></option>
                                     </select>
                                 </c:when>
                                 <c:when test="${profile.role eq 'EMPLOYER'}">
-                                    <select name="type" class= "user-type-role change-role-${profile.profileID}">
+                                    <select name="type" class= "user-type-role change-role-${profile.profileId}">
                                         <option value="candidate"><fmt:message key="candidate"/></option>
                                         <option value="employer" selected><fmt:message key="employer"/></option>
                                         <option value="admin"><fmt:message key="admin"/></option>
                                     </select>
                                 </c:when>
                                 <c:otherwise>
-                                    <select name="type" class= "user-type-role change-role-${profile.profileID}">
+                                    <select name="type" class= "user-type-role change-role-${profile.profileId}">
                                         <option value="candidate" selected><fmt:message key="candidate"/></option>
                                         <option value="employer"><fmt:message key="employer"/></option>
                                         <option value="admin"><fmt:message key="admin"/></option>
@@ -65,9 +65,9 @@
                                 </c:otherwise>
                             </c:choose>
                         </td>
-                        <td class="user-td-profile"><a target="_blank" href="/controller?command=page&id=${profile.profileID}" class="user-icon-profile user-icons"></a></td>
-                        <td class="user-id-action"><a about="${profile.profileID}" class="user-icon-action user-icons"></a></td>
-                        <td class="status-message-user status-${profile.profileID}"></td>
+                        <td class="user-td-profile"><a target="_blank" href="/controller?command=page&id=${profile.profileId}" class="user-icon-profile user-icons"></a></td>
+                        <td class="user-id-action"><a about="${profile.profileId}" class="user-icon-action user-icons"></a></td>
+                        <td class="status-message-user status-${profile.profileId}"></td>
                     </tr>
                 </c:forEach>
             </table>

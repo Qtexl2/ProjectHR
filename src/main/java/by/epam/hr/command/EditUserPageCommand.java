@@ -13,14 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class EditUserPageCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(EditUserPageCommand.class);
     private static final String USER_ID = "id";
     private static final String USER = "user";
     private ProfileService profileService;
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page = null;
-        Profile profile = (Profile) request.getSession() .getAttribute(PROFILE);
+        Profile profile = (Profile) request.getSession().getAttribute(PROFILE);
         String idStr = request.getParameter(USER_ID);
         if(profile != null && idStr != null){
             Profile profileById;

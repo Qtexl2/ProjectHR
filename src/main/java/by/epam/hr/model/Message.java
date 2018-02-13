@@ -3,27 +3,27 @@ package by.epam.hr.model;
 import java.sql.Timestamp;
 
 public class Message extends Entity{
-    private Long messageID;
+    private Long messageId;
     private String messageText;
     private Timestamp messageTime;
-    private Long profileSenderID;
-    private Long profileReceptionID;
+    private Long profileSenderId;
+    private Long profileReceptionId;
 
     public Message(){
     }
 
-    public Message(String messageText, Long profileSenderID, Long profileReceptionID) {
+    public Message(String messageText, Long profileSenderId, Long profileReceptionId) {
         this.messageText = messageText;
-        this.profileSenderID = profileSenderID;
-        this.profileReceptionID = profileReceptionID;
+        this.profileSenderId = profileSenderId;
+        this.profileReceptionId = profileReceptionId;
     }
 
-    public Long getMessageID() {
-        return messageID;
+    public Long getMessageId() {
+        return messageId;
     }
 
-    public void setMessageID(Long messageID) {
-        this.messageID = messageID;
+    public void setMessageId(Long messageId) {
+        this.messageId = messageId;
     }
 
     public String getMessageText() {
@@ -42,30 +42,53 @@ public class Message extends Entity{
         this.messageTime = messageTime;
     }
 
-    public Long getProfileSenderID() {
-        return profileSenderID;
+    public Long getProfileSenderId() {
+        return profileSenderId;
     }
 
-    public void setProfileSenderID(Long profileSenderID) {
-        this.profileSenderID = profileSenderID;
+    public void setProfileSenderId(Long profileSenderId) {
+        this.profileSenderId = profileSenderId;
     }
 
-    public Long getProfileReceptionID() {
-        return profileReceptionID;
+    public Long getProfileReceptionId() {
+        return profileReceptionId;
     }
 
-    public void setProfileReceptionID(Long profileReceptionID) {
-        this.profileReceptionID = profileReceptionID;
+    public void setProfileReceptionId(Long profileReceptionId) {
+        this.profileReceptionId = profileReceptionId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Message message = (Message) o;
+
+        if (messageId != null ? !messageId.equals(message.messageId) : message.messageId != null) return false;
+        if (messageText != null ? !messageText.equals(message.messageText) : message.messageText != null) return false;
+        if (profileSenderId != null ? !profileSenderId.equals(message.profileSenderId) : message.profileSenderId != null)
+            return false;
+        return profileReceptionId != null ? profileReceptionId.equals(message.profileReceptionId) : message.profileReceptionId == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = messageId != null ? messageId.hashCode() : 0;
+        result = 31 * result + (messageText != null ? messageText.hashCode() : 0);
+        result = 31 * result + (profileSenderId != null ? profileSenderId.hashCode() : 0);
+        result = 31 * result + (profileReceptionId != null ? profileReceptionId.hashCode() : 0);
+        return result;
     }
 
     @Override
     public String toString() {
         return "Message{" +
-                "messageID=" + messageID +
+                "messageId=" + messageId +
                 ", messageText='" + messageText + '\'' +
                 ", messageTime=" + messageTime +
-                ", profileSenderID=" + profileSenderID +
-                ", profileReceptionID=" + profileReceptionID +
+                ", profileSenderId=" + profileSenderId +
+                ", profileReceptionId=" + profileReceptionId +
                 '}';
     }
 }

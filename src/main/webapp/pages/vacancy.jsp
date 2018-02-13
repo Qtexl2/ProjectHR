@@ -33,7 +33,7 @@
                         <h1><fmt:message key="aboutTheJob"/></h1>
                         <h2><fmt:message key="positionDescription"/>${vac.vacancyTitle} <fmt:message key="at"/> ${vac.company}</h2>
                         <p>${vac.vacancyDescription}</p>
-                        <button type="submit" class="btn btn-respond" name="idVac" value="${vac.vacancyID}"><fmt:message key="respond"/></button>
+                        <button type="submit" class="btn btn-respond" name="idVac" value="${vac.vacancyId}"><fmt:message key="respond"/></button>
                     </div>
                 </section>
             </main>

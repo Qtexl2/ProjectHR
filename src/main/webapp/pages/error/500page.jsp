@@ -29,6 +29,5 @@
         <div class="bottom-logo"></div>
     </footer>
 </div>
-<%--<script src="../js/front.js"></script>--%>
-</body>
+    </body>
 </html>

@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RegisterCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(RegisterCommand.class);
     private static final String PARAM_NAME_EMAIL = "email";
     private static final String PARAM_NAME_PASSWORD = "password";
     private static final String PARAM_ROLE = "role";
@@ -55,6 +55,7 @@ public class RegisterCommand implements Command {
                 if(profileService.createNewProfile(profile)){
                     status = "Success";
                     statusReg = true;
+                    LOGGER.log(Level.INFO, " Register new user " + email);
                 }
                 else {
                     status = "This email already exists";

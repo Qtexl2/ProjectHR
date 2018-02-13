@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 public class VacancyCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(VacancyCommand.class);
     private static final String VACANCY_ID = "vacancyId";
     private VacancyService vacancyService;
     public VacancyCommand() { }

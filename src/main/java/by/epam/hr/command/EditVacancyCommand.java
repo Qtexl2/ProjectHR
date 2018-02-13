@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class EditVacancyCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(EditVacancyCommand.class);
 
     private static final String POSITION ="position";
     private static final String CITY ="city";
@@ -86,8 +86,9 @@ public class EditVacancyCommand implements Command {
                 vacancy.setLocation(city);
                 vacancy.setVacancyDescription(desc);
                 vacancy.setVacancyStatus(statusVac);
-                vacancy.setVacancyID(Long.parseLong(idStr));
+                vacancy.setVacancyId(Long.parseLong(idStr));
                 vacancyService.updateVacancy(vacancy);
+                LOGGER.log(Level.INFO," Vacancy update by employer " + profile.getEmail());
 
             } catch (ServiceException e) {
                 LOGGER.log(Level.WARN,"EditVacancyCommand can not create a vacancy");

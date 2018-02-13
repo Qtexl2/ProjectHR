@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class VacancyRespondCommand implements Command{
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(VacancyRespondCommand.class);
     VacancyService vacancyService;
     public VacancyRespondCommand() {
         try {
@@ -31,7 +31,7 @@ public class VacancyRespondCommand implements Command{
             String id = request.getParameter("idVac");
             if (id != null){
                 try {
-                    vacancyService.insertVacancyAndProfile(profile.getProfileID(),Long.parseLong(id));
+                    vacancyService.insertVacancyAndProfile(profile.getProfileId(),Long.parseLong(id));
                     message = "Success";
                 } catch (ServiceException e) {
                     LOGGER.log(Level.WARN,"VacancyRespondCommand have a problem with service layer",e);

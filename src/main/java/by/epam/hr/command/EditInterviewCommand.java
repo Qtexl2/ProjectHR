@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 
 public class EditInterviewCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(EditInterviewCommand.class);
     private static final String ID ="id";
     private static final String DATE ="date";
     private static final String TYPE ="type";
@@ -47,7 +47,6 @@ public class EditInterviewCommand implements Command {
             page.append(idStr).append(MESSAGE);
 
             if(!date.matches(REGEXP_DATE)){
-                System.out.println(date);
                 page.append("Incorrect Date Field");
                 return page.toString();
             }
@@ -67,11 +66,12 @@ public class EditInterviewCommand implements Command {
                 Long id = Long.valueOf(idStr);
                 interviewService = new InterviewService();
                 Interview interview = new Interview();
-                interview.setInterviewID(id);
+                interview.setInterviewId(id);
                 interview.setInterviewDescription(desc);
                 interview.setInterviewTime(Timestamp.valueOf(date));
                 interview.setInterviewType(InterviewType.valueOf(type.toUpperCase()));
                 interviewService.updateInterview(interview);
+                LOGGER.log(Level.INFO,"Update interview by employer " + profile.getEmail());
                 return PAGE_GOOD;
 
             } catch (ServiceException e) {

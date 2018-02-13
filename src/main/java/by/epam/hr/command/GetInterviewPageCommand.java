@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class GetInterviewPageCommand implements Command {
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(GetInterviewPageCommand.class);
     private InterviewService interviewService;
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -27,12 +27,12 @@ public class GetInterviewPageCommand implements Command {
                 interviewService = new InterviewService();
                 List<Interview> interviews;
                 if(profile.getRole().name().equalsIgnoreCase("EMPLOYER")){
-                    interviews = interviewService.selectInterviewByEmployerID(profile.getProfileID());
+                    interviews = interviewService.selectInterviewByEmployerID(profile.getProfileId());
                     request.setAttribute("interviews",interviews);
                     return PageDispatcher.getInstance().getProperty(PageDispatcher.SELECT_EMPLOYER_INTERVIEW_PAGE);
                 }
                 else{
-                    interviews = interviewService.selectInterviewByCandidateId(profile.getProfileID());
+                    interviews = interviewService.selectInterviewByCandidateId(profile.getProfileId());
                     request.setAttribute("interviews",interviews);
                     return PageDispatcher.getInstance().getProperty(PageDispatcher.SELECT_INTERVIEW_PAGE);
                 }

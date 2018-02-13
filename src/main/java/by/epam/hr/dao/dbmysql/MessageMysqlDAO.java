@@ -5,7 +5,9 @@ import by.epam.hr.connection.PooledConnection;
 import by.epam.hr.exception.DAOException;
 import by.epam.hr.dao.MessageDAO;
 import by.epam.hr.model.Message;
-import by.epam.hr.exception.ConnectionPoolException;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MessageMysqlDAO extends MessageDAO{
+    private static final Logger LOGGER = LogManager.getLogger(MessageMysqlDAO.class);
 
     private static final String SQL_INSERT_MESSAGE = "INSERT INTO message " +
             "(message.message_text, message.message_time, message.profile_sender_id) " +
@@ -69,15 +72,8 @@ public class MessageMysqlDAO extends MessageDAO{
         } catch (SQLException e) {
             throw new DAOException("Exception in method selectByID: ",e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method selectByID(): ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return message;
     }
@@ -91,27 +87,18 @@ public class MessageMysqlDAO extends MessageDAO{
         try{
             statement = connection.prepareStatement(SQL_UPDATE_MESSAGE_BY_ID);
             statement.setString(1,item.getMessageText());
-            statement.setLong(2,item.getMessageID());
+            statement.setLong(2,item.getMessageId());
             statement.executeUpdate();
             status = true;
 
         } catch ( SQLException e) {
             throw new DAOException("Exception in method updateByID: ",e);
         } finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method updateByID: ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return status;
     }
-
-
 
     @Override
     public boolean insert(Message item) throws DAOException{
@@ -125,10 +112,10 @@ public class MessageMysqlDAO extends MessageDAO{
             connection.setAutoCommit(false);
             statementMessage = connection.prepareStatement(SQL_INSERT_MESSAGE);
             statementMessage.setString(1,item.getMessageText());
-            statementMessage.setLong(2,item.getProfileSenderID());
+            statementMessage.setLong(2,item.getProfileSenderId());
             statementMessage.executeUpdate();
             statementMessageUser = connection.prepareStatement(SQL_INSERT_MESSAGE_AND_USER);
-            statementMessageUser.setLong(1,item.getProfileReceptionID());
+            statementMessageUser.setLong(1,item.getProfileReceptionId());
             statementMessageUser.executeUpdate();
             if(!isTransaction) {
                 connection.commit();
@@ -146,7 +133,7 @@ public class MessageMysqlDAO extends MessageDAO{
                     statementMessage.close();
                 }
             } catch (SQLException e) {
-                throw new DAOException("Exception in method insert: ",e);
+                LOGGER.log(Level.WARN,"Statement can not be closed ",e);
             } finally {
                 try {
                     if(!isTransaction) {
@@ -154,7 +141,8 @@ public class MessageMysqlDAO extends MessageDAO{
                     }
                 } catch (SQLException e) {
                     connection.setLogicalClose(true);
-                    throw new DAOException("Exception in method insert: ",e);
+                    LOGGER.log(Level.WARN,"Connection can not set autoCommit. It will be closed ",e);
+
                 }
                 finally {
                     closeConnection(connection);
@@ -183,33 +171,19 @@ public class MessageMysqlDAO extends MessageDAO{
         } catch (SQLException e) {
             throw new DAOException("Exception in method selectDialogById: ",e);
         }finally {
-            try{
-                closeStatement(statement);
-            }
-            catch (DAOException ex){
-                throw new DAOException("Exception in method selectDialogById:  ",ex);
-            }
-            finally {
-                closeConnection(connection);
-            }
+            closeStatement(statement);
+            closeConnection(connection);
         }
         return messages;
     }
 
     private Message init(ResultSet resultSet) throws SQLException {
         Message message = new Message();
-        message.setMessageID(resultSet.getLong("message_id"));
+        message.setMessageId(resultSet.getLong("message_id"));
         message.setMessageText(resultSet.getString("message_text"));
         message.setMessageTime(resultSet.getTimestamp("message_time"));
-        message.setProfileReceptionID(resultSet.getLong("profile_reception_id"));
-        message.setProfileSenderID(resultSet.getLong("profile_sender_id"));
+        message.setProfileReceptionId(resultSet.getLong("profile_reception_id"));
+        message.setProfileSenderId(resultSet.getLong("profile_sender_id"));
         return message;
-    }
-    public static void main(String[] args) throws DAOException, InterruptedException {
-        MessageMysqlDAO messageMysqlDAO = new MessageMysqlDAO(false);
-
-        System.out.println(messageMysqlDAO.selectDialogById(1L,28L));
-        ConnectionPool.getInstance().destroy();
-
     }
 }
