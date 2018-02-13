@@ -53,9 +53,7 @@
             </div>
         </section>
     </main>
-    <footer class="footer-content">
-        <div class="bottom-logo"></div>
-    </footer>
+    <%@include file="/WEB-INF/jspf/footer.jspf" %>
 </div>
 </body>
 </html>

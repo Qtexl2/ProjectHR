@@ -629,3 +629,9 @@ opacity: 0;
     cursor: pointer;
     color:green;
 }
+.info-date {
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+    color: #999;
+}

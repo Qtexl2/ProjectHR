@@ -51,7 +51,6 @@
                                     <li><a href=/controller?command=logout><fmt:message key="logout"/></a></li>
                                 </c:otherwise>
                             </c:choose>
-
                         </ul>
                     </li>
                 </ul>

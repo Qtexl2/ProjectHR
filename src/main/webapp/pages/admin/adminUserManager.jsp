@@ -73,9 +73,7 @@
             </table>
         </section>
     </main>
-    <footer class="footer-content">
-        <div class="bottom-logo"></div>
-    </footer>
+    <%@include file="/WEB-INF/jspf/footer.jspf" %>
 </div>
     <script src="../../js/jquery-1.9.0.js"></script>
     <script src="../../js/user.js"></script>

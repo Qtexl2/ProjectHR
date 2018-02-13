@@ -29,6 +29,7 @@ public class SendMessageCommand implements Command {
                 messageService = new MessageService();
                 if(messageService.insertMessage(senderId,Long.parseLong(receiverId),text)){
                     request.setAttribute(ATTR_PAGE,JSON);
+                    LOGGER.log(Level.INFO, "Create message from" + senderId + " to " + receiverId);
                     return SUCCESS;
                 }
             } catch (ServiceException e) {

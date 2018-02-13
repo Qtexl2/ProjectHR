@@ -80,21 +80,6 @@
                 <a href="/controller?command=lang&lang=ru"><img src="../images/Russia.png"/></a>
                 <a href="/controller?command=lang&lang=en"><img src="../images/United-Kingdom.png"/></a>
             </li>
-            <%--<li>--%>
-                <%--<a href="/controller?command=lang&lang=ru"><img src="../images/Russia.png"/></a>--%>
-                <%--<a href="/controller?command=lang&lang=en"><img src="../images/United-Kingdom.png"/></a>--%>
-            <%--</li>--%>
-                <%--<form action="/controller" class="lang-select">--%>
-                    <%--<input hidden value="lang" name="command">--%>
-                    <%--<select id="lang" name="lang" onchange="submit()" class="form-control">--%>
-                        <%--<option class="sing-rus" value="ru" ${lang.equals('ru')  ? 'selected' : ''}>RUS</option>--%>
-                        <%--<option class="sing-eng"  value="en" ${lang.equals('en')  ? 'selected' : ''}>ENG</option>--%>
-                    <%--</select>--%>
-                 <%--</form>--%>
-            <%--<div class="lang">--%>
-                <%----%>
-            <%--</div>--%>
             </ul>
-
     </div>
 </header>
