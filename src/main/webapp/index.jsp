@@ -38,7 +38,7 @@
                             <div class="white-background">
                                 <div class="jobs-keyword-icon"></div>
                             </div>
-                            <input type="text" name="job" class="job-input input-style" id="q" placeholder="<fmt:message key="jobName"/>"  maxlength="250" spellcheck="false">
+                            <input type="text" name="job" pattern="^[\w\dа-яёА-ЯЁ\s-]{1,100}$" class="job-input input-style" id="q" placeholder="<fmt:message key="jobName"/>"  maxlength="250" spellcheck="false">
                             <div class="white-background wb-clear" id="wb-clear-icon-job">
                                 <div class="clear-icon-job clearSwitchOff icon"></div>
                             </div>
@@ -47,7 +47,7 @@
                             <div class="white-background">
                                 <div class="where-keyword-icon"></div>
                             </div>
-                            <input type="text" name="location" class="where-input input-style" id="q2" placeholder="<fmt:message key="location"/>"  maxlength="250" spellcheck="false">
+                            <input type="text" name="location" pattern="^[\w\dа-яёА-ЯЁ\s-]{1,100}$" class="where-input input-style" id="q2" placeholder="<fmt:message key="location"/>"  maxlength="250" spellcheck="false">
                             <div class="white-background wb-clear" id="wb-clear-icon-local">
                                 <div class="clear-icon-where clearSwitchOff icon"></div>
                             </div>

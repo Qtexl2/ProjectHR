@@ -22,7 +22,7 @@
                         for( var j=0; j < data.length; j++){
                             var text= data[j].messageText;
                             var time= data[j].messageTime;
-                            var reception= data[j].profileReceptionID;
+                            var reception= data[j].profileReceptionId;
                             var status = reception == receiver;
 
                             historyChat.appendChild( myMessage(text,new Date(time),status));

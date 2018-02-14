@@ -21,7 +21,7 @@ public class EditUserCommand implements Command {
     private static final String ID_USER = "id";
     private static final String REGEXP_LEVEL = "^(A1|A2|B1|B2|C1|C2)$";
     private static final String REGEXP_PRE = "^[\\w\\W\\dа-яёА-ЯЁ\\s-]{0,500}$";
-    private static final String REGEXP_TECH = "^[\\w\\W\\dа-яёА-ЯЁ\\s-]{0,500}$";
+    private static final String REGEXP_TECH = "^[\\w-:()!?;\\dа-яёА-ЯЁ\\s]{0,500}$";
     private static final String REGEXP_ID = "^\\d+$";
     private static final String MESSAGE_STATUS = "&messageStatus=";
     private static final String MESSAGE = "&message=";

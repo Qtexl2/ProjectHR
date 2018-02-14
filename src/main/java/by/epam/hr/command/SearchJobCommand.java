@@ -18,23 +18,22 @@ public class SearchJobCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(SearchJobCommand.class);
     private static final String JOB = "job";
     private static final String LOCATION = "location";
+    private static final String REGEXP = "^[\\w\\dа-яёА-ЯЁ\\s-]{1,100}$";
     private VacancyService vacancyService;
-    public SearchJobCommand() {
-        try {
-            vacancyService = new VacancyService();
-        } catch (ServiceException e) {
-            LOGGER.log(Level.WARN,"Object not created",e);
-        }
-    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String job = request.getParameter(JOB);
         String location = request.getParameter(LOCATION);
-        job = job == null?"":job;
-        location = location == null?"":location;
-        try {
 
+        if (!job.matches(REGEXP)) {
+            job="";
+        }
+        if(!location.matches(REGEXP)){
+            location="";
+        }
+        try {
+            vacancyService = new VacancyService();
             List<Vacancy> vacancies = vacancyService.selectVacancyByLocAndTitle(job, location);
             if(!job.equals("")) {
                 String generateRegExp = "[" + job.toLowerCase() + job.toUpperCase() + "]{" + job.length() + "}";

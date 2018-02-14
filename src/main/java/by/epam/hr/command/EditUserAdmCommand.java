@@ -31,7 +31,7 @@ public class EditUserAdmCommand implements Command {
     private static final String REGEXP_GENDER = "^(male|female)$";
     private static final String REGEXP_POSITION = "^[\\w\\dа-яёА-ЯЁ\\s-]{0,99}$";
     private static final String REGEXP_COMPANY = "^[\\w\\dа-яёА-ЯЁ\\s-]{0,99}$";
-    private static final String REGEXP_DESCRIBE = "^[\\w\\W\\dа-яёА-ЯЁ\\s-]{0,500}$";
+    private static final String REGEXP_DESCRIBE = "^[\\w-:()!?;\\dа-яёА-ЯЁ\\s]{0,500}$";
     private static final String PROFILE_PAGE = "/controller?command=page&id=";
     private static final String MESSAGE = "&message=";
     private static final String MESSAGE_STATUS = "&messageStatus=";

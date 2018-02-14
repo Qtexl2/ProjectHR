@@ -26,7 +26,7 @@ public class EditVacancyCommand implements Command {
     private static final String REGEXP_COMPANY = "^[\\wа-яёА-ЯЁ\\s-]{1,95}$";
     private static final String REGEXP_ID = "\\d+";
     private static final String REGEXP_ACTUAL = "^on$";
-    private static final String REGEXP_DESCRIPTION = "^[\\w\\W\\dа-яёА-ЯЁ\\s-]{0,2000}$";
+    private static final String REGEXP_DESCRIPTION = "^[\\w\\dа-яёА-ЯЁ\\s-:()!?;]{0,2000}$";
     private static final String PAGE= "/controller?command=vacancyEdit&vacancyId=";
     private static final String MESSAGE= "&message=";
     private VacancyService vacancyService;

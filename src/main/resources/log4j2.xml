@@ -16,7 +16,7 @@
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="by.epam" level="all">
+        <Logger name="by.epam" level="all" additivity="false">
             <appender-ref ref="fileLogger" level="all" />
             <appender-ref ref="Console" level="all" />
         </Logger>

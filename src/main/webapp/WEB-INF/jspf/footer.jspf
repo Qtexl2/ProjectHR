@@ -1,0 +1,5 @@
+<%@ taglib prefix="ctg" uri="/WEB-INF/tld/date.tld" %>
+<footer class="footer-content">
+    <div class="info-date"><ctg:info-date/></div>
+    <div class="bottom-logo"></div>
+</footer>

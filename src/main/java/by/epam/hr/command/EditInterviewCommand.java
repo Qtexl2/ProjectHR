@@ -23,7 +23,7 @@ public class EditInterviewCommand implements Command {
     private static final String REGEXP_ID = "^\\d+$";
     private static final String REGEXP_DATE = "^2\\d{3}-[01]\\d-[0-3][\\d]T[0-2]\\d:([0-5]\\d|[0-5]\\d\\:[0-5]\\d\\.\\d)";
     private static final String REGEXP_TYPE = "^(common|technical)$";
-    private static final String REGEXP_DESCRIPTION = "^[\\w\\W\\dа-яёА-ЯЁ\\s-]{0,140}$";
+    private static final String REGEXP_DESCRIPTION = "^[\\w\\dа-яёА-ЯЁ\\s-:()!?;]{0,140}$";
     private static final String PAGE = "/controller?command=updateInterviewPage&id=";
     private static final String PAGE_GOOD = "/controller?command=selectInterview";
     private static final String MESSAGE = "&message=";

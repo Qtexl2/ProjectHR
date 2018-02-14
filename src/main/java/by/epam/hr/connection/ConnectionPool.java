@@ -149,42 +149,6 @@ public class ConnectionPool{
     }
 
     /**
-     * The main method.
-     *
-     * @param args the arguments
-     * @throws ConnectionPoolException the connection pool exception
-     * @throws InterruptedException the interrupted exception
-     */
-    public static void main(String[] args) throws ConnectionPoolException, InterruptedException {
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
-        PooledConnection pooledConnection1 = connectionPool.getConnection();
-        PooledConnection pooledConnection2 = connectionPool.getConnection();
-        PooledConnection pooledConnection3 = connectionPool.getConnection();
-        PooledConnection pooledConnection4 = connectionPool.getConnection();
-        pooledConnection3.setLogicalClose(true);
-        TimeUnit.SECONDS.sleep(10);
-        connectionPool.releaseConnection(pooledConnection1);
-        connectionPool.releaseConnection(pooledConnection2);
-        connectionPool.releaseConnection(pooledConnection3);
-        connectionPool.releaseConnection(pooledConnection4);
-        TimeUnit.SECONDS.sleep(10);
-        pooledConnection1 = connectionPool.getConnection();
-        pooledConnection2 = connectionPool.getConnection();
-        pooledConnection3 = connectionPool.getConnection();
-        pooledConnection4 = connectionPool.getConnection();
-        TimeUnit.SECONDS.sleep(10);
-        connectionPool.releaseConnection(pooledConnection1);
-        connectionPool.releaseConnection(pooledConnection2);
-        connectionPool.releaseConnection(pooledConnection3);
-        connectionPool.releaseConnection(pooledConnection4);
-        TimeUnit.SECONDS.sleep(10);
-        connectionPool.destroy();
-
-//        pooledConnection3 = connectionPool.getConnection();
-
-    }
-
-    /**
      * Gets the single instance of ConnectionPool.
      *
      * @return single instance of ConnectionPool
@@ -292,6 +256,12 @@ public class ConnectionPool{
             LOGGER.log(Level.ERROR,"The pool could not create the connection",e);
         }
     }
+    /**
+     * Get size of pool.
+     */
+    public int getSize(){
+        return freeConnections.size();
+    }
 
     /**
      * The Class TimerTaskCheckConnections.
@@ -333,19 +303,16 @@ public class ConnectionPool{
                         if (!con.isValid(TIME_VALID_CON)) {
                             conIterator.remove();
                             connectionPool.closeConnection(con);
-                            counterFreeConnection.decrementAndGet();
                             LOGGER.log(Level.INFO, "Invalid connection will be closed " + con);
                         }
-                        else if (counterFreeConnection.get() > minSizePool & con.getLastUsed() + timeOutForceClose < now) {
+                        else if (counterFreeConnection.get() > minSizePool && con.getLastUsed() + timeOutForceClose < now) {
                             conIterator.remove();
                             connectionPool.closeConnection(con);
-                            counterFreeConnection.decrementAndGet();
                             LOGGER.log(Level.INFO, "timeOutForceClose is over " + con);
                         }
                         else if(con.isLogicalClose()){
                             conIterator.remove();
                             connectionPool.closeConnection(con);
-                            counterFreeConnection.decrementAndGet();
                             LOGGER.log(Level.INFO, "Logical close is true .Connection will be closed " + con);
                         }
 

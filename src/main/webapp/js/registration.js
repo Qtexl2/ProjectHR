@@ -29,10 +29,8 @@
                     email.val('');
                     if (data[1] === "true") {
                         message.classList.add("input-span-success");
-                        // message.classList.remove("input-span-alarm");
                     }
                     else {
-                        // message.classList.remove("input-span-success");
                         message.classList.add("input-span-alarm");
                     }
                 }

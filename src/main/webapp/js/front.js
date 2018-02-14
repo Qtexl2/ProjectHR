@@ -11,7 +11,6 @@
     clearIconJob.addEventListener('click', clearInputFirst);
     clearIconWhere.addEventListener('click', clearInputSecond);
 
-    //TODO: заменить на одну функцию
     function switchStatusJob() {
         if(inputJob.value.length < 1){
             clearIconJob.classList.add("clearSwitchOff");
