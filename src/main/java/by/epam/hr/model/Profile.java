@@ -5,7 +5,6 @@ package by.epam.hr.model;
  * The Class Profile.
  */
 public class Profile extends Entity{
-
     /** The profile id. */
     private Long profileId;
 
